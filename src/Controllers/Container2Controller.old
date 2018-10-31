@@ -1,0 +1,152 @@
+<?php
+
+namespace XRA\Blog\Controllers;
+
+use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
+use App\Http\Controllers\Controller;
+
+use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
+use XRA\Extend\Traits\ArtisanTrait;
+
+//-------models----------
+use XRA\Blog\Models\Post;
+use XRA\Blog\Models\PostRelated;
+//------services---------
+use XRA\Extend\Services\ThemeService as Theme;
+
+
+use Cache;
+
+class Container2Controller extends Controller{
+
+
+    public function getModel(){
+        return new Post;
+    }
+
+    public function getController(){
+        $params = \Route::current()->parameters();
+        $model=config('xra.model.'.$params['container']);
+        if($model==''){
+            $row=Post::where('lang',\App::getLocale())->where('guid',$params['container'])->first();
+            $model=config('xra.model.'.$row->type);
+            if($model==''){
+                die('<hr/>settare modello['.$row->type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
+            }
+        }
+        $controller=str_replace('\\Models\\','\\Controllers\\',$model);
+        if(isset($params['container1'])){
+            $controller.='\\'.ucfirst($params['container1']);
+        }
+        if(isset($params['container2'])){
+            $controller.='\\'.ucfirst($params['container2']);
+        }
+        $controller.='Controller';
+        return $controller;
+    }
+
+    /*
+    public function getController0(){
+        $params = \Route::current()->parameters();
+        $model=config('xra.model.'.$params['container']);
+        if($model==''){
+            $row=Post::where('lang',\App::getLocale())->where('guid',$params['container'])->first();
+            $model=config('xra.model.'.$row->type);
+            if($model==''){
+                die('<hr/>settare modello['.$row->type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
+            }
+        }
+        $controller=str_replace('\\Models\\','\\Controllers\\',$model).'Controller';
+        return $controller;
+    }
+
+    public function getController1(){
+        $params = \Route::current()->parameters();
+        $model=config('xra.model.'.$params['container']);
+        if($model==''){
+            $row=Post::where('lang',\App::getLocale())->where('guid',$params['container'])->first();
+            $model=config('xra.model.'.$row->type);
+            if($model==''){
+                die('<hr/>settare modello['.$row->type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
+            }
+        }
+        $controller=str_replace('\\Models\\','\\Controllers\\',$model).'\\'.ucfirst($params['container1']).'Controller';
+        return $controller;
+    }
+
+    public function getController2(){
+        $params = \Route::current()->parameters();
+        $model=config('xra.model.'.$params['container']);
+        if($model==''){
+            $row=Post::where('lang',\App::getLocale())->where('guid',$params['container'])->first();
+            $model=config('xra.model.'.$row->type);
+            if($model==''){
+                die('<hr/>settare modello['.$row->type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
+            }
+        } 
+        $controller=str_replace('\\Models\\','\\Controllers\\',$model).'\\'.ucfirst($params['container1']).'\\'.ucfirst($params['container2']).'Controller';
+        return $controller;
+    }
+    */
+
+    public function index(Request $request,$container,$item,Post $container1,Post $item1,$container2){
+        $route = \Route::current();
+
+        $name = \Route::currentRouteName();  
+
+        $action = \Route::currentRouteAction();
+        /*
+        echo '<br>:route[';dd($route);//.']';
+        echo '<br>:name['.$name.']';
+        echo '<br>:action['.$action.']';
+        $params = \Route::current()->parameters();
+        dd($params);
+        dd($item1);
+        */
+        $controller=$this->getController();
+        return app($controller)->index($request);
+    }
+
+    
+    public function show(Request $request){
+        $controller=$this->getController();
+        return app($controller)->show($request);
+    }
+
+    public function create(Request $request){
+        $controller=$this->getController();
+        return app($controller)->create($request);
+    }
+
+    public function store(Request $request){
+        $params = \Route::current()->parameters();
+        extract($params);
+        $lang=\App::getLocale();
+        $controller=$this->getController();
+        $model=app($controller)->getModel();
+        $data=$request->all();
+        if(!isset($data['lang'])){
+            $data['lang']=$lang;
+            $data['type']=$container2;   ///--- da generalizzare
+        }else{
+            $lang=$data['lang'];
+        }
+        //$row1=$model1->firstOrCreate($data);
+        //dd($model1);
+        //$data=$request->validate($model1->rules);
+        //dd($data);
+        $row1=Post::create($data);
+        $row0=Post::where('lang',$lang)->where('guid',$item)->where('type',$container1)->first(); // da generalizzare
+        $relationship=$row0->type.'_x_'.$row1->type;
+        $rel=PostRelated::firstOrCreate(['post_id'=>$row0->post_id,'related_id'=>$row1->post_id,'type'=>$relationship]);
+        \Session::flash('status', 'Risorsa salvata! ' . $rel->id);
+        return redirect()->back();
+
+
+    }
+
+}//end class
+
+   
+

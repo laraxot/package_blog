@@ -1,0 +1,42 @@
+<?php
+use XRA\Extend\library\XOT;
+
+$namespace=$this->getNamespace().'\Controllers';
+
+$item0=[
+	'name'=>'blog'
+	,'prefix'=>'blog'
+	,'as'=>'blog.' 
+	,'namespace'=>null
+	,'controller' => 'BlogController'
+	,'only'=>['index'],
+	/*
+	'subs'=>[
+		[
+			'name'=>'post',
+			'prefix'=>'post',
+			'as'=>'post.',
+			'namespace'=>'blog',
+			'controller'=>'PostController',
+		],//end sub_n
+	],//end subs
+	*/
+	'acts'=>[
+		[
+			'name'=>'{guid_post}',
+			'as'=>'show',
+			'method'=>'get',
+			'act'=>'show',
+		],//end act_n
+	],//end acts
+];
+
+$areas_prgs=[
+	$item0
+];
+/*
+$middleware=['web','guest'];
+Route::group(['prefix' => null,'middleware' => $middleware,'namespace'=>$namespace], function () use ($areas_prgs){
+	XOT::dynamic_route($areas_prgs);
+});
+*/

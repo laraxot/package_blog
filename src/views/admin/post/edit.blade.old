@@ -1,0 +1,231 @@
+@extends('adm_theme::layouts.app')
+@section('page_heading','Modifica Articolo')
+@section('content')
+@include('backend::includes.components')
+
+<div id="msg" >MSG</div>
+
+{!! Form::bsOpen($row,'update') !!}
+
+{{ Form::bsText('title') }}
+{{ Form::bsText('guid') }}
+{{ Form::bsText('subtitle') }}
+{{ Form::bsUnisharpFileMan('image') }}
+{{ Form::bsText('image_alt') }}
+{{ Form::bsText('image_title') }}
+{{ Form::bsTextarea('meta_description') }}
+{{ Form::bsTextarea('meta_keywords') }}
+
+
+
+{{ Form::bsText('abstract') }}
+
+
+@if(!is_array($row->content))
+@php
+	$row->content=[$row->content];
+@endphp
+@endif
+@foreach($row->content as $k => $v)
+<div class="clonedInput">
+<br style="clear:both" />
+{{  csrf_field() }}
+{{ Form::bsTextarea('content[]',$v) }}
+{{ Form::bsText('content_type[]',$row->content_type[$k] ) }}
+{{-- </div> --}}
+<!-- Button trigger modal -->
+<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+ <li class="fa fa-pencil"></li>
+</button>
+<button type="button" class="btn btn-primary btn-lg addfields">
+<li class="fa fa-paste"></li>
+</button>
+<button type="button" class="btn btn-danger btn-lg addfields">
+<li class="fa fa-trash-o"></li>
+</button>
+</div>
+
+{{--  
+<div class="form-group" class="field_wrapper">
+<label class="col-md-4 control-label"><a href="#" class="addfields"><li class="fa fa-plus"></li></a></label>
+<div class="col-md-6">	
+</div>
+</div>
+--}}
+<br style="clear:both" />
+</div>
+@endforeach
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{{ Form::bsText('user_id') }} {{--  questo non e' upadted_by .. ma a quale autore e' assegnato l'articolo --}}
+{{ Form::bsNumber('category_id') }}
+
+{{ Form::submit('Salva ed esci') }}
+{!! Form::close() !!}
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+@endsection
+
+@push('scripts') 
+<script>
+
+$(document).ready(function(){
+	$('.addfields').click(function() {
+		//alert('.addfields');
+		var wrapper         =  $(this).closest('div');//$(".field_wrapper"); //Fields wrapper
+		//for (i in wrapper ){
+			//$('#msg').html('<br/>'+i+': '+wrapper[i]);
+		//}
+		 $(this).parents(".clonedInput").clone().appendTo(wrapper);
+		//i++;
+		return false;
+	});
+	
+	// Fill modal with content from link href
+	$("#myModal").on("show.bs.modal", function(e) {
+		var $myModal=$(this);
+		$myModal.find(".modal-body").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
+    	var link = $(e.relatedTarget);
+		var $data=[];
+		var all=link.parents(".clonedInput").find('input, select, textarea').each(function() {
+			$k=$(this).attr('name');//.slice(0,-2); // per togliere []
+			$v=$(this).val();
+			$data[$k]=$v; 
+		});
+
+		//alert($data['_token']);
+
+		var $method='post';
+		var $token=$data['_token'];
+		$.ajax({
+			type:$method,
+			url: '../../component',
+			//_method:$method,
+			//_token:$token,
+			//contentType: "application/json; charset=utf-8",
+    		//dataType: "json",
+    		//data:{_token:$token,_method:$method},
+			data:{_token:$token,content:$data['content[]'],content_type:$data['content_type[]'],}, 
+			
+			success: function(data, status) {
+                $myModal.find(".modal-body").html(data);  
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            	
+            	html='';
+            	for(i in XMLHttpRequest){
+            		html='<br/> '+i+'  =  '+ XMLHttpRequest[i];
+            	}
+            	alert(html);
+            	//alert('XMLHttpRequest' + XMLHttpRequest);
+                alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+            }       
+		});
+    	
+	});
+
+	
+});
+
+</script>
+@endpush
+
+{{-- 
+
+https://developers.google.com/search/docs/data-types/articles
+
+mainEntityOfPage	
+URL; recommended (AMP), ignored (non-AMP)
+
+The canonical URL of the article page. Specify mainEntityOfPage when the article is the primary topic of the article page.
+headline	
+Text; required (AMP), recommended (non-AMP)
+
+The headline of the article. Headlines should not exceed 110 characters.
+image	
+ImageObject; required (AMP), recommended (non-AMP)
+
+The representative image of the article. Only a marked-up image that directly belongs to the article should be specified.
+
+Images should be at least 696 pixels wide.
+Images should be in .jpg, .png, or. gif format.
+Image URLs should be crawlable and indexable.
+image.url	
+URL; required (AMP), recommended (non-AMP)
+
+The URL of the image.
+image.height	
+Number; required (AMP), recommended (non-AMP)
+
+The height of the image, in pixels.
+image.width	
+Number; required (AMP), recommended (non-AMP)
+
+The width of the image, in pixels. Images should be at least 696 pixels wide.
+publisher	
+Organization; required (AMP), ignored (non-AMP)
+
+The publisher of the article.
+publisher.name	
+Text; required (AMP), ignored (non-AMP)
+
+The name of the publisher.
+publisher.logo	
+ImageObject; required (AMP), ignored (non-AMP)
+
+The logo of the publisher. See the AMP logo guidelines for details.
+publisher.logo.url	
+URL; required (AMP), ignored (non-AMP)
+
+The URL of the logo.
+publisher.logo.height	
+Number; required (AMP), ignored (non-AMP)
+
+The height of the logo, in pixels.
+publisher.logo.width	
+Number; required (AMP), ignored (non-AMP)
+
+The width of the logo, in pixels.
+datePublished	
+DateTime; required (AMP), ignored (non-AMP)
+
+The date and time the article was first published, in ISO 8601 format.
+dateModified	
+DateTime; recommended (AMP), ignored (non-AMP)
+
+The date and time the article was most recently modified, in ISO 8601 format.
+author	
+Person or Organization; required (AMP), ignored (non-AMP)
+
+The author of the article.
+author.name	
+Text; required (AMP), ignored (non-AMP)
+
+The name of the author.
+description	
+Text; recommended (AMP), ignored (non-AMP)
+
+A short description of the article.
+
+
+ --}}

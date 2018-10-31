@@ -1,0 +1,1 @@
+@include('pub_theme::section.show')

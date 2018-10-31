@@ -1,0 +1,71 @@
+<?php
+
+namespace Xot\Blog;
+
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
+
+
+class BlogServiceProvider extends ServiceProvider{
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot(){
+        //die('['.__LINE__.']['.__FILE__.']');
+    	/*
+    	// Get namespace
+		$nameSpace = $this->app->getNamespace();
+		// Set namespace alias for HomeController
+		AliasLoader::getInstance()->alias('AppController', $nameSpace . 'Http\Controllers\Controller');
+		// Routes
+		$this->app->router->group(['namespace' => $nameSpace . 'Http\Controllers'], function()
+		{
+			require __DIR__.'/Http/routes.php';
+		});
+		// Views
+		$this->publishes([
+			__DIR__.'/../views' => base_path('resources/views'),
+			__DIR__.'/../views/auth' => base_path('resources/views/auth'),
+			__DIR__.'/../views/emails' => base_path('resources/views/emails'),
+		]);
+		*/
+
+
+
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        //$this->loadMigrationsFrom(__DIR__.'/path/to/migrations');
+        // $this->loadTranslationsFrom(__DIR__.'/path/to/translations', 'courier');
+        //    $this->publishes([
+       // __DIR__.'/path/to/translations' => resource_path('lang/vendor/courier'),
+        //]);
+        
+        $this->app['view']->addNamespace('adm_theme', public_path('/themes/'.env('ADM_THEME', config('xot.adm_theme'))));
+        $this->app['view']->addNamespace('pub_theme', public_path('/themes/'.env('PUB_THEME', config('xot.pub_theme'))));
+        //loadview in boot o register ?
+        $this->loadViewsFrom(__DIR__.'/views', 'blog'); //return view('courier::admin');
+    }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register(){
+        //
+        //$this->mergeConfigFrom( __DIR__.'/Config/bleh.php', 'bleh');
+       // include __DIR__.'/routes.php';
+        $this->app->make('Xot\Blog\BlogController'); //senza questo dice ReflectionException in Container.php line 719: Class xot\themes\ThemesController
+        //$this->app->make('Xot\Blog\ProductController');
+        /*
+        // Bind breadcrumbs package
+$this->app->register(
+    'DaveJamesMiller\Breadcrumbs\ServiceProvider'
+);
+
+$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+$loader->alias('Breadcrumbs', 'DaveJamesMiller\Breadcrumbs\Facade');
+		*/
+    }
+}

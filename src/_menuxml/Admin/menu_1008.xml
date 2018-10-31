@@ -1,0 +1,23 @@
+<root>
+    <row>
+        <id>1008</id>
+        <id_padre>1004</id_padre>
+        <tipo_act>table</tipo_act>
+        <icons>fa fa-tachometer</icons>
+        <visibility>0</visibility>
+        <nome>edit Seo</nome>
+        <obj></obj>
+        <act></act>
+        <load_tables></load_tables>
+        <funzione></funzione>
+        <fieldstorender></fieldstorender>
+        <route>
+            <type>act</type>
+            <name>{id_post}/seo</name>
+            <method>put</method>
+            <prefix>seo</prefix>
+            <as>seo.update</as>
+            <act>seoUpdate</act>
+        </route>
+    </row>
+</root>

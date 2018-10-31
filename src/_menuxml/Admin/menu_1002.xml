@@ -1,0 +1,24 @@
+<root>
+    <row>
+        <id>1002</id>
+        <id_padre>1000</id_padre>
+        <tipo_act>table</tipo_act>
+        <icons>fa fa-tachometer</icons>
+        <visibility>0</visibility>
+        <nome>Posts</nome>
+        <obj>blog.post</obj>
+        <act>index</act>
+        <load_tables></load_tables>
+        <funzione></funzione>
+        <fieldstorender></fieldstorender>
+        <route>
+            <type>sub</type>
+            <name>blog</name>
+            <prefix>blog</prefix>
+            <as>blog</as>
+            <namespace></namespace>
+            <controller>BlogController</controller>
+            <only>['index']</only>
+        </route>
+    </row>
+</root>

@@ -1,0 +1,37 @@
+    $post->fill($request->all());
+        $post->save();
+Route::model('post', 'App\Repositories\PostRepository');
+
+
+Route::bind('post', function($id, $route)) {
+            return $this->post->find($postId);
+        }   
+
+Route::bind('post', function($id, $route)) {
+    $post = app()->make(PostRepository::class);
+
+    return $post->find($id);
+}
+
+
+$this->app->bind(FooInterface::class, FooClass::class);
+
+
+https://m.dotdev.co/understanding-laravel-service-container-bd488ca05280
+
+
+class RoutesServiceProvider{
+	//Inject reposiotry into constructor
+
+	public function $register($app){
+		$app['router']->bind('model', function($id, $route)) {
+			return $this->modelRepository->findById($id);
+		}
+
+	}
+}
+
+
+https://bosnadev.com/2015/03/07/using-repository-pattern-in-laravel-5/
+https://vegibit.com/laravel-repository-pattern/
+

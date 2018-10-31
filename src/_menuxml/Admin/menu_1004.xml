@@ -1,0 +1,23 @@
+<root>
+    <row>
+        <id>1004</id>
+        <id_padre>1002</id_padre>
+        <tipo_act>table</tipo_act>
+        <icons>fa fa-tachometer</icons>
+        <visibility>0</visibility>
+        <nome>Posts</nome>
+        <obj></obj>
+        <act></act>
+        <load_tables></load_tables>
+        <funzione></funzione>
+        <fieldstorender></fieldstorender>
+        <route>
+            <type>sub</type>
+            <name>post</name>
+            <prefix>post</prefix>
+            <as>post.</as>
+            <namespace>blog</namespace>
+            <controller>PostController</controller>
+        </route>
+    </row>
+</root>

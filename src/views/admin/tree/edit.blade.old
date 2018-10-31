@@ -1,0 +1,53 @@
+@extends('adm_theme::layouts.app')
+@section('page_heading','Modifica Item')
+@include('backend::includes.components')
+@section('content')
+@include('backend::includes.flash')
+{{--
+@include('blog::admin.post.nav')
+--}}
+
+{!! Form::bsOpen($row,'update') !!}
+
+{{ Form::bsSelect('type',null,['section'=>'section','news'=>'news']) }}
+{{--  [{{ $row->post_id }}][{{ $row->lang }}] --}}
+{{ Form::bsText('parent_id',$row->parent_id ) }}
+{{ Form::bsText('title') }}
+{{ Form::bsText('subtitle') }}
+
+{{-- Form::bsText('guid') --}}
+
+<hr style="clear:both" />
+
+{{-- Form::bsGridStack('content', $row->PostContentJson()) --}}
+
+{!! Form::bsTinymce('txt') !!}
+{{-- Form::bsText('author_id') --}} {{--  questo non e' upadted_by .. ma a quale autore e' assegnato l'articolo --}}
+{{-- Form::bsNumber('category_id') --}}
+{!! Form::bsUnisharpFileMan('image_src') !!}
+{{ Form::bsText('image_alt') }}
+{{ Form::bsText('image_title') }}
+
+{{ Form::bsSubmit('Aggiungi ed esci') }}
+{!! Form::close() !!}
+{{--  
+<div id="msg" >MSG</div>
+--}}
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+@endsection
+
+@push('scripts')
+<script>
+$('#type').on('change', function() {
+	alert( this.value );
+})
+</script>
+@endpush 
+
+{{--
+$('#myform').on('change', 'select', function (e) {
+    var val = $(e.target).val();
+    var text = $(e.target).find("option:selected").text(); //only time the find is required
+    var name = $(e.target).attr('name');
+}
+--}}

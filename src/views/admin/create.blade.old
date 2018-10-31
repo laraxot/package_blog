@@ -1,0 +1,21 @@
+@extends('adm_theme::layouts.app')
+@section('page_heading','Crea Articolo')
+@section('content')
+@include('backend::includes.components')
+
+<div id="msg" >MSG</div>
+
+{!! Form::bsOpen($row,'store') !!}
+
+{{ Form::bsText('title') }}
+
+{{ Form::bsGridStack('content', '{}') }}
+
+{{ Form::bsText('user_id') }} {{--  questo non e' upadted_by .. ma a quale autore e' assegnato l'articolo --}}
+{{ Form::bsNumber('category_id') }}
+
+
+{{ Form::submit('Salva ed esci') }}
+{!! Form::close() !!}
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+@endsection

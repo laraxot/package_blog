@@ -1,0 +1,260 @@
+<?php
+use XRA\Extend\Traits\RouteTrait;
+
+
+
+$namespace=$this->getNamespace().'\Controllers';
+$post_subs=[
+    [
+        'name'=>null,
+        'prefix'=>'{type}',
+        'as'=>'type.',
+        'namespace'=>null,
+        'controller'=>'PostController',
+        'subs'=>[
+            [
+                'name'=>'list',
+                'prefix'=>'list',
+                'param_name'=>'id_post',
+                'namespace'=>null,
+                'as'=>'list.',
+                'controller' => 'PostController',
+            ],//end sub_n
+            [
+                'name'=>'seo',
+                'prefix'=>'seo',
+                'namespace'=>'post',
+                'param_name'=>'id_post',
+                'as'=>'seo.',
+                'controller'=>'SeoController',
+            ],//end sub_n
+            [
+                'name'=>null,
+                'prefix'=>'{id_post}',
+                //'param_name'=>'id_photo',
+                'namespace'=>'post',
+                'as'=>null,
+                'controller' => 'PostController',
+                'subs'=>[
+                	[
+                		'name'=>'related',
+                		'prefix'=>'related',
+                		'param_name'=>'id_related',  
+                		'namespace'=>null,
+                		'as'=>'related.',
+                		'controller' => 'RelatedController',
+                		'acts'=>[
+                    		[
+                        		'name'=>'attach',
+                        		'method'=>'any',
+                        		'act'=>'attach',
+                        		'as'=>'attach',
+                    		],//end act_n
+                    		[
+                        		'name'=>'{id_related}/deattach',
+                        		'method'=>'any',
+                        		'act'=>'deattach',
+                        		'as'=>'deattach',
+                    		],
+                		],//end acts
+            		],//end sub_n
+            		[
+                		'name'=>'relatedrev',
+                		'prefix'=>'relatedrev',
+                		'param_name'=>'id_relatedrev',
+                		'namespace'=>null,
+                		'as'=>'relatedrev.',
+                		'controller' => 'RelatedRevController',
+                		'acts'=>[
+                    		[
+                        		'name'=>'attach',
+                        		'method'=>'any',
+                        		'act'=>'attach',
+                        		'as'=>'attach',
+                    		],//end act_n
+                    		[
+                        		'name'=>'{id_related}/deattach',
+                        		'method'=>'any',
+                        		'act'=>'deattach',
+                        		'as'=>'deattach',
+                    		],
+                		],//end acts
+            		],//end sub_n
+            		[
+                		'name'=>'son',
+                		'prefix'=>'son',
+                		'param_name'=>'id_son',
+                		'namespace'=>null,
+                		'as'=>'son.',
+                		'controller' => 'SonController',
+            		],//end sub_n
+                ],//end subs
+            ],//end sub_n
+
+
+
+
+            
+
+        ],//end subs
+
+    ],
+    /*
+    [
+        'name'=>'seo',
+        'prefix'=>'seo',
+        'namespace'=>'post',
+        'param_name'=>'id_post',
+        'as'=>'seo.',
+        'controller'=>'SeoController',
+    ],//end sub_n
+    */
+    [
+        'name'=>'tree',
+        'prefix'=>'tree',
+        'namespace'=>'post',
+        'as'=>'tree.',
+        'controller' => 'TreeController',
+    ],//end sub_n
+    [
+        'name'=>'list',
+        'prefix'=>'list',
+        'namespace'=>null,
+        'as'=>'list.',
+        'controller' => 'PostController',
+    ],//end sub_n
+    [
+        'name'=>null,
+        'prefix'=>'{id_post}',
+        //'param_name'=>'id_photo',
+        'namespace'=>'post',
+        'as'=>null,
+        'controller' => 'PostController',
+        'subs'=>[
+            [
+                'name'=>'related',
+                'prefix'=>'related',
+                'param_name'=>'id_related',
+                'namespace'=>null,
+                'as'=>'related.',
+                'controller' => 'RelatedController',
+                'acts'=>[
+                    [
+                        'name'=>'attach',
+                        'method'=>'any',
+                        'act'=>'attach',
+                        'as'=>'attach',
+                    ],//end act_n
+                    [
+                        'name'=>'{id_related}/deattach',
+                        'method'=>'any',
+                        'act'=>'deattach',
+                        'as'=>'deattach',
+                    ],
+                ],//end acts
+            ],//end sub_n
+            [
+                'name'=>'relatedrev',
+                'prefix'=>'relatedrev',
+                'param_name'=>'id_relatedrev',
+                'namespace'=>null,
+                'as'=>'relatedrev.',
+                'controller' => 'RelatedRevController',
+                'acts'=>[
+                    [
+                        'name'=>'attach',
+                        'method'=>'any',
+                        'act'=>'attach',
+                        'as'=>'attach',
+                    ],//end act_n
+                    [
+                        'name'=>'{id_related}/deattach',
+                        'method'=>'any',
+                        'act'=>'deattach',
+                        'as'=>'deattach',
+                    ],
+                ],//end acts
+            ],//end sub_n
+            [
+                'name'=>'photo',
+                'prefix'=>'photo',
+                'param_name'=>'id_photo',
+                'namespace'=>null,
+                'as'=>'photo.',
+                'controller' => 'PhotoController',
+            ],//end sub_n
+            [
+                'name'=>'son',
+                'prefix'=>'son',
+                'param_name'=>'id_son',
+                'namespace'=>null,
+                'as'=>'son.',
+                'controller' => 'SonController',
+            ],//end sub_n
+        ],//end subs
+
+    ],//end sub_n
+];//end subs
+
+
+$post=[
+    'name'=>'post',
+    'prefix'=>'post',
+    'as'=>'post.',
+    'namespace'=>'blog',
+    'controller'=>'PostController',
+    'acts'=>[
+        [
+            'name'=>'updateContentTools',
+            'method'=>['PUT','PATCH','POST'],//'post',
+            'act'=>'updateContentTools',
+            'as'=>'updateContentTools',
+        ],//end act_n
+    ],//end acts
+    'subs'=>$post_subs,
+];
+
+$lang_subs=[$post];
+
+
+$item0=[
+    'name'=>'blog'
+    ,'prefix'=>'blog'
+    ,'as'=>'blog.'
+    ,'namespace'=>null
+    ,'controller' => 'BlogController'
+    ,'only'=>['index'],
+    'subs'=>[
+        [
+            'name'=>null,
+            'prefix'=>'{lang}',
+            'as'=>'',
+            'namespace'=>null,
+            'controller'=>'LangController',
+            'subs'=>$lang_subs
+        ]
+    ],
+    'acts'=>[
+        [
+            'name'=>'component',
+            'method'=>'any',
+            'act'=>'component',
+            'as'=>'component',
+        ], //end act_n
+    ],//end acts
+];
+
+$areas_prgs=[
+    $item0
+];
+
+
+Route::group([
+        'prefix' => 'admin',
+        'middleware' => ['web','auth'],
+        'namespace'=>$namespace.'\Admin'
+        ], 
+        function () use ($areas_prgs) {
+            RouteTrait::dynamic_route($areas_prgs);
+        }
+);
