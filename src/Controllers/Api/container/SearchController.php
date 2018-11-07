@@ -23,7 +23,7 @@ class SearchController extends Controller{
         $params = \Route::current()->parameters();
         $params=array_merge($params,$request->all());
         extract($params);
-        if(is_object($container)){$container_type=$container->type;}else{$container_type=$container;}
+        if(is_object($container)){$container_type=$container0->type;}else{$container_type=$container;}
         $model=config('xra.model.'.$container_type);
         $controller=str_replace('\\Models\\','\\Controllers\\Api\\',$model).'Controller';//XRA\Food\Controllers\Api\RestaurantController
         return app($controller)->index($request);

@@ -1,100 +1,43 @@
 <?php
 
 namespace XRA\Blog\Policies;
-
+/*
+use App\User;
+use App\Post;
+*/
+use XRA\LU\Models\User;
+use XRA\Blog\Models\Page as Post; 
+//use XRA\Food\Models\Post;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use XRA\Blog\Models\Post;
-use XRA\Users\Models\User;
 
-class PostPolicy
-{
+class PostPolicy{
     use HandlesAuthorization;
-
-    /**
-     * Filters the authoritzation.
-     *
-     * @param mixed $user
-     * @param mixed $ability
-     */
-    public function before($user, $ability)
-    {
-        if (User::findOrFail($user->id)->superAdmin()) {
+   
+    public function before($user, $ability){
+        if (isset($user->perm) && $user->perm->perm_type>=5) {  //superadmin
             return true;
         }
     }
-
-    /**
-     * Determine if the current user can access posts.
-     *
-     * @param mixed $user
-     *
-     * @return bool
-     */
-    public function access($user)
+    
+    /*
+    public function update(User $user, Post $post)
     {
-        return User::findOrFail($user->id)->hasPermission('XRA::blog.posts.access');
+        return $user->id === $post->user_id;
+    }
+    */
+
+    public function create(User $user){
+        return true;
     }
 
-    /**
-     * Determine if the current user can create posts.
-     *
-     * @param mixed $user
-     *
-     * @return bool
-     */
-    public function create($user)
-    {
-        return User::findOrFail($user->id)->hasPermission('XRA::blog.posts.create');
-    }
-
-    /**
-     * Determine if the current user can view posts.
-     *
-     * @param mixed                     $user
-     * @param \XRA\Blog\Models\Post $post
-     *
-     * @return bool
-     */
-    public function view($user, Post $post)
-    {
-        if ($post->user->id == $user->id) {
+    public function edit(User $user, Post $post){
+        if($post->created_by==$user->handle  ){
             return true;
         }
-
-        return User::findOrFail($user->id)->hasPermission('XRA::blog.posts.view');
+        return false;
     }
 
-    /**
-     * Determine if the current user can update posts.
-     *
-     * @param mixed                     $user
-     * @param \XRA\Blog\Models\Post $post
-     *
-     * @return bool
-     */
-    public function update($user, Post $post)
-    {
-        if ($post->user->id == $user->id) {
-            return true;
-        }
-
-        return User::findOrFail($user->id)->hasPermission('XRA::blog.posts.update');
-    }
-
-    /**
-     * Determine if the current user can delete posts.
-     *
-     * @param mixed                     $user
-     * @param \XRA\Blog\Models\Post $post
-     *
-     * @return bool
-     */
-    public function delete($user, Post $post)
-    {
-        if ($post->user->id == $user->id) {
-            return true;
-        }
-
-        return User::findOrFail($user->id)->hasPermission('XRA::blog.posts.delete');
+    public function show(User $user, Post $post){
+        return false;
     }
 }

@@ -51,7 +51,7 @@ class ContainerController extends Controller{
 		//dd($params);die;
 
 		if(is_object($container)){
-			$type=$container->type;
+			$type=$container0->type;
 		}else{
 			$type=$container;
 		}

@@ -24,8 +24,6 @@ use XRA\Blog\Repositories\PostRepository;
 /*
 Target [Illuminate\Database\Eloquent\Model] is not instantiable while building [XRA\Blog\Controllers\ContainerController, XRA\Blog\Repositories\PostRepository].
 */
-
-
 use Cache;
 
 class Container0Controller extends Controller{

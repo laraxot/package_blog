@@ -1,5 +1,5 @@
 @extends('adm_theme::layouts.app')
-@section('page_heading','Modifica '.$container->title.' - '.$item->title)
+@section('page_heading','Modifica '.$container0->title.' - '.$item->title)
 @include('backend::includes.components')
 @section('content')
 @include('backend::includes.flash')

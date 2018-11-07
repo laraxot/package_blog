@@ -12,7 +12,7 @@
 		$params['container']=$k;
 	@endphp
 	<li role="presentation">
-		<a href="{{route('blog.lang.container.index',$params)}}">{{$k}}</a>
+		<a href="{{route('blog.container0.index',$params)}}">{{$k}}</a>
 	</li>
 @endforeach
 </ul>

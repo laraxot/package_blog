@@ -94,7 +94,7 @@ class Post extends Model{
 		'created_at',
 		'updated_at',
 		'published',
-		//'tags',  
+		//'tags',
 		'title',
 		'description',
 		'content',
@@ -120,9 +120,9 @@ class Post extends Model{
 		$rules=[
 			'title' => 'required|min:3',
 		];
-		return $rules; 
+		return $rules;
 	}
-	
+
 
 
 	//--------------------------------------------------
@@ -130,7 +130,7 @@ class Post extends Model{
 		parent::__construct($attributes);
 		$this->importInit();
 	}
-	/* 
+	/*
 	public function __call($method, $args) {
 		$str='related';
 		if(substr($method,0,strlen($str))==$str){
@@ -214,7 +214,7 @@ class Post extends Model{
            		$lat_d=abs(\Request::input('mapSouthLat') - \Request::input('mapNorthLat'));
            		if($distance<$lat_d*111) $distance=$lat_d*111;
            		$rows=$rows->ofLatitudeBetween($this->type,[\Request::input('mapSouthLat'),\Request::input('mapNorthLat')]);
-           	}	
+           	}
            	*/
 			$rows=$rows->findNearest($this->type,$currentLocation, $distance,1000);
 		}
@@ -257,11 +257,11 @@ class Post extends Model{
 	public function topArchiveLinked($params=[]){
 		extract($params);
 		$skey=str_plural($type).'_count';
-		$res=$this->archive->map(function ($row,$k) use($params,$skey){ 
+		$res=$this->archive->map(function ($row,$k) use($params,$skey){
 					extract($params);
 					//$row->$skey=$row->linkedCountType($type);
 					$q=$row->linkedCountType($type);
-					return $row; 
+					return $row;
 				})
 				//->sortByDesc($skey)
 				->sortByDesc('linked_count.'.$type);
@@ -277,24 +277,24 @@ class Post extends Model{
 		extract($params);
 		if(\Request::input('force')==1){
 			$conn=$this->getConnection();
-			$sql='insert into blog_post_count(post_id,relationship,type,q) (select post_id,"related","'.$type.'",0 from blog_posts 
+			$sql='insert into blog_post_count(post_id,relationship,type,q) (select post_id,"related","'.$type.'",0 from blog_posts
 				where lang="it" and guid!=type and type="'.$this->type.'" and NOT EXISTS (
 			    	SELECT post_id,relationship,type FROM blog_post_count WHERE post_id = blog_posts.post_id and relationship="related" and type="'.$type.'"
 				)) ';
 			$res=$conn->statement($sql);
 			if($type=='all'){
-				$sql="update blog_post_count as A set q= (select count(*) from blog_post_related as B 
+				$sql="update blog_post_count as A set q= (select count(*) from blog_post_related as B
 				where A.post_id=B.post_id) where relationship='related' and type='all'";
 				$res=$conn->statement($sql);
 			}else{
-				$sql="update blog_post_count as A set q= (select count(*) from blog_post_related as B 
+				$sql="update blog_post_count as A set q= (select count(*) from blog_post_related as B
 				where A.post_id=B.post_id and type='".$this->type."_x_".$type."') where relationship='related' and type='".$type."'";
 				$res=$conn->statement($sql);
 			}
 
 		}
 
-        $res=$this->archive() 
+        $res=$this->archive()
         		->leftjoin('blog_post_count','blog_posts.post_id','=','blog_post_count.post_id')
         		->where('blog_post_count.relationship','related')
         		->where('blog_post_count.type',$type)
@@ -310,11 +310,11 @@ class Post extends Model{
 	public function topArchiveRev($params=[]){
 		extract($params);
 		$skey=str_plural($type).'rev_count';
-		$res= $this->archive->map(function ($row,$k) use ($params,$skey){ 
+		$res= $this->archive->map(function ($row,$k) use ($params,$skey){
 					extract($params);
 					//$row->$skey=$row->relatedrevCountType($type);
 					$q=$row->relatedrevCountType($type);
-					return $row; 
+					return $row;
 				})
 				//->sortByDesc($skey);
 				->sortByDesc('relatedrev_count.'.$type);
@@ -460,10 +460,11 @@ class Post extends Model{
 		$model=config('xra.model.'.$type);
 		//*
 		if($model==null){
-			echo '<h3>['.__LINE__.'][]['.__FILE__.']</h3>';
-			dd($this);
+			//echo '<h3>['.__LINE__.'][]['.__FILE__.']</h3>';
+			//dd($this);
 			//return $this->hasOne(Post::class, 'post_id', 'post_id');
-			return null;
+            //return null;
+            $model=config('xra.model.post');
 		}
 		$with=[];
 		//dd($type);
@@ -483,7 +484,7 @@ class Post extends Model{
 		//*--  tolto cosi' non crea righe
 		if(\Request::has('force')){
 			if(!$row->exists()){
-				$row0=$model::create(['post_id'=>$this->post_id]);  
+				$row0=$model::create(['post_id'=>$this->post_id]);
 				$row=$this->hasOne($model, 'post_id', 'post_id');
 			}
 		}
@@ -517,12 +518,12 @@ class Post extends Model{
 		//if($row==null){//
 		//---
 		//*--  tolto cosi' non crea righe
-		
+
 			if(!$row->exists()){
-				$row0=$model::create(['post_id'=>$this->post_id]);  
+				$row0=$model::create(['post_id'=>$this->post_id]);
 				$row=$this->hasOne($model, 'post_id', 'post_id');
 			}
-		
+
 		//*/
 		return $row;
 	}
@@ -661,7 +662,7 @@ class Post extends Model{
 		})->where('lang', \App::getLocale());
 	}
 
-	
+
 
 
 
@@ -883,7 +884,7 @@ class Post extends Model{
 		$url=$this->url_lang;
 
 		if(!isset($url[$lang])){
-			
+
 			if(!$this->post_id){
 				$segments=\Request::segments();
 				$segments[0]=$lang;
@@ -1134,6 +1135,12 @@ class Post extends Model{
 		}
 		return 'to DO';
 	}
+	public function getCreateUrlAttribute($value){
+		if(isset($this->pivot)){
+			return $this->pivot->create_url;
+		}
+		return 'to DO';
+	}
 
 
 	/*
@@ -1363,11 +1370,11 @@ class Post extends Model{
 			],[
 				'title'=>$this->type
 			]);
-			if($container->post_id==null){
-				$container->post_id=$container->id;
-				$container->save();
+			if($container0->post_id==null){
+				$container0->post_id=$container0->id;
+				$container0->save();
 			}
-			$this->related()->attach($container->post_id,['type'=>'parent']);
+			$this->related()->attach($container0->post_id,['type'=>'parent']);
 		}
 		$parent=$this->parentPost->first();
 
@@ -1456,7 +1463,7 @@ class Post extends Model{
 			$rows=$rows->orWhere($fields[$i],$query);
 		}
 		return $rows;
-		
+
 	}
 
 	public function searchableAs(){
@@ -1467,7 +1474,7 @@ class Post extends Model{
 		return $this->toArray();
 	}
 	*/
-	public function toSearchableArray(){ 
+	public function toSearchableArray(){
 		return [];//$this->toArray();
 	}
 	/*

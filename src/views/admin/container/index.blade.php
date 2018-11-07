@@ -1,5 +1,5 @@
 @extends('adm_theme::layouts.app')
-@section('page_heading',''.$container->type.'] '.$container->title)
+@section('page_heading',''.$container0->type.'] '.$container0->title)
 @include('backend::includes.components')
 @section('content')
 @include('backend::includes.flash')
@@ -14,10 +14,10 @@
 						<i class="fa fa-edit"></i>&nbsp;Modifica Contenitore
 					</a>
 					--}}
-					<a href="{{ route('blog.lang.container.edit',array_merge($params,['item'=>$container->guid])) }}" class="btn btn-default btn-xs">
+					<a href="{{ route('blog.lang.container.edit',array_merge($params,['item'=>$container0->guid])) }}" class="btn btn-default btn-xs">
 						<i class="fa fa-edit"></i>&nbsp;Modifica Contenitore
 					</a>
-					{{-- diventato inutile ?  
+					{{-- diventato inutile ?
 					<a class="btn btn-default" href="?syncSons" title="sincronizza figli">
 					<i class="fa fa-refresh"></i>&nbsp;sincronizza figli
 					</a>
@@ -26,7 +26,7 @@
 				</div>
 				{!! Form::bsFormSearch() !!}
 				@php
-				$rows=$container->archive()->paginate(20);
+				$rows=$container0->archive()->paginate(20);
 				@endphp
 				<h3>Records: {{ $rows->total() }} </h3>
 				<br/><br/>

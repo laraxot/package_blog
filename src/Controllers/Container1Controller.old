@@ -29,7 +29,7 @@ class Container1Controller extends Controller{
 		$params = \Route::current()->parameters();
 		extract($params);
 		if(is_object($container)){
-			$type=$container->type;
+			$type=$container0->type;
 		}else{
 			$type=$container;
 		}

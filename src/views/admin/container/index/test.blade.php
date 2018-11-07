@@ -8,7 +8,7 @@
 		$params['lang']=\App::getLocale();
 		$params['container']=$k;
 	@endphp
-	<li role="presentation" @if($container->guid==$k) class="active" @endif>
+	<li role="presentation" @if($container0->guid==$k) class="active" @endif>
 		<a href="{{route('blog.lang.container.index',$params)}}">{{$k}}</a>
 	</li>
 @endforeach

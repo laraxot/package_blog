@@ -14,7 +14,7 @@ use XRA\Blog\Models\Post;
 use XRA\Blog\Models\PostRelated;
 
 class ContainerController extends Controller{
-	
+
 	use CrudTrait{
         index as protected indexTrait;
     }
@@ -25,20 +25,20 @@ class ContainerController extends Controller{
 		extract($params);
 		// ARCHIVIO o FIGLI ????? DILEMMA DILEMMOSO
 		if($request->has('syncSons')){
-			$items=Post::where('lang',$lang)->where('type',$container->type)->where('guid','!=',$container->type)->get();
+			$items=Post::where('lang',$lang)->where('type',$container0->type)->where('guid','!=',$container0->type)->get();
 			foreach($items as $k=>$item){
-				PostRelated::firstOrCreate(['post_id'=>$item->post_id,'related_id'=>$container->post_id,'type'=>'parent']);
+				PostRelated::firstOrCreate(['post_id'=>$item->post_id,'related_id'=>$container0->post_id,'type'=>'parent']);
 			}
-			echo '<h3> location linked '.$container->sons->count().'</h3>';
+			echo '<h3> location linked '.$container0->sons->count().'</h3>';
 		}
 		if($request->has('syncGuids')){
-			$items=Post::where('lang',$lang)->where('type',$container->type)->where('guid','!=',$container->type)->get();
+			$items=Post::where('lang',$lang)->where('type',$container0->type)->where('guid','!=',$container0->type)->get();
 			foreach($items as $k=>$item){
 				$item->guid=str_slug($item->title);
 				$item->save();
 			}
-		}  
-		//echo '['.__LINE__.']['.__FILE__.']'; 
+		}
+		//echo '['.__LINE__.']['.__FILE__.']';
 		/*
 		$conn=(new Post)->getConnection();
 		$sql="update blog_posts set guid=REGEXP_REPLACE(lower(trim(title)),'[^a-z09]','-') where guid is null";
@@ -47,7 +47,7 @@ class ContainerController extends Controller{
 		$guidnotset=Post::whereRaw('guid=""')->get();
 		foreach($guidnotset as $up){
 			$title=$up->title;
-			if(isset($up->linked->locality)){
+			if(isset($up->linked) && isset($up->linked->locality)){
 				$title.=' '.$up->linked->locality;
 			}
 			$up->guid=str_slug($title);
@@ -86,7 +86,7 @@ class ContainerController extends Controller{
 		return $this->update($request);
 	}
 
- 
+
 	public function updateContentTools(Request $request){
 		$regions='{}';
 		$params=$request->all();
@@ -108,6 +108,6 @@ class ContainerController extends Controller{
 		//return response()->json(['readyState' => 4, 'status' => 200,'statusText'=>'success'] );
 		return response()->json('',200);
 	}//end function
-	
-   
+
+
 }//end class

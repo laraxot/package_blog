@@ -40,7 +40,7 @@ class BlogServiceProvider extends ServiceProvider{
 			//*/
 			for($i=0;$i<4;$i++){
 				$container_name='container';
-				if($i!=0) $container_name.=$i;
+				$container_name.=$i;
 				$router->pattern($container_name,  '/|'.$pattern.'|/i');
 			}
 			
@@ -55,69 +55,53 @@ class BlogServiceProvider extends ServiceProvider{
 			return $value;
 		});
 		$lang=\App::getLocale();
+		//*
 		for($i=0;$i<4;$i++){
-			$container_name='container';
-			//if($i!=0){
-				$container_name.=$i;
-			//}
+			$container_name='container'.$i;
 			$router->bind($container_name, function ($value) use($lang) {
 				$rows= Post::where('lang',$lang)
 						->where('guid', $value)
 						->where('type', $value)
 						;
-
-				return $rows->first() ?? abort(404);
+				if($rows->exists()){
+					return $rows->first();
+				}
+				return $value;
 			});
 		}
+		//*/
+		//*
 		for($i=0;$i<4;$i++){
 			$item_name='item';
 			$container_name='container';
-			//*
-			//if($i!=0){
-				$item_name.=$i;
-				$container_name.=$i;
-			//}
-			//*/
+			$item_name.=$i;
+			$container_name.=$i;
 			$router->bind($item_name, function ($value) use($container_name,$lang,$i) {
 				if($i==0){
 					$rows= Post::where('lang',$lang)
 						->where('guid', $value);
 					if (request()->route()->hasParameter($container_name)) {
-						$container=request()->$container_name;
-						if(!is_object($container)){
-							echo '<pre>';print_r($container);echo '</pre>';
+						$container_curr=request()->$container_name;
+						if(!is_object($container_curr)){
+							echo '<pre>';print_r($container_curr);echo '</pre>';
 							ddd($params);
 						}
-						$rows=$rows->where('type',$container->type);
+						$rows=$rows->where('type',$container_curr->type);
 					}
 				}else{
-				//if($i>0){
-					//$item0->related($item1->type)->where('guid',$item1->guid)->first();
-					$container=request()->$container_name;
+					$container_curr=request()->$container_name;
 					$item_name_prev='item'.($i-1);
 					$item_prev=request()->$item_name_prev;
-					$rows=$item_prev->related($container->type)->where('guid',$value);
-					/*
-					$container_name_prev='container'.($i-1);
-					$rows=$rows->whereHas('relatedrev',function($query) use($lang,$item_prev,$container){
-						$type=$item_prev->type.'_x_'.$container->type;
-						$query->where('lang',$lang)
-								->where('guid',$item_prev->guid)
-								->where('blog_post_related.type',$type)
-								->where('blog_post_related.post_id',$item_prev->post_id);
-						//--- forse meglio aggiungere anche il post_id
-					});
-					*/
+					$rows=$item_prev->related($container_curr->type)->where('guid',$value);
 				}
-
 				if($rows->exists()){
 					return $rows->first();
 				}
-
 				return $value;
-				//return $rows->first() ?? abort(404);
 			});
 		}
+		//*/
+		//*/
 		//*/
 		//----------- BLADE IF
 		//----------- BLADE DIRETTIVE
