@@ -51,9 +51,9 @@ class Container0Controller extends Controller{
 		$guidnotset=Post::whereRaw('guid=""')->get();
 		foreach($guidnotset as $up){
 			$title=$up->title;
-			if(isset($up->linked) && isset($up->linked->locality)){
+			/*if(isset($up->linked) && isset($up->linked->locality)){
 				$title.=' '.$up->linked->locality;
-			}
+			}*/
 			$up->guid=str_slug($title);
 			$up->save();
 		}
