@@ -7,7 +7,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Controllers\Controller;
 
-//use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
 
 use XRA\Extend\Traits\ArtisanTrait;
