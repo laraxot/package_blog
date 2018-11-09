@@ -57,7 +57,7 @@ $item1=[
 		],
 	],
 
-];
+]; 
 
 $areas_prgs=[
     //$item1,
