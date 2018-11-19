@@ -1,32 +1,22 @@
 <ul class="nav nav-tabs">
 	<li role="presentation">
-		<a href="../" title="back">&laquo;</a>
+		<a href="{{ route('blog.container0.index',$params) }}" title="back">&laquo;</a>
 	</li>
 	<li role="presentation">
-		<a href="#">Contenuto</a>
+		<a href="{{ route('blog.container0.edit',$params) }}">Content</a>
 	</li>
+	{{--
 	<li role="presentation">
 		<a href="#">Seo</a>
 	</li>
-	<li role="presentation">
-		<a href="{{ route('blog.lang.container.related.index',$params) }}">Related</a>
+	--}}
+	@foreach(config('xra.model') as $k => $v)
+	<li role="presentation" {!! ($k==$container1->guid)?' class="active"':'' !!}>
+		<a href="{{ route('blog.container0.container1.index',array_merge($params,['container1',$k])) }}">
+			related {{ str_plural($k) }}
+		</a>
 	</li>
-	<li role="presentation">
-		<a href="#">RelatedRev</a>
-	</li>
+	@endforeach
 	{{-- lang --}}
-{{ Theme::add('theme/bc/bootstrap-language/languages.min.css') }}
-<li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-    <i class="lang-sm lang-lbl-full" lang="{{ App::getLocale() }}"></i> <i class="fa fa-caret-down"></i>
-    </a>
-  <ul class="dropdown-menu" >
-    @foreach(config('laravellocalization.supportedLocales') as $lang => $vl)
-            @if($lang!=App::getLocale())
-                <li><a href="{{  Theme::route(['lang'=>$lang]) }}"><i class="lang-sm lang-lbl-full" lang="{{ $lang}}"></i></a></li>
-            @endif
-    @endforeach
-  </ul>
-</li>
-{{-- /lang --}}
+	@include('adm_theme::layouts.partials.lang')
 </ul>

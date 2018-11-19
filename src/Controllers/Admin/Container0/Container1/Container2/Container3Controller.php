@@ -1,6 +1,6 @@
 <?php
 
-namespace XRA\Blog\Controllers\Admin\Blog\Container0\Container1\Container2;
+namespace XRA\Blog\Controllers\Admin\Container0\Container1\Container2;
 
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;

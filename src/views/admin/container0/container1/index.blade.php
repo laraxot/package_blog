@@ -5,9 +5,8 @@
 @include('backend::includes.flash')
 
 @include($view.'.nav')
-{{--
-<a href="{{ route('blog.lang.container.container1.editcontainer',$params) }}" class="btn btn-default"><i class="fa fa-edit"></i>&nbsp;Modifica Contenitore</a>
---}}
+{{ $row->title }}
+
 <h3>Records: {{ $rows->total() }} </h3>
 
 <br/><br/>
@@ -18,6 +17,7 @@
 		<td>Foto</td>
 		<th>Titolo</th>
 		<th>Tipo</th>
+		<td></td>
 	</tr>
 </thead>
 @foreach($rows as $row)
@@ -26,11 +26,11 @@
 	<td>{!! $row->image_html(['width'=>100,'height'=>100]) !!}<br/>
 		{{ $row->image_title }}</td>
 	<td>
-	{{ $row->title }}
-	{{--  <small>{{ $row->guid }}</small> --}}
+	{{ $row->title }}<br/>
+	<small>{{ $row->guid }}</small>
 	</td>
 	<td>{{ $row->type }}</td>
-	<td>{{-- $row->image() --}}</td>
+	
 	<td>
 		
 		{!! Form::bsBtnEdit(['item1'=>$row]) !!}
