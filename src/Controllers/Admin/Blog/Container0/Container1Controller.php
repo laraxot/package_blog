@@ -1,7 +1,7 @@
 <?php
 
 namespace XRA\Blog\Controllers\Admin\Blog\Container0;
-
+		  
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Intervention\Image\ImageManagerStatic as Image;
