@@ -173,6 +173,11 @@ class Post extends Model{
 		return $this->hasMany(PostCount::class,'post_id','post_id');
 	}
 
+	public function postCats(){
+		$type='postCat_x_'.$this->type;  //c'e' il rev
+		return $this->relatedrev()->wherePivot('type',$type);
+	}
+
 
 	public function sons($type='parent'){
 		if($this->type == $this->guid){
