@@ -4,11 +4,7 @@
 @section('content')
 @include('backend::includes.flash')
 <div class="row">
-<<<<<<< HEAD
-	<div class="col-md-4">
-=======
 	<div class="col-md-10">
->>>>>>> origin
 		<div class="nav-tabs-custom">
 			@include($view.'.nav')
 			<div class="tab-content">
@@ -30,17 +26,11 @@
 			</div>
 		</div>
 	</div>
-<<<<<<< HEAD
-	<div class="col-md-4">
-		created_at: {{ $row->created_at }}
-		updated_at: {{ $row->updated_at }}
-=======
 	<div class="col-md-2">
 		<span>
 		created_at {{ $row->created_at }}<br/>
 		updated_at {{ $row->updated_at }}<br/>
 		</span>
->>>>>>> origin
 	</div>
 </div>
 @endsection
