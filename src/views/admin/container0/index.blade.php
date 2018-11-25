@@ -16,6 +16,11 @@
 					-{{ route('blog.container0.create',$params) }}-
 					{!! Form::bsBtnCreate() !!}
 				</div>
+
+				<button aria-label="Try me! Example: A basic message" id="swal1">Try me!</button>
+
+
+
 				{!! Form::bsFormSearch() !!}
 				@php
 				$rows=$container0->archive()->paginate(20);
@@ -50,6 +55,7 @@
 						</td>
 						<td>{{ $row->type }}</td>
 						<td>
+							{{--  --}}
 							{!! Form::bsBtnEdit(['item'=>$row]) !!}
 							{!! Form::bsBtnDelete(['item'=>$row]) !!}
 							<a class="btn btn-default" href="{{ $row->url }}"><i class="fa fa-eye"></i></a>
@@ -63,3 +69,5 @@
 	</div>
 </div>
 @endsection
+
+

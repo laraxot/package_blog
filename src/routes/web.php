@@ -76,7 +76,7 @@ $areas_prgs=[
 	$item0,
 ];
 //,'middleware' => ['web','auth']
-if(\Request::segment(1)!='admin'){
+if(\Request::segment(1)!='admin'){ //dal backend si creano i link per il frontend ..
 	$prefix=App::getLocale();
 	//$prefix='{locale}';
 	Route::group(
@@ -86,8 +86,8 @@ if(\Request::segment(1)!='admin'){
 		'namespace'=>$namespace
 		], 
 		function () use ($areas_prgs,$namespace) {
-			Route::get('/', 'ContainerController@home');// different from below because this is for lang
-			Route::get('/home', 'ContainerController@home'); //togliere o tenere ?
+			Route::get('/', 'HomeController@index');// different from below because this is for lang
+			Route::get('/home', 'HomeController@index'); //togliere o tenere ?
 			//RouteTrait::dynamic_route($areas_prgs);
 			RouteService::dynamic_route($areas_prgs,null,$namespace);
 		}
@@ -108,7 +108,7 @@ Route::group([
 */
 ///---- without this route / go to 404
 Route::group(['prefix' => null,'middleware' =>$middleware,'namespace'=>$namespace], function ()  {
-	Route::get('/', 'ContainerController@home');
+	Route::get('/', 'HomeController@index');
 });
 
 

@@ -1,0 +1,128 @@
+https://mobiscroll.com/forms
+
+
+favicon
+https://github.com/tommoor/tinycon
+
+https://metroui.org.ua/examples.html
+
+
+show like xls
+https://github.com/mleibman/SlickGrid/wiki/Examples
+
+//--- row editor on modal 
+https://www.igniteui.com/grid/overview
+
+//--- fa sembrare un libro
+http://www.turnjs.com/#
+
+//--- carino il wizard, ed il tree
+http://getfuelux.com/javascript.html#wizard
+
+//--- spzi riempimento
+https://foundation.zurb.com/templates.html
+
+//---help su ogni field 
+https://www.jquerycards.com/forms/date-time/progression-js/
+
+
+//--- number increments, da valutare se farne un form components
+https://css-tricks.com/number-increment-buttons/
+
+//---- mi piace animazione cookie 
+https://www.telerik.com/kendo-ui
+
+//--- color picker
+http://automattic.github.io/Iris/
+
+//--- image -- da mettere in laravelthemes
+https://fancyapps.com/fancybox/
+
+
+//--- modal ajax 
+http://www.dynamicdrive.com/dynamicindex4/facebox/index.htm
+
+//-- grid per fare layout
+http://dsmorse.github.io/gridster.js/#demos
+
+
+//---  stile un po' vecchio, ma pieno di oggetti da creare form components
+http://www.jeasyui.com
+
+
+//--- tipo angular 
+http://jquerymy.com/
+
+
+//--- altri pezzi per form builder -- bello il diagram  ed area select
+https://alloyui.com/examples/diagram-builder
+
+//--- cookie
+http://www.moleskinecorporategift.com/?utm_source=DEM_IT_&utm_medium=triboo
+
+
+//---- LISTA CMS IN LARAVEL
+https://code.tutsplus.com/articles/20-useful-laravel-packages-available-on-codecanyon--cms-25334
+https://www.seblod.com/resources/tutorials/sebold-and-sweetalert2-replace-the-default-delete-confirm-box
+
+//---- form components
+https://community.algolia.com/places/    !!! fa fare presto
+https://www.solodev.com/blog/web-design/adding-an-auto-complete-address-field-to-your-forms.stml  //--sempre per address
+http://getfuelux.com/extensions.html
+https://www.psd2html.com/js-custom-forms/#demo
+https://selectize.github.io/selectize.js/
+https://webix.com/demos/bank-app/#!/top/demos
+https://nosir.github.io/cleave.js/  //-- calendar  //-- campi prestabiliti
+
+
+//---MODAL
+http://izimodal.marcelodolce.com/#modal-default //login carino
+
+//--- javascript db //-- query on json ?
+http://taffydb.com/
+
+//--- carousel
+http://kenwheeler.github.io/slick/
+
+
+
+//---- template
+//-windows theme 
+https://webix.com/demos/bank-app/#!/top/demos
+
+//--- validation
+https://formvalidation.io/guide/plugins/bootstrap3/
+http://parsleyjs.org/doc/examples/simple.html
+
+
+//--- effetti carini
+https://www.createjs.com/tweenjs
+https://sarcadass.github.io/granim.js/examples.html
+http://animejs.com/documentation/#nodeList
+https://github.com/christinecha/choreographer-js
+//--background video
+https://rishabhp.github.io/bideo.js/
+
+https://michalsnik.github.io/aos/   //carica on scrollbar
+
+
+//--- string library  //-- per parser in jquery ?
+https://vocajs.com/
+
+
+//--- framework js
+https://aurelia.io/home/
+https://emberjs.com/
+
+
+
+
+//-- ux gamification
+https://uxplanet.org/gamification-in-ux-increasing-user-engagement-6437cbf702aa
+
+//--- calendar
+http://amsul.ca/pickadate.js/
+
+
+//----- check 
+https://checkgzipcompression.com/

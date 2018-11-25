@@ -35,26 +35,12 @@ class Container1Controller extends Controller{
      * @var UserRepository
      */
     protected $repository;
-
+    
 	public function getModel(){
-		return new Post;
-	}
-	//*
-	public function __construct(PostRepository $repository){
-        $this->repository = $repository;
-    }
-	//*/
-	public function getController(){
+		//return new Post;
 		$params = \Route::current()->parameters();
 		extract($params);
-
-		//dd($params);die;
-
-		if(is_object($container0)){
-			$type=$container0->type;
-		}else{
-			$type=$container0;
-		}
+		$type=is_object($container0)?$container0->type:$container0;
 		$model=config('xra.model.'.$type);
 		if($model==''){
 			$row=Post::where('lang',\App::getLocale())->where('guid',$type)->first();
@@ -63,21 +49,31 @@ class Container1Controller extends Controller{
 				die('<hr/>settare modello['.$row->type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
 			}
 		}
-		$controller=str_replace('\\Models\\','\\Controllers\\',$model);
-		if(isset($container1)){
-			if(is_object($container1)){
-				$controller.='\\'.studly_case($container1->type);
-			}else{
-				$controller.='\\'.studly_case($container1);
-			}
-		}
-		if(isset($container2)){
-			if(is_object($container1)){
-				$controller.='\\'.studly_case($container2->type);
-			}else{
-				$controller.='\\'.studly_case($container2);
-			}
+		return $model;
+	}
+	
+	//*
+	public function __construct(PostRepository $repository){
+        $this->repository = $repository;
 
+    }
+	//*/
+	public function getController(){
+		$params = \Route::current()->parameters();
+		extract($params);
+		$model=$this->getModel();
+		if(\Request::is('admin/*')){
+			$controller=str_replace('\\Models\\','\\Controllers\\Admin\\',$model);
+		}else{
+			$controller=str_replace('\\Models\\','\\Controllers',$model);
+		}
+		for($i=1;$i<4;$i++){
+			$cont_name='container'.$i;
+			if(isset($$cont_name)){
+				$cont=$$cont_name;
+				$type=is_object($cont)?$cont->type:$cont;
+				$controller.='\\'.studly_case($type);	
+			}
 		}
 		$controller.='Controller';
 		return $controller;
@@ -101,7 +97,6 @@ class Container1Controller extends Controller{
 
 
 	public function __call($method, $args) {
-		//ddd($args);
 		$controller=$this->getController();
 		if(in_array($method,['store','update'])){
 			$request=str_replace('\\Controllers\\','\\Requests\\',$controller);
