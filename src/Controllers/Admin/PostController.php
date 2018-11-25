@@ -6,7 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
  
 //--- extends ---
-use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
+//use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
+use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
 use XRA\Extend\Traits\ArtisanTrait;
 
 //--- Models ---//
@@ -24,16 +25,8 @@ class PostController extends Controller{
     public function linkedFields($type){
     }
 
-    public function edit(Request $request){
-        $params = \Route::current()->parameters();
-        extract($params);
-        //dd($params);
-        $row=Post::find($id_post);
-        //dd($row->type);
-        return $this->editTrait($request);
-    }
 
-    public function store(Request $request){
+    public function store_79879(Request $request){
 		
 		$params = \Route::current()->parameters();
 		
@@ -60,7 +53,7 @@ class PostController extends Controller{
 		return redirect()->back();
 	}			
 
-	public function update(Request $request){
+	public function update_vfiodjfiod(Request $request){
 		$params = \Route::current()->parameters();
 		
 		/*
@@ -76,7 +69,8 @@ class PostController extends Controller{
         //if($row->linked==null){
 
         //}
-        $subrow=$row->linked->update($request->all());
+        ddd($row);
+        $subrow=$row->linkedOrCreate()->update($request->all());
         //https://laravel.com/api/5.1/Illuminate/Database/Eloquent/Relations/HasOne.html
         //$subrow=$row->linked->updateOrCreate($request->all()); //da verificarne il comportamento sembra che voglia anche il token
 

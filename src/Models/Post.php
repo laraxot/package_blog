@@ -130,40 +130,8 @@ class Post extends Model{
 		parent::__construct($attributes);
 		$this->importInit();
 	}
-	/*
-	public function __call($method, $args) {
-		$str='related';
-		if(substr($method,0,strlen($str))==$str){
-			dd($method);
-		}
-		return parent::__call($method, $args);
-  	}
-	*/
-	//*
-	//protected static function boot(){
-		/*
-		\Route::model('container', Post::class);
-		\Route::model('container1', Post::class);
-		\Route::model('container2', Post::class);
-		\Route::model('item', Post::class);
-		\Route::model('item1', Post::class);
-		\Route::model('item2', Post::class);
-		*/
-	//	$params = \Route::current()->parameters();
-		//dd($params);
-		/*
-		parent::boot();
-		static::addGlobalScope('lang', function (Builder $builder) {
-			$builder->where('lang', '=', 'it');
-		});
-		//*/
-	//}
-
-
-
-	//*/
+	
 	public function getRouteKeyName(){
-
 		return 'guid';
 		//return \Request::segment(1) === 'admin' ? 'post_id' : 'guid';
 	}
@@ -175,6 +143,15 @@ class Post extends Model{
 
 	public function postCats(){
 		$type='postCat_x_'.$this->type;  //c'e' il rev
+		return $this->relatedrev()->wherePivot('type',$type);
+	}
+	public function posts(){
+		$type=$this->type.'_x_post';  
+		return $this->related()->wherePivot('type',$type);
+	}
+
+	public function homes(){
+		$type='home_x_'.$this->type;  //c'e' il rev
 		return $this->relatedrev()->wherePivot('type',$type);
 	}
 
@@ -1132,21 +1109,61 @@ class Post extends Model{
 		if(isset($this->pivot)){
 			return $this->pivot->moveup_url;
 		}
-		return 'to DO';
+		return $this->getUrlAct('moveup');
 	}
 	public function getMovedownUrlAttribute($value){
 		if(isset($this->pivot)){
 			return $this->pivot->movedown_url;
 		}
-		return 'to DO';
+		return $this->getUrlAct('movedown');
+	}
+	public function getIndexUrlAttribute($value){
+		if(isset($this->pivot)){
+			return $this->pivot->index_url;
+		}
+		return $this->getUrlAct('index');
 	}
 	public function getCreateUrlAttribute($value){
 		if(isset($this->pivot)){
 			return $this->pivot->create_url;
 		}
-		return 'to DO';
+		return $this->getUrlAct('create');
+	}
+	public function getEditUrlAttribute($value){
+		if(isset($this->pivot)){
+			return $this->pivot->edit_url;
+		}
+		return $this->getUrlAct('edit');
 	}
 
+	public function getUrlAct($act){
+		$params=\Route::current()->parameters();
+		$routename=\Request::route()->getName();
+		$routename_arr=explode('.',$routename);
+		$ris=null;
+		foreach($params as $k=>$v){
+			if(is_object($v) && $v->is($this)){
+				$ris=$k;
+				break;
+			}
+		}
+		
+		$ris_tmp=str_replace('item','container',$ris);
+		$k=array_search($ris_tmp,$routename_arr);
+		if($k<1){
+			ddd($ris);
+		}
+		//ddd($k);
+		if($ris_tmp==$ris && $act=='edit'){
+			$n=str_replace('container','',$ris);
+			$params['item'.$n]=$params['container'.$n];
+		}
+		if($ris_tmp!=$ris && $act=='index'){
+			$act='show';
+		}
+		$routename_act=implode('.',array_slice($routename_arr,0,$k+1)).'.'.$act;
+		return route($routename_act,$params);
+	}
 
 	/*
 	public function setLinkedCountAttribute($value){

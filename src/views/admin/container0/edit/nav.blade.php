@@ -1,11 +1,24 @@
 <ul class="nav nav-tabs">
+	<li role="presentation" >
+		<a href="{{ route('blog.container0.index',$params) }}">&laquo;start</a>
+	</li>
+
+	@foreach($params as $p)
+	@if(is_object($p))
 	<li role="presentation">
-		<a href="{{ route('blog.container0.index',$params) }}" title="back">&laquo;</a>
+		<a href="{{ $p->index_url }}" title="back">{{ $p->title }}</a>
+	</li>
+	@endif
+	@endforeach
+	
+	<li role="presentation">
+		<a href="{{ $row->index_url }}" title="back">&laquo;</a>
 	</li>
 	<li role="presentation" class="active">
-		<a href="#">Contenuto</a>
+		<a href="{{ $row->edit_url }}">Contenuto</a>
 	</li>
 	<li role="presentation">
+
 		{{--
 		<a href="{{ route('blog.container0.editseo',$params)}}">Seo</a>
 		--}}
@@ -16,12 +29,19 @@
 		<a href="{{ route('blog.container0.related.index',$params) }}">Related</a>
 		--}}
 	</li>
-	@foreach(config('xra.model') as $k => $v)
 	@php
-		$params['container1']=$k;
+		$related=array_keys(config('xra.model'));
+		$tmp=config('xra.related.'.$row->type);
+		if(is_array($tmp)){
+			$related=$tmp;
+		}
+	@endphp
+	@foreach($related as $k => $v)
+	@php
+		$params['container1']=$v;
 	@endphp
 	<li role="presentation" >
-		<a href="{{ route('blog.container0.container1.index',$params) }}">{{$k}}</a>
+		<a href="{{ route('blog.container0.container1.index',$params) }}">Related {{studly_case($v)}}</a>
 	</li>
 	@endforeach
 	{{--

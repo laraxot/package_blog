@@ -1,5 +1,5 @@
 <?php
-namespace XRA\Blog\Controllers\Admin\Post;
+namespace XRA\Blog\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -11,7 +11,10 @@ use XRA\Extend\Traits\ArtisanTrait;
 
 //--- Models ---//
 use XRA\Blog\Models\PostContent;
+use XRA\Blog\Models\PostRelated;
+use XRA\Blog\Models\Post;
+//use XRA\Blog\Models\PostRev;
 
-class PostController extends Controller{
-    use CrudTrait;
+class PostCatController  extends Controller{
+	use CrudTrait;
 }

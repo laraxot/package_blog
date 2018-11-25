@@ -12,16 +12,14 @@
 					<a href="{{ route('blog.container0.edit',array_merge($params,['item'=>$container0->guid])) }}" class="btn btn-default btn-xs">
 						<i class="fa fa-edit"></i>&nbsp;Modifica Contenitore
 					</a>
+					{{--  
 					-{{ $container0->create_url }}-
 					-{{ route('blog.container0.create',$params) }}-
+					--}}
 					{!! Form::bsBtnCreate() !!}
 				</div>
-
-				<button aria-label="Try me! Example: A basic message" id="swal1">Try me!</button>
-
-
-
 				{!! Form::bsFormSearch() !!}
+
 				@php
 				$rows=$container0->archive()->paginate(20);
 				@endphp
