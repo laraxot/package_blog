@@ -4,10 +4,7 @@
 @section('content')
 @include('backend::includes.flash')
 @include('blog::admin.post.edit.nav')
-
-
 {!! Form::bsOpen($row,'update') !!}
-
 @if(isset($params['type']) &&  $params['type']!='')
 {{-- 4 debug   --}}
 @else
@@ -15,6 +12,7 @@
 @endif
 
 {{ Form::bsText('title') }}
+
 {{ Form::bsText('subtitle') }}
 {!! $row->linkedFormFields() !!}
 

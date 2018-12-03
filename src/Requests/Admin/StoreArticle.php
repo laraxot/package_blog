@@ -3,7 +3,7 @@ namespace XRA\Blog\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePost extends FormRequest{
+class StoreArticle extends FormRequest{
 	/**
 	 * Determine if the user is authorized to make this request.
 	 *

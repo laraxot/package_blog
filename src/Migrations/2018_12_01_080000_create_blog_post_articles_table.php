@@ -17,11 +17,18 @@ class CreateBlogPostArticlesTable extends Migration{
                 $table->datetime('published_at')->nullable();
                 $table->timestamps();
             });
-        }  
+        }
+        Schema::table($this->table, function (Blueprint $table) {
+            if (!Schema::hasColumn($this->table, 'updated_by')) {
+                $table->string('updated_by')->nullable()->after('updated_at');
+            }
+            if (!Schema::hasColumn($this->table, 'created_by')) {
+                $table->string('created_by')->nullable()->after('created_at');
+            }
+        });  
     }
 
-    public function down()
-    {
+    public function down(){
         Schema::dropIfExists($this->table);
     }
 }

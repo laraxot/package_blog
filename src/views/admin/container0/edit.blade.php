@@ -9,8 +9,21 @@
 			@include($view.'.nav')
 			<div class="tab-content">
 				{!! Form::bsOpen($row,'update') !!}
+				
 				{{ Form::bsText('title') }}
+				<div class="form-group">
+					<label for="title" class="col-md-4 control-label">Url:</label>
+					<div class="col-md-6">	
+						{{ $row->url }}
+					</div>
+				</div>
+				<br style="clear:both" />
 				{{ Form::bsText('subtitle') }}
+				{{--
+				@include(str_replace('.edit','.partials.'.$row->type,$view))
+				@include('blog::admin.partials.'.snake_case($row->type))
+				dobbiamo usare funzione perche' potrebbe essere esterno
+				--}}
 				{!! $row->linkedFormFields() !!}
 				<hr style="clear:both" />
 				{!! Form::bsTinymce('txt') !!}

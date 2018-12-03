@@ -1,7 +1,19 @@
 <br style="clear:both" /><br style="clear:both" /><br style="clear:both" />
 <fieldset>
 	<legend>Article info</legend>
-	{!! Form::bsText('article_type',$row->article_type) !!}
-	{!! Form::bsDateTimeLocal('published_at',$row->published_at) !!} 
-	{!! Form::bsSelect('category_id',$row->category_id,blog::rows()->ofType('category')->pluck('title','post_id')) !!}
+	{!! Form::bsText('linked[article_type]') !!}
+	{!! Form::bsDateTimeLocal('linked[published_at]') !!}
+	{{-- ddd($articleCat->archive()->pluck('title','post_id')) --}}
+	@php
+		$val=$row->relatedrevType('articleCat')->first();
+		if($val!=null){
+			$val=$val->post_id;
+		}
+	@endphp
+	[{{ $row->relatedrevType('articleCat')->count() }}]
+
+	{!! Form::bsSelect('relatedrev[articleCat]',$val,$articleCat->options()) !!}
 </fieldset>
+{{--
+http://hellofrancesco.com/articoli/laravel-cafe-1-eloquent-relazioni-ed-eventi
+--}}

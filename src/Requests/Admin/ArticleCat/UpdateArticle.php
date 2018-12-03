@@ -1,9 +1,9 @@
 <?php
-namespace XRA\Blog\Requests\Admin;
+namespace XRA\Blog\Requests\Admin\ArticleCat;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePost extends FormRequest{
+class UpdateArticle extends FormRequest{
 	/**
 	 * Determine if the user is authorized to make this request.
 	 *

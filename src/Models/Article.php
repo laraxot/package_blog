@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use XRA\Extend\Traits\Updater;
 
+//--- models --- 
+use XRA\Blog\Models\Post;
+
 /**
  * { item_description }
  * da fare php artisan scout:import XRA\Blog\Models\Post
@@ -25,8 +28,8 @@ class Article extends Model{
      *
      * @var array
      */
-    protected $fillable = ['post_id','article_type','published_at','category_id'];
-    protected $appends=['category_id'];
+    protected $fillable = ['post_id','article_type','published_at'];
+    //protected $appends=['category_id'];
     protected $casts = [
         'category_id' => 'integer',
     ];
@@ -45,7 +48,7 @@ class Article extends Model{
         return $this->belongsTo(Post::class,'post_id','post_id');
     }
 
-
+    /*
     public function relatedType($type){
         $post=$this->post;
         if($post==null){
@@ -54,6 +57,19 @@ class Article extends Model{
         }
         return $post->related()->wherePivot('type', $type);//->where('lang',\App::getLocale());
     }
+
+    public function relatedrevType($type){
+        $post=$this->post;
+        if($post==null){
+            //dd($this->post_id); //null
+            return null;
+        }
+        return $post->relatedrevType($type);
+    }
+    */
+
+
+
     //---------- mututars -----------
     /*
     public function getPublishedAtAttribute($value){
@@ -107,7 +123,9 @@ class Article extends Model{
 
     public function formFields(){
         //$view=CrudTrait::getView(); //non posso usarla perche' restituisce la view del chiamante
-        return view('blog::admin.post.partials.'.strtolower(class_basename($this)) )->with('row',$this);
+        $roots=Post::getRoots();
+        $view='blog::admin.partials.'.snake_case(class_basename($this));
+        return view($view)->with('row',$this->post)->with($roots);
     }
 
     /**
