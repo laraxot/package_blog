@@ -130,7 +130,7 @@ class Post extends Model{
 		parent::__construct($attributes);
 		$this->importInit();
 	}
-	
+
 	public function getRouteKeyName(){
 		return 'guid';
 		//return \Request::segment(1) === 'admin' ? 'post_id' : 'guid';
@@ -146,7 +146,7 @@ class Post extends Model{
 		return $this->relatedrev()->wherePivot('type',$type);
 	}
 	public function posts(){
-		$type=$this->type.'_x_post';  
+		$type=$this->type.'_x_post';
 		return $this->related()->wherePivot('type',$type);
 	}
 
@@ -170,6 +170,10 @@ class Post extends Model{
 		}
 		$rows=$this->relatedrevType($type)->with(['related'/*,'relatedrev','parentPost','sons'*/]);//->with('sons')->with('parentPost');//->withCount('sons'); con il withcount va in loop infinito
 		return $rows;
+	}
+
+	public function options(){
+		return $this->archive->pluck('title','post_id')->prepend('', '');;
 	}
 
 	public function archive(){
@@ -421,6 +425,9 @@ class Post extends Model{
 		//return $this->related->where('pivot.type', $type);//->where('lang',\App::getLocale());
 	}
 	public function relatedrevType($type){
+        if(strpos($type,'_x_')===false){
+			$type=$type.'_x_'.$this->type;
+		}
 		return $this->relatedrev()->wherePivot('type', $type);//->where('lang',\App::getLocale());
 	}
 
@@ -645,7 +652,19 @@ class Post extends Model{
 	}
 
 
-
+	//-------- functions ---------
+	public static function getRoots(){
+		$lang=\App::getLocale();
+		$all=config('xra.model');
+		$roots=Post::where('lang',$lang)->whereRaw('guid = type ')->get();
+		$roots=$roots->keyBy('type')->all();
+		$add=collect(array_keys($all))->diff(array_keys($roots));
+		foreach($add as $k=>$v){
+			$roots[$v]=Post::firstOrCreate(['lang'=>$lang,'guid'=>$v,'type'=>$v],['title'=>$v.' '.$lang]);
+		}
+		/// ??? togliere quelli che non ci sono ?
+		return $roots;
+	}
 
 
 	public function image_resized_cropped($params){
@@ -1153,7 +1172,7 @@ class Post extends Model{
 				break;
 			}
 		}
-		
+
 		$ris_tmp=str_replace('item','container',$ris);
 		$k=array_search($ris_tmp,$routename_arr);
 		/*

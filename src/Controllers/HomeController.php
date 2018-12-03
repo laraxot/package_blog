@@ -28,15 +28,9 @@ class HomeController extends Controller{
 		}
 		extract($params);
 		
-
-		$roots=[];
-		foreach(config('xra.model') as $k=>$v){
-			$roots[$k]=Post::firstOrCreate(['lang'=>$lang,'guid'=>$k,'type'=>$k],['title'=>$k.' '.$lang]);
-		}
+		$roots=Post::getRoots();
 
 		/*
-		$roots=Post::where('lang',$lang)->whereRaw('guid = type ')->get();
-		$roots=$roots->keyBy('type')->all();
 		$roots['home']=$row;
 		*/
 		//$view = CrudTrait::getView($params);

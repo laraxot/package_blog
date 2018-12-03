@@ -89,8 +89,6 @@ class PostRelatedPivot extends Pivot{
 			$route='blog.'.$route;
 		}
 		return route($route,$params);
-		
-			
 	}
 
 	public function getUrlAct($act){
@@ -104,16 +102,20 @@ class PostRelatedPivot extends Pivot{
 			return $this->getRouteN(0,$act);//.'#0';
 		}
 		$last_obj=$params[$last];
-		$second_last_obj=$params[$second_last];
 		$n=str_replace('container','',$last);
-		if($second_last_obj->type==$this->post->type && $last_obj->type==$this->related->type){
-			return $this->getRouteN($n-1,$act);//.'#1['.$n.']';			
+		if(!isset($params[$second_last])){
+			return '['.__LINE__.']['.__FILE__.']';
 		}
-
+		if(isset($params[$second_last])){
+			$second_last_obj=$params[$second_last];
+			if($second_last_obj->type==$this->post->type && $last_obj->type==$this->related->type){
+				return $this->getRouteN($n-1,$act);//.'#1['.$n.']';			
+			}
+		}
+		
 		if($last_obj->type!=$this->post->type){
 			return $this->getRouteN($n+1,$act);//.'#2['.$n.']['.$second_last_obj->type.']['.$this->post->type.']';
 		}
-
 		return $this->getRouteN($n,$act);//.'#3['.$n.']';
 	}
 
