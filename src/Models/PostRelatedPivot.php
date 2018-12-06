@@ -85,7 +85,9 @@ class PostRelatedPivot extends Pivot{
 			//ddd(array_keys($params));
 			return '1';
 		}
-		$route='blog.'.$route;
+		if(in_admin()){  
+			$route='blog.'.$route;
+		}
 		return route($route,$params);
 		
 			
