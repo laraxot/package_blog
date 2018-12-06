@@ -4,7 +4,7 @@
 @section('content')
 @include('backend::includes.flash')
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-8">
 		<div class="nav-tabs-custom">
 			@include($view.'.nav')
 			<div class="tab-content">
@@ -25,6 +25,10 @@
 				<br style="clear:both" />
 			</div>
 		</div>
+	</div>
+	<div class="col-md-4">
+		created_at: {{ $row->created_at }}
+		updated_at: {{ $row->updated_at }}
 	</div>
 </div>
 @endsection
