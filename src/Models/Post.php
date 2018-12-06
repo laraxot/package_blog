@@ -1135,6 +1135,12 @@ class Post extends Model{
 		}
 		return $this->getUrlAct('edit');
 	}
+	public function getUpdateUrlAttribute($value){
+		if(isset($this->pivot)){
+			return $this->pivot->update_url;
+		}
+		return $this->getUrlAct('update');
+	}
 
 	public function getUrlAct($act){
 		$params=\Route::current()->parameters();
@@ -1150,9 +1156,12 @@ class Post extends Model{
 		
 		$ris_tmp=str_replace('item','container',$ris);
 		$k=array_search($ris_tmp,$routename_arr);
+		/*
 		if($k<1){
+			echo '[['.$k.']]';
 			ddd($ris);
 		}
+		*/
 		//ddd($k);
 		if($ris_tmp==$ris && $act=='edit'){
 			$n=str_replace('container','',$ris);
