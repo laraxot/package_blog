@@ -5,14 +5,10 @@ namespace XRA\Blog\Controllers\Article;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+//------traits -----
+use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
+
+
 class SearchController extends Controller{
-
-    public function index(){
-        return view('pub_theme::article.search.index')
-            ->with('lang',\App::getLocale())
-            ;
-    }
-
-    
-
+    use CrudTrait;
 }
