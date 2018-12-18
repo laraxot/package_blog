@@ -6,4 +6,5 @@
 	{!! Form::bsDateTimeLocal('published_at',$row->published_at) !!} 
 	{!! Form::bsSelect('category_id',$row->category_id,blog::rows()->ofType('category')->pluck('title','post_id')) !!}
 	--}}
+	{!! Form::bsText('linked[layout_position]') !!}
 </fieldset>
