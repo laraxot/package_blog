@@ -25,7 +25,7 @@ class Page extends Model{
      *
      * @var array
      */
-    protected $fillable = ['post_id','article_type','published_at','category_id'];
+    protected $fillable = ['post_id','article_type','published_at','category_id','layout_position'];
     protected $appends=['category_id'];
     protected $casts = [
         'category_id' => 'integer',
@@ -106,9 +106,10 @@ class Page extends Model{
 
     public function formFields(){
         //$view=CrudTrait::getView(); //non posso usarla perche' restituisce la view del chiamante
-        return view('blog::admin.post.partials.'.strtolower(class_basename($this)) )->with('row',$this);
+        $roots=Post::getRoots();
+        $view='blog::admin.partials.'.snake_case(class_basename($this));
+        return view($view)->with('row',$this->post)->with($roots);
     }
-
     /**
      * Convert a DateTime to a storable string.
      *
