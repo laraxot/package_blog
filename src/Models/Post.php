@@ -663,7 +663,6 @@ class Post extends Model{
 		$add=collect(array_keys($all))->diff(array_keys($roots));
 		foreach($add as $k=>$v){
 			$roots[$v]=Post::firstOrCreate(['lang'=>$lang,'guid'=>$v,'type'=>$v],['title'=>$v.' '.$lang]);
-<<<<<<< HEAD
 		}
 		/// ??? togliere quelli che non ci sono ?
 		return $roots;
@@ -713,10 +712,7 @@ class Post extends Model{
 		   $y0=rand(0,$img->height() - $height);
 		   $img->crop($width,$height,$x0,$y0);
 
-=======
->>>>>>> origin/master
 		}
-		/// ??? togliere quelli che non ci sono ?
 		return $roots;
 	}
 
