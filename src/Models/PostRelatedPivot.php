@@ -112,6 +112,10 @@ class PostRelatedPivot extends Pivot{
 				return $this->getRouteN($n-1,$act);//.'#1['.$n.']';			
 			}
 		}
+
+		if($second_last_obj->type == $this->related->type){
+			return $this->getRouteN($n,$act); // forse -1
+		}
 		
 		if($last_obj->type!=$this->post->type){
 			return $this->getRouteN($n+1,$act);//.'#2['.$n.']['.$second_last_obj->type.']['.$this->post->type.']';
