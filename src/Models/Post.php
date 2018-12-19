@@ -669,6 +669,54 @@ class Post extends Model{
 	}
 
 
+	public function image_resized_cropped($params){
+		extract($params);
+		//$image_resized='assets_packs/img/'.$width.'x'.$height.'/'.basename($image_path);
+		if($image_path==null){
+			return 'assets_packs/img/'.$width.'x'.$height.'/nophoto.png';
+		}
+		$image_resized='assets_packs/img/'.$width.'x'.$height.'/'.str_slug($this->title).'.jpg';
+		if(\File::exists(public_path($image_resized))) return $image_resized; //immagine la creo 1 volta sola
+		if(substr($image_path,0,2)=='//'){
+			$image_path='http:'.$image_path;
+		}
+
+		if(!\File::exists($image_path) ){
+			//echo '['.__LINE__.']['.__FILE__.']';
+
+			//return false;
+		}
+
+		$allowedMimeTypes = ['image/jpeg','image/gif','image/png','image/bmp','image/svg+xml'];
+		$allowedExtensions=['jpg','png','gif'];
+		$pathinfo = pathinfo($image_path);
+		if(!isset($pathinfo['extension'])) return $image_path;
+		if(!in_array($pathinfo['extension'],$allowedExtensions)) return $image_path;
+		//if(!in_array($contentType,$allowedMimeTypes)) return $image_path;
+
+		//return $image_path;
+
+		$img = Image::make($image_path);
+
+		$img->resize($width, null, function ($constraint) {
+			$constraint->aspectRatio();
+		});
+
+		if ($img->height() > $height) {
+			/* //voglio croppare l'immagine per non lasciare bordi brutti
+			$img->resize(null, $height, function ($constraint) {
+				$constraint->aspectRatio();
+			});
+			*/
+		   $x0=0;
+		   $y0=rand(0,$img->height() - $height);
+		   $img->crop($width,$height,$x0,$y0);
+
+		}
+		return $roots;
+	}
+
+
 	
 
 	public function imageResizeSrc($params){
