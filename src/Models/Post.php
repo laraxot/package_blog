@@ -15,6 +15,8 @@ use XRA\Extend\Traits\FilterTrait;
 use XRA\Extend\Traits\ImportTrait;
 use XRA\Extend\Traits\Updater;
 
+use XRA\Extend\Services\ImageService;
+
 //use XRA\Blog\Models\Post\PostTrait;
 
 //use Laralang;
@@ -661,6 +663,7 @@ class Post extends Model{
 		$add=collect(array_keys($all))->diff(array_keys($roots));
 		foreach($add as $k=>$v){
 			$roots[$v]=Post::firstOrCreate(['lang'=>$lang,'guid'=>$v,'type'=>$v],['title'=>$v.' '.$lang]);
+<<<<<<< HEAD
 		}
 		/// ??? togliere quelli che non ci sono ?
 		return $roots;
@@ -710,133 +713,15 @@ class Post extends Model{
 		   $y0=rand(0,$img->height() - $height);
 		   $img->crop($width,$height,$x0,$y0);
 
+=======
+>>>>>>> origin/master
 		}
-		$w0 = $img->width();
-		$h0 = $img->height();
-		$canvas = Image::canvas($width, $height, '#fdfdfd');
-		$x=round(($width - $w0)/2,0);
-		$y=round(($height -$h0)/2,0);
-		$canvas->insert($img, null, $x, $y);
-
-		\File::makeDirectory(dirname(public_path($image_resized)), 0775, true, true);
-		$canvas->save(public_path($image_resized),75);
-		ImageOptimizer::optimize(public_path($image_resized));
-		//app(Spatie\ImageOptimizer\OptimizerChain::class)->optimize(public_path($image_resized));
-		return $image_resized;
+		/// ??? togliere quelli che non ci sono ?
+		return $roots;
 	}
 
-	 public function image_resized_canvas($params){
-		extract($params);
-		//$image_resized='assets_packs/img/'.$width.'x'.$height.'/'.basename($image_path);
-		if($image_path==null){
-			//return 'assets_packs/img/'.$width.'x'.$height.'/nophoto.png';
-			$image_path=public_path('images/nophoto.png');
-		}
-		$image_resized='assets_packs/img/'.$width.'x'.$height.'/'.str_slug($this->title).'.jpg';
-		//if(\File::exists(public_path($image_resized))) return $image_resized; //immagine la creo 1 volta sola
-		if(substr($image_path,0,2)=='//'){
-			$image_path='http:'.$image_path;
-		}
-		$allowedMimeTypes = ['image/jpeg','image/gif','image/png','image/bmp','image/svg+xml'];
-		$allowedExtensions=['jpg','png','gif'];
-		$pathinfo = pathinfo($image_path);
-		if(!isset($pathinfo['extension'])){
-			$pathinfo['extension']='';
-		}
-		$pos=strpos($pathinfo['extension'],'&');
-		if($pos!==false){
-			$pathinfo['extension']=substr($pathinfo['extension'],0,$pos);
-		}
 
-		if(!isset($pathinfo['extension'])) return $image_path;
-		if(!in_array($pathinfo['extension'],$allowedExtensions)) return $image_path;
-		//if(!in_array($contentType,$allowedMimeTypes)) return $image_path;
-		//* -- spostato in importtrait
-		$str0='https://s2.qwant.com';//questo fa un redirect
-		$str1='http://s2.qwant.com';
-		$str2='https://s2.qwant.com';//questo fa un redirect
-		$str3='http://s2.qwant.com';
-		if(substr($image_path,0,strlen($str0))==$str0 || substr($image_path,0,strlen($str1))==$str1 ||
-		   substr($image_path,0,strlen($str2))==$str2 || substr($image_path,0,strlen($str3))==$str3){
-			$pos=strpos($image_path,'?');
-			$image_path1=substr($image_path, $pos+1);
-			parse_str($image_path1, $output);
-			//echo '<h3>'.$image_path1.'</h3>';
-			$image_path=urldecode($output['u']);
-		}
-		//*/
-		$str='/laravel-filemanager/';
-		if(substr($image_path,0,strlen($str))==$str){
-			$image_path=public_path(substr($image_path,strlen($str)));
-			//die($image_path);
-		}
-		//die($image_path);
-
-		//return $image_path;
-		try {
-			$img = Image::make($image_path);
-		} catch (\Intervention\Image\Exception\NotReadableException $e) {
-
-
-			$filename=str_slug(basename($image_path)).'.'.$pathinfo['extension'];
-			/*
-			if(!\Storage::disk('cache')->exists($filename)){
-				\Storage::disk('cache')->put($filename, fopen($image_path, 'r'));
-			}
-
-			*/
-			//$asset = new FileAsset();
-
-			//$jpg=imagecreatefromjpeg($image_path);
-
-			//die('['.__LINE__.']['.__FILE__.']');
-			$img_content=$this->cacheRequestFile('GET',$image_path);
-			\Storage::disk('cache')->put($filename, $img_content);
-			try {
-				$img = Image::make(\Storage::disk('cache')->path($filename));
-			} catch (\Intervention\Image\Exception\NotReadableException $e) {
-				//echo '<h3>['.__LINE__.']['.__FILE__.']</h3>';
-				$this->image_src='';
-				$this->image_resize_src=[];
-				$this->save();
-				return null;
-			}
-			//$img_content=base64_encode($img_content);
-			//$im = imagecreatefromstring($img_content);
-
-			//$img=Image::make($img_content);
-			//*
-			//echo '<h3>['.__LINE__.']['.__FILE__.']</h3>';
-			//return ;
-			//echo $content;
-
-			//*/
-
-		}
-
-		$img->resize($width, null, function ($constraint) {
-			$constraint->aspectRatio();
-		});
-
-		if ($img->height() > $height) {
-			$img->resize(null, $height, function ($constraint) {
-				$constraint->aspectRatio();
-			});
-		}
-
-		$w0 = $img->width();
-		$h0 = $img->height();
-		$canvas = Image::canvas($width, $height, '#fdfdfd');
-		$x=round(($width - $w0)/2,0);
-		$y=round(($height -$h0)/2,0);
-		$canvas->insert($img, null, $x, $y);
-
-		\File::makeDirectory(dirname(public_path($image_resized)), 0775, true, true);
-		$canvas->save(public_path($image_resized),75);
-		//ImageOptimizer::optimize(public_path($image_resized));   //--- CAPIRE SE NE VALE LA PENA
-		//app(Spatie\ImageOptimizer\OptimizerChain::class)->optimize(public_path($image_resized));
-		return $image_resized;
-	}
+	
 
 	public function imageResizeSrc($params){
 		$type='canvas';//default value;
@@ -857,7 +742,8 @@ class Post extends Model{
 			$image_path=public_path(str_replace($str,'',$this->image_src));
 		}
 		$params['image_path']=$image_path;
-		$src1=$this->image_resized_canvas($params);
+		//$src1=$this->image_resized_canvas($params);  
+		$src1=ImageService::image_resized_canvas($params);
 		$buff[$dim]=$src1;
 		if(isset($this->relatedrev_count)) unset($this->relatedrev_count);
 		if(isset($this->restaurantsrev_count)) unset($this->restaurantsrev_count);
@@ -1316,43 +1202,7 @@ class Post extends Model{
 			$this->attributes['guid'] =$value;
 		}
 	}
-	//* genera dei loop da fix
-	public function getImageSrcAttributeAA($value){
-		if($value==''){
-			if($this->linked==null){
-			}else{
-				$value=$this->linked->image_src;
-				$this->image_src=$value;
-				$this->save();
-			}
-		}
-		$str='/laravel-filemanager/';
-		if(substr($value,0,strlen($str)) == $str ){
-			$str=substr($value,strlen($str));
-			return asset($str);
-		}
-		return $value;
-	}
-	//*/
-	//*
-	public function getSubtitleAttributeAA($value){
-		//return $value;
-		if($value==''){
-			if($this->linked==null){
-				echo '<h3>['.__LINE__.']['.__FILE__.']</h3>';
-				dd($this);
-				//----
-			}else{
-				$value=$this->linked->subtitle;
-				if($value!=null){
-					$this->subtitle=$value;
-					$this->save();
-				}
-			}
-		}
-		return $value;
-	}
-	//*/
+	
 
 	public function getReviewsCountAttribute($value)
 	{

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 //use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 //use XRA\Extend\Traits\FrontTrait;
 use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
-class PostController extends Controller{
+class ArticleController extends Controller{
     //use FrontTrait;
     use CrudTrait;
 }

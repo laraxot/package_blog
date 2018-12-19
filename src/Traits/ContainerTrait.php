@@ -70,7 +70,7 @@ trait ContainerTrait{
 			$request=substr($request,0,$pos+1).studly_case($method).substr($request,$pos+1);
 			
 			$request=$request::capture();
-			$request->validate($request->rules());
+			$request->validate($request->rules(),$request->messages());
 			return app($controller)->$method($request);
 		}else{
 			return app($controller)->$method(Request::capture());
