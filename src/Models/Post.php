@@ -1043,6 +1043,13 @@ class Post extends Model{
 		return $this->getUrlAct('update');
 	}
 
+	public function getDestroyUrlAttribute($value){
+		if(isset($this->pivot)){
+			return $this->pivot->destroy_url;
+		}
+		return $this->getUrlAct('destroy');
+	}
+
 	public function getUrlAct($act){
 		$params=\Route::current()->parameters();
 		$routename=\Request::route()->getName();

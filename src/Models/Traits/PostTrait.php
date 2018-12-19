@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use XRA\Extend\Traits\Updater;
 //----- models------
 use XRA\Blog\Models\Post;
+use XRA\Blog\Models\PostRelatedPivot;
+
 
 //------ traits ---
 use XRA\Extend\Services\ThemeService;
@@ -45,7 +47,7 @@ trait PostTrait{
         $pivot_fields=['type','pos','price','price_currency','id'];
         $rows= $this->belongsToMany(Post::class, 'blog_post_related', 'post_id', 'related_id','post_id','post_id')
                 ->withPivot($pivot_fields)
-                //->using(PostRelatedPivot::class)
+                ->using(PostRelatedPivot::class)
                 ->where('lang', \App::getLocale())
                 //->with(['linked'])
                 ;
