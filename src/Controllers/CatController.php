@@ -6,5 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use XRA\Blog\Models\Category;
 
-class CatController extends Controller{
+class CatController extends Controller
+{
 }

@@ -48,6 +48,4 @@ class BlogPostCuisines
      * @ORM\Column(name="updated_by", type="string", length=255, nullable=true)
      */
     private $updatedBy;
-
-
 }

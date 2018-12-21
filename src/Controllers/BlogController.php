@@ -10,6 +10,8 @@ use XRA\Blog\Models\Post;
 //--- extends ---
 use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 use XRA\Extend\Traits\ArtisanTrait;
+//--- services --
+use XRA\Extend\Services\ThemeService;
 
 class BlogController extends Controller
 {
@@ -19,8 +21,7 @@ class BlogController extends Controller
             return ArtisanTrait::exe('route:list');
         }
         $rows=Post::all();
-        $view=CrudTrait::getView();
-        return view($view)->with('rows', $rows);
+        return ThemeService::addViewParam('rows', $rows)->view();
     }
 
     public function show(Request $request)
@@ -29,7 +30,6 @@ class BlogController extends Controller
         //return view('blog::posts.show', ['post' => $post]);
         $params = \Route::current()->parameters();
         $row=Post::where('guid', $params['guid_post'])->first();
-        $view=CrudTrait::getView();
-        return view($view)->with('row', $row);
+        return ThemeService::addViewParam('row', $row)->view();
     }
 }

@@ -5,6 +5,8 @@ namespace XRA\Blog\Models;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use XRA\Extend\Traits\Updater;
+//--- services
+use XRA\Extend\Services\ThemeService;
 
 /**
  * XRA\Blog\Models\Category
@@ -62,8 +64,9 @@ class Category extends Model
         return $url;
     }
 
-    public function formFields(){
-        //$view=CrudTrait::getView(); //non posso usarla perche' restituisce la view del chiamante
+    public function formFields()
+    {
+        //$view=ThemeService::getView(); //non posso usarla perche' restituisce la view del chiamante
         //return view('blog::admin.post.partials.'.strtolower(class_basename($this)) )->with('row',$this);
         return false; //category non ha campi collegati per ora
     }

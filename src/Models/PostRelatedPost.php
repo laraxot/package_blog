@@ -13,7 +13,8 @@ use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
  * @property-read \XRA\Blog\Models\Post $Post
  * @mixin \Eloquent
  */
-class PostRelatedPost extends Model {
-	protected $table = 'blog_post_related_post';
+class PostRelatedPost extends Model
+{
+    protected $table = 'blog_post_related_post';
     protected $primaryKey = 'id';
 }

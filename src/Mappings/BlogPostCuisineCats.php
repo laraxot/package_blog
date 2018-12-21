@@ -104,6 +104,4 @@ class BlogPostCuisineCats
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
     private $deletedAt;
-
-
 }

@@ -16,10 +16,7 @@ use XRA\Blog\Models\Category;
 use XRA\Blog\Models\Post;
 use XRA\Blog\Models\Settings;
 
-
-
-
-class PageController extends Controller{
+class PageController extends Controller
+{
     use CrudTrait;
-	
 }//end class

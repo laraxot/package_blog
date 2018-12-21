@@ -21,7 +21,7 @@ class CreateBlogPostRecipesTable extends Migration
 
                 $table->ipAddress('created_ip')->nullable();
                 $table->ipAddress('updated_ip')->nullable();
-                $table->ipAddress('deleted_ip')->nullable(); 
+                $table->ipAddress('deleted_ip')->nullable();
                 $table->timestamps();
             });
         }

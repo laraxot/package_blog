@@ -8,7 +8,8 @@ class CreateBlogPostEventsTable extends Migration
 {
     protected $table='blog_post_events';
 
-    public function up(){
+    public function up()
+    {
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
                 $table->integer('post_id');
@@ -18,10 +19,11 @@ class CreateBlogPostEventsTable extends Migration
                 $table->text('bio')->nullable();
                 $table->timestamps();
             });
-        }  
+        }
     }
 
-    public function down(){
+    public function down()
+    {
         Schema::dropIfExists($this->table);
     }
 }

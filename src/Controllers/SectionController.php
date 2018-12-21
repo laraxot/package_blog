@@ -14,10 +14,7 @@ use XRA\Blog\Models\Category;
 use XRA\Blog\Models\Post;
 use XRA\Blog\Models\Settings;
 
-
-
-
-class SectionController extends Controller{
+class SectionController extends Controller
+{
     use FrontTrait;
-    
 }//end class

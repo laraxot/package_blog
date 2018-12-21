@@ -18,7 +18,8 @@ use XRA\Blog\Models\Traits\PostTrait;
  * @mixin \Eloquent
  */
 
-class PostLink extends Model{
+class PostLink extends Model
+{
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use PostTrait;
     use Updater;
@@ -27,6 +28,5 @@ class PostLink extends Model{
     protected $appends=[];
     protected $dates=['created_at', 'updated_at'];
     protected $primaryKey = 'post_id';
-    public $incrementing = true; 
-
+    public $incrementing = true;
 }

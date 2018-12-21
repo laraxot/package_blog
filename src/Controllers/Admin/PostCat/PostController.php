@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 //--- extends ---
 use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
 
-class PostController extends Controller{
+class PostController extends Controller
+{
     use CrudTrait;
 }

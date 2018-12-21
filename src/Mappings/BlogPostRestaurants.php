@@ -447,6 +447,4 @@ class BlogPostRestaurants
      * @ORM\Column(name="price_range", type="string", length=255, nullable=true)
      */
     private $priceRange;
-
-
 }

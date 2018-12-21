@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 //--- extends ---
 use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 use XRA\Extend\Traits\ArtisanTrait;
+//--- services
+use XRA\Extend\Services\ThemeService;
 
 //--- Models ---//
 use XRA\Blog\Models\PostContent;
@@ -31,10 +33,7 @@ class SonController extends Controller
 
         $row=Post::where('post_id', $id_post)->where('lang', $lang)->first();
         $rows=$row->sons();
-        $view=CrudTrait::getView();
-        return view($view)->with('allrows', $rows)
-            ->with('params', array_merge($request->all(), $params))
-            ->with('row', $row);
+        return ThemeService::addViewParam('row', $row)->addViewParam('allrows', $rows)->view();
     }
 
 

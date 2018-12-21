@@ -18,28 +18,31 @@ use XRA\Extend\Services\ThemeService as Theme;
 
 use Cache;
 
-class Item1Controller extends Controller{
-
-    public function getModel(){
+class Item1Controller extends Controller
+{
+    public function getModel()
+    {
         return new Post;
     }
 
-    public function getController(){
+    public function getController()
+    {
         $params = \Route::current()->parameters();
         $model=config('xra.model.'.$params['container']);
-        if($model==''){
-            $row=Post::where('lang',\App::getLocale())->where('guid',$params['container'])->first();
+        if ($model=='') {
+            $row=Post::where('lang', \App::getLocale())->where('guid', $params['container'])->first();
             $model=config('xra.model.'.$row->type);
-            if($model==''){
+            if ($model=='') {
                 die('<hr/>settare modello['.$row->type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
             }
         }
-        $controller=str_replace('\\Models\\','\\Controllers\\',$model).'Controller';
+        $controller=str_replace('\\Models\\', '\\Controllers\\', $model).'Controller';
         return $controller;
     }
 
     //use CrudTrait;
-    public function show(Request $request){
+    public function show(Request $request)
+    {
         $controller=$this->getController();
         return app($controller)->show($request);
 
@@ -48,31 +51,31 @@ class Item1Controller extends Controller{
 
         $params = \Route::current()->parameters();
         extract($params);
-		$containers=array_keys(config('xra.model'));
+        $containers=array_keys(config('xra.model'));
         $lang=\App::getLocale();
-        if(isset($item)){
-			$guid=$item;
-			$func='show';
-		}else{
-			$guid=$container;
-			$func='index';
-		}
+        if (isset($item)) {
+            $guid=$item;
+            $func='show';
+        } else {
+            $guid=$container;
+            $func='index';
+        }
 
         //dd($params);
         //$row=Post::with(['related','parentPost'])->firstOrCreate(['lang'=>$lang,'guid'=>$guid,'type'=>$container],['title'=>$guid]);
-        $row=Post::with([])->where('lang',$lang)->where('guid',$item)->where('type',$container)->first();
-        $row1=Post::with([])->where('lang',$lang)->where('guid',$item1)->where('type',$container1)->first();
+        $row=Post::with([])->where('lang', $lang)->where('guid', $item)->where('type', $container)->first();
+        $row1=Post::with([])->where('lang', $lang)->where('guid', $item1)->where('type', $container1)->first();
 
-        $rows=$row->linked->postRestaurants()->whereHas('related',function ($query) use($row1){
-            $query->where('blog_post_related.related_id',$row1->post_id)->where('blog_post_related.type','restaurant_x_'.$row1->type);
+        $rows=$row->linked->postRestaurants()->whereHas('related', function ($query) use ($row1) {
+            $query->where('blog_post_related.related_id', $row1->post_id)->where('blog_post_related.type', 'restaurant_x_'.$row1->type);
         });
 
         $view=CrudTrait::getView($params);
-        return view($view)->with('params',$params)
-                        ->with('view',$view)
-                        ->with('row',$row)
-                        ->with('row1',$row1)
-                        ->with('rows',$rows)
+        return view($view)->with('params', $params)
+                        ->with('view', $view)
+                        ->with('row', $row)
+                        ->with('row1', $row1)
+                        ->with('rows', $rows)
                         ;
         //dd($rows->get());
         //$ristos=Post::ofType('restaurant');
@@ -94,9 +97,9 @@ class Item1Controller extends Controller{
         //dd($row->linked->listCuisineCats());
         /*
         $cuisineCats=$row->sons()->map(function($row){
-			//return $row->relatedType('restaurant_x_cuisineCat')->get()->pluck('title','guid');
-			return $row->related->where('pivot.type','location_x_cuisineCat');
-		})->all();
+            //return $row->relatedType('restaurant_x_cuisineCat')->get()->pluck('title','guid');
+            return $row->related->where('pivot.type','location_x_cuisineCat');
+        })->all();
         */
         //dd($cuisineCats);
 

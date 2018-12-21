@@ -12,16 +12,16 @@ use XRA\Extend\Traits\ArtisanTrait;
 //------  models -----------
 use \XRA\Blog\Models\Post;
 
-class CatController extends Controller{
-
-	public function index(Request $request){
+class CatController extends Controller
+{
+    public function index(Request $request)
+    {
         if ($request->routelist == 1) {
             return ArtisanTrait::exe('route:list');
         }
         $params = \Route::current()->parameters();
         $model=config('xra.model.'.$params['container']);
-        $controller=str_replace('\\Models\\','\\Controllers\\',$model).'CatController';
+        $controller=str_replace('\\Models\\', '\\Controllers\\', $model).'CatController';
         return app($controller)->index($request);
     }
-
 }

@@ -12,6 +12,7 @@ use XRA\Extend\Traits\ArtisanTrait;
 //--- Models ---//
 use XRA\Blog\Models\PostContent;
 
-class PostController extends Controller{
+class PostController extends Controller
+{
     use CrudTrait;
 }

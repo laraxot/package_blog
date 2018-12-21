@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFieldsToBlogPostPages extends Migration{
-   protected $table='blog_post_pages';
+class AddFieldsToBlogPostPages extends Migration
+{
+    protected $table='blog_post_pages';
     /**
      * Run the migrations.
      *
@@ -20,7 +21,6 @@ class AddFieldsToBlogPostPages extends Migration{
             if (!Schema::hasColumn($this->table, 'updated_by')) {
                 $table->string('updated_by')->nullable();
             }
-            
         });
     }
 
@@ -32,7 +32,7 @@ class AddFieldsToBlogPostPages extends Migration{
     public function down()
     {
         Schema::table($this->table, function (Blueprint $table) {
-        //    $table->dropColumn(['guid']);
+            //    $table->dropColumn(['guid']);
         });
     }
 }

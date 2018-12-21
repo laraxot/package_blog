@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 //--- extends ---
 use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 use XRA\Extend\Traits\ArtisanTrait;
+//--- services
+use XRA\Extend\Services\ThemeService;
 
 //--- Models ---//
 use XRA\Blog\Models\PostContent;
@@ -43,17 +45,7 @@ class PhotoController extends Controller
         \DB::update('update blog_posts set post_id=id where post_id=0');
 
         $row=Post::where('post_id', $id_post)->where('lang', $lang)->first();
-        $rows=$row->related('photo')->orderBy('pivot_pos');
-        /*
-        echo '<pre>';print_r($rows->toSql()); echo '</pre>';
-        echo '<pre>';print_r($rows->get()->toArray()); echo '</pre>';
-        dd('['.__LINE__.']['.__FILE__.']');
-        */
-        //dd($rows->toSql());
-        $view=CrudTrait::getView();
-        return view($view)->with('allrows', $rows)
-            ->with('params', array_merge($request->all(), $params))
-            ->with('row', $row);
+        return ThemeService::addViewParam('row', $row)->addViewParam('allrows', $rows)->view();
     }
 
 

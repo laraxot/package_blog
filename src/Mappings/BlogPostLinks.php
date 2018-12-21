@@ -97,6 +97,4 @@ class BlogPostLinks
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
-
-
 }

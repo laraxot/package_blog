@@ -4,14 +4,16 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFieldsToBlogPostShopItems extends Migration{
+class AddFieldsToBlogPostShopItems extends Migration
+{
     protected $table='blog_post_shop_items';
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up(){
+    public function up()
+    {
         Schema::table($this->table, function (Blueprint $table) {
             if (!Schema::hasColumn($this->table, 'num')) {
                 $table->integer('num')->nullable();

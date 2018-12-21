@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFieldsToBlogPostsTable extends Migration{
+class AddFieldsToBlogPostsTable extends Migration
+{
     protected $table='blog_posts';
     /**
      * Run the migrations.
@@ -53,7 +54,6 @@ class AddFieldsToBlogPostsTable extends Migration{
             if (!Schema::hasColumn($this->table, 'updated_by')) {
                 $table->string('updated_by')->nullable();
             }
-            
         });
     }
 

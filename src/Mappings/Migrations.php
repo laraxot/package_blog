@@ -34,6 +34,4 @@ class Migrations
      * @ORM\Column(name="batch", type="integer", nullable=false)
      */
     private $batch;
-
-
 }

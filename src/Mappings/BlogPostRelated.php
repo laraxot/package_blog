@@ -111,6 +111,4 @@ class BlogPostRelated
      * @ORM\Column(name="dinner_available", type="boolean", nullable=true)
      */
     private $dinnerAvailable;
-
-
 }

@@ -16,11 +16,10 @@ use Laravel\Scout\Searchable;
  * @mixin \Eloquent
  */
 
-class Container extends Model{
+class Container extends Model
+{
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use Updater;
-    use Searchable; 
+    use Searchable;
     protected $table = "blog_posts";
-
-    
 }

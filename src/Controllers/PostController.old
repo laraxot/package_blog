@@ -13,6 +13,9 @@ use XRA\Blog\Models\Settings;
 //--------- traits -----------
 use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 use XRA\Extend\Traits\FrontTrait;
+//--- services 
+use XRA\Extend\Services\ThemeService;
+
 
 class PostController extends Controller{
     use FrontTrait;
@@ -80,7 +83,7 @@ class PostController extends Controller{
         $params = \Route::current()->parameters();
         //$row=PostRev::where('guid', $params['guid_post'])->first();
         $row=Post::where('guid', $params['guid_post'])->first();
-        $view=CrudTrait::getView();
+        $view=ThemeService::getView();
         return view($view)->with('row', $row);
     }
 

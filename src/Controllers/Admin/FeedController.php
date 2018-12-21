@@ -7,9 +7,7 @@ use App\Http\Controllers\Controller;
 
 use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
 
-
-class FeedController extends Controller{
-    
+class FeedController extends Controller
+{
     use CrudTrait;
 }
-    

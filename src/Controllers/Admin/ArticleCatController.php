@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 //--- extends ---
 use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
 
-class ArticleCatController extends Controller{
-	use CrudTrait;
+class ArticleCatController extends Controller
+{
+    use CrudTrait;
 }

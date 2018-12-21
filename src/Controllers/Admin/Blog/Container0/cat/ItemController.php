@@ -12,5 +12,6 @@ use XRA\Extend\Traits\ArtisanTrait;
 //------  models -----------
 use \XRA\Blog\Models\Post;
 
-class ItemController extends Controller{
+class ItemController extends Controller
+{
 }

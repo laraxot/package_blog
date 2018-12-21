@@ -34,6 +34,4 @@ class Cache
      * @ORM\Column(name="expiration", type="integer", nullable=false)
      */
     private $expiration;
-
-
 }

@@ -16,22 +16,23 @@ use XRA\Extend\Traits\Updater;
  * @mixin \Eloquent
  */
 
-class PostShopItemVar extends Model{
-	use Updater;
+class PostShopItemVar extends Model
+{
+    use Updater;
     protected $table = "blog_post_shop_item_vars";
     protected $fillable = ['post_id','post_cat_id'];
     protected $appends=[];
     protected $dates=['created_at', 'updated_at'];
     protected $primaryKey = 'post_shop_item_id';
-    public $incrementing = false; 
+    public $incrementing = false;
 
 
-     //------------- MUTUATORS -----------
+    //------------- MUTUATORS -----------
     //*
-    public function getPriceAttribute($value){
+    public function getPriceAttribute($value)
+    {
         //$row=PostRelated::where('post_id',$this->post_cat_id)->where('related_id',$this->post_id)->first();
         //return $row->price;
         return 10;
     }
-    
 }

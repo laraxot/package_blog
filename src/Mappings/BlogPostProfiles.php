@@ -286,6 +286,4 @@ class BlogPostProfiles
      * @ORM\Column(name="campground_short", type="string", length=255, nullable=true)
      */
     private $campgroundShort;
-
-
 }

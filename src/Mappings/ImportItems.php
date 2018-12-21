@@ -195,6 +195,4 @@ class ImportItems
      * @ORM\Column(name="country_short", type="string", length=255, nullable=true)
      */
     private $countryShort;
-
-
 }

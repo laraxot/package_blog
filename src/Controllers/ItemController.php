@@ -18,7 +18,8 @@ use XRA\Extend\Services\ThemeService as Theme;
 
 use Cache;
 
-class ItemController extends Controller{
+class ItemController extends Controller
+{
 
     //use CrudTrait;
 }

@@ -13,11 +13,12 @@ use XRA\Extend\Traits\ArtisanTrait;
 use XRA\Blog\Models\PostContent;
 use XRA\Blog\Models\PostRelated;
 use XRA\Blog\Models\Post;
+
 //use XRA\Blog\Models\PostRev;
 
-class RelatedRevController extends Controller{
+class RelatedRevController extends Controller
+{
     use CrudTrait{
         store as protected storeTrait;
     }
-
 }

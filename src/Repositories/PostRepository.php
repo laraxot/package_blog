@@ -6,8 +6,9 @@ use XRA\XRA\Repositories\AbstractRepository;
 
 use XRA\Blog\Models\Post;
 
-class PostRepository extends AbstractRepository{
-	/**
+class PostRepository extends AbstractRepository
+{
+    /**
      * Specify Model class name
      *
      * @return string

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 use Carbon\Carbon;
 use XRA\Extend\Traits\Updater;
+//--- services
+use XRA\Extend\Services\ThemeService;
+
 
 //--- models ---
 use XRA\Blog\Models\Post;
@@ -19,11 +22,12 @@ use XRA\Blog\Models\Post;
  * @mixin \Eloquent
  */
 
-class Search extends Model{
+class Search extends Model
+{
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use Updater;
     protected $table = "blog_post_articles";
-      /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -37,15 +41,17 @@ class Search extends Model{
     protected $primaryKey = 'post_id';
     public $incrementing = false;
 
-    public function filter($params){
+    public function filter($params)
+    {
         $row = new self;
         extract($params);
         return $row;
     }//end filter
 
     //--------- relationship ---------------
-    public function post(){
-        return $this->belongsTo(Post::class,'post_id','post_id');
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'post_id', 'post_id');
     }
 
     /*
@@ -77,9 +83,10 @@ class Search extends Model{
         //return $value->formatLocalized('%d/%m/%Y %H:%M');
     }
     //*/
-    public function setPublishedAtAttribute($value){
+    public function setPublishedAtAttribute($value)
+    {
         //-- with datetimelocal
-        if(is_string($value)){
+        if (is_string($value)) {
             $value=Carbon::parse($value);
         }
         $this->attributes['published_at'] = $value; //->toDateString();
@@ -91,29 +98,36 @@ class Search extends Model{
     */
 
 
-    public function setArticleTypeAttribute($value){
+    public function setArticleTypeAttribute($value)
+    {
         //dd();
         $this->setCategoryIdAttribute(\Request::input('category_id'));
         $this->attributes['article_type']=$value;
     }
 
     //*
-    public function getCategoryIdAttribute($value){
-        if($this->relatedType('category')==null) return null;
+    public function getCategoryIdAttribute($value)
+    {
+        if ($this->relatedType('category')==null) {
+            return null;
+        }
         $row=$this->relatedType('category')->first();
-        if($row==null) return null;
+        if ($row==null) {
+            return null;
+        }
         return $row->post_id;
     }
     //*/
 
 
-    public function setCategoryIdAttribute($value){
+    public function setCategoryIdAttribute($value)
+    {
         //die('</hr>['.__LINE__.']['.__FILE__.']');
         $post=$this->post;
-        if($post==null){
+        if ($post==null) {
             dd('['.__LINE__.']['.__FILE.']');
         }
-        $post->related()->wherePivot('type','article_x_category')->detach();
+        $post->related()->wherePivot('type', 'article_x_category')->detach();
         $post->related()->attach($value, ['type'=>'article_x_category']);
     }
 
@@ -121,11 +135,12 @@ class Search extends Model{
     //--------- functions -----------
 
 
-    public function formFields(){
-        //$view=CrudTrait::getView(); //non posso usarla perche' restituisce la view del chiamante
+    public function formFields()
+    {
+        //$view=ThemeService::getView(); //non posso usarla perche' restituisce la view del chiamante
         $roots=Post::getRoots();
         $view='blog::admin.partials.'.snake_case(class_basename($this));
-        return view($view)->with('row',$this->post)->with($roots);
+        return view($view)->with('row', $this->post)->with($roots);
     }
 
     /**
@@ -135,10 +150,10 @@ class Search extends Model{
      * @return string
      */
     //public function fromDateTime($value){
-    	//dd($value);//19/09/2017 12:06 AM
-    	//print_r($value);
-    	//$ris=Carbon::createFromFormat('d/m/Y H:i a',$value);
-    	//dd($ris);
-    	//return $ris;
-	//}
+        //dd($value);//19/09/2017 12:06 AM
+        //print_r($value);
+        //$ris=Carbon::createFromFormat('d/m/Y H:i a',$value);
+        //dd($ris);
+        //return $ris;
+    //}
 }//end model

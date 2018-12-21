@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 //--- extends ---
 use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 use XRA\Extend\Traits\ArtisanTrait;
+//--- services 
+use XRA\Extend\Services\ThemeService;
+
 
 //--- Models ---//
 use XRA\Blog\Models\PostContent;
@@ -21,7 +24,7 @@ class RelatedController extends Controller{
 		$params = \Route::current()->parameters();
 		$row=last($params);
 		extract($params);
-		$view=CrudTrait::getView();
+		$view=ThemeService::getView();
 		return view($view)->with($params)->with('params',$params)->with('view',$view)->with('row',$row);
 	}
 }

@@ -12,33 +12,38 @@ use XRA\Extend\Traits\ArtisanTrait;
 //------  models -----------
 use \XRA\Blog\Models\Post;
 
-class SearchController extends Controller{
+class SearchController extends Controller
+{
     use CrudTrait;
 
-    public function getModel(){
+    public function getModel()
+    {
         return new Post;
     }
-    public function index(Request $request){
-        
+    public function index(Request $request)
+    {
         $params = \Route::current()->parameters();
-        $params=array_merge($params,$request->all());
+        $params=array_merge($params, $request->all());
         extract($params);
-        if(is_object($container)){$container_type=$container0->type;}else{$container_type=$container;}
+        if (is_object($container)) {
+            $container_type=$container0->type;
+        } else {
+            $container_type=$container;
+        }
         $model=config('xra.model.'.$container_type);
-        $controller=str_replace('\\Models\\','\\Controllers\\Api\\',$model).'Controller';//XRA\Food\Controllers\Api\RestaurantController
+        $controller=str_replace('\\Models\\', '\\Controllers\\Api\\', $model).'Controller';//XRA\Food\Controllers\Api\RestaurantController
         return app($controller)->index($request);
     }
 
-    public function show(Request $request){
+    public function show(Request $request)
+    {
         die('show');
         if ($request->routelist == 1) {
             return ArtisanTrait::exe('route:list');
         }
         $params = \Route::current()->parameters();
         $model=config('xra.model.'.$params['container']);
-        $controller=str_replace('\\Models\\','\\Controllers\\Api\\',$model).'Controller';
+        $controller=str_replace('\\Models\\', '\\Controllers\\Api\\', $model).'Controller';
         return app($controller)->show($request);
     }
-
-
 }//end class

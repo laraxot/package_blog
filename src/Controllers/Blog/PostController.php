@@ -11,6 +11,8 @@ use XRA\Blog\Models\Post;
 use XRA\Blog\Models\Settings;
 
 use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
+//--- services --
+use XRA\Extend\Services\ThemeService;
 
 class PostController extends Controller
 {
@@ -21,8 +23,7 @@ class PostController extends Controller
         $params = \Route::current()->parameters();
         //$row=PostRev::where('guid', $params['guid_post'])->first();
         $row=Post::where('guid', $params['guid_post'])->first();
-        $view=CrudTrait::getView();
-        return view($view)->with('row', $row);
+        return ThemeService::addViewParam('row', $row)->view();
     }
 }//end class
  

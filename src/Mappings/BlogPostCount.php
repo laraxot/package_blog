@@ -104,6 +104,4 @@ class BlogPostCount
      * @ORM\Column(name="updated_ip", type="string", length=255, nullable=true)
      */
     private $updatedIp;
-
-
 }

@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 //--- extends ---
 use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 use XRA\Extend\Traits\ArtisanTrait;
+//--- services
+use XRA\Extend\Services\ThemeService;
+
 
 //--- Models ---//
 use XRA\Blog\Models\PostContent;
 use XRA\Blog\Models\PostRelated;
 use XRA\Blog\Models\Post;
+
 //use XRA\Blog\Models\PostRev;
 
 class RelatedRevController extends Controller
@@ -80,10 +84,8 @@ class RelatedRevController extends Controller
         $row=Post::where('id', $id_post)->first();
         //dd($row);
         $rows=$row->relatedrev()->orderBy('pivot_pos');
-        $view=CrudTrait::getView();
-        return view($view)->with('allrows', $rows)
-            ->with('params', array_merge($request->all(), $params))
-            ->with('row', $row);
+
+        return ThemeService::addViewParam('row', $row)->addViewParam('allrows', $rows)->view();
     }
 
 
@@ -114,8 +116,7 @@ class RelatedRevController extends Controller
             $row->related()->attach($request->post_id, ['type'=>$request->type]);
             return redirect()->route('blog.post.related.index', $params); //response()->back();
         }
-        $view=CrudTrait::getView();
-        return view($view)->with('row', $row);
+        return ThemeService::addViewParam('row', $row)->view();
     }
 
     public function deattach(Request $request)

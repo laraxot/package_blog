@@ -62,6 +62,4 @@ class BlogPostShopItemVars
      * @ORM\Column(name="created_by", type="string", length=255, nullable=true)
      */
     private $createdBy;
-
-
 }

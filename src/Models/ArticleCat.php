@@ -17,29 +17,33 @@ use XRA\Blog\Models\Traits\LinkedTrait;
  * @mixin \Eloquent
  */
 
-class ArticleCat extends Model{
+class ArticleCat extends Model
+{
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use Updater;
     use LinkedTrait;
     protected $table = "blog_post_article_cats";
     protected $fillable = ['post_id',];
-	protected $dates=['created_at', 'updated_at'];
+    protected $dates=['created_at', 'updated_at'];
     protected $primaryKey = 'post_id';
     public $incrementing = true;
     //------- relationship ---
 
-	public function articles(){
+    public function articles()
+    {
         /*
         $type=$this->type.'_x_articles';
         return $this->related()->wherePivot('type',$type);
         */
         return $this->relatedType('article');
-	}
+    }
 
     //------- functions
-    public function formFields(){
-        //$view=CrudTrait::getView(); //non posso usarla perche' restituisce la view del chiamante
-        //return view('blog::admin.post.partials.'.snake_case(class_basename($this)) )->with('row',$this);
+    public function formFields()
+    {
         return false;
+        $roots=Post::getRoots();
+        $view='blog::admin.partials.'.snake_case(class_basename($this));
+        return view($view)->with('row', $this->post)->with($roots);
     }
 }

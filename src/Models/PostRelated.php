@@ -14,8 +14,9 @@ use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
  * @mixin \Eloquent
  */
 
-class PostRelated extends Model {
-//class PostRelated extends Pivot { diventato PostRelatedPivot
+class PostRelated extends Model
+{
+    //class PostRelated extends Pivot { diventato PostRelatedPivot
     protected $table = 'blog_post_related';
     //protected $primaryKey = 'post_id'; // mi da errore su aggiornamenti diretti
     //protected $primaryKey = 'id';
@@ -29,24 +30,26 @@ class PostRelated extends Model {
                                 'price_currency',
                                 'pos',
                             ];
-	
-    /*                            
+    
+    /*
     public function post(){
     	return $this->belongsTo(Post::class, 'post_id', 'post_id');
         //return $this->hasOne(Post::class, 'post_id', 'post_id');
-    } 
+    }
     */
     /*
     public function related(){
         return $this->belongsTo(Post::class, 'related_id', 'post_id');
         //return $this->hasOne(Post::class, 'related_id', 'post_id');
-    } 
+    }
     */
-    public function post_related_post(){
-        return $this->hasMany(PostRelatedPost::class,'post_related_id','id');
+    public function post_related_post()
+    {
+        return $this->hasMany(PostRelatedPost::class, 'post_related_id', 'id');
     }
 
-    public function post($fieldname=null){
+    public function post($fieldname=null)
+    {
         $rows= $this->belongsTo(Post::class, 'post_id', 'post_id');
         //return $rows;
         if ($fieldname==null) {
@@ -94,7 +97,8 @@ class PostRelated extends Model {
     /**
      * { item_description }
      */
-    public static function deleteDuplicateRecords(){
+    public static function deleteDuplicateRecords()
+    {
         $duplicateRecords=self::selectRaw('post_id,related_id,type,count(*) as `occurences`')
             ->groupBy('post_id', 'related_id', 'type')
             ->having('occurences', '>', 1)

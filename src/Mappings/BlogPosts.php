@@ -209,6 +209,4 @@ class BlogPosts
      * @ORM\Column(name="relatedrev_count", type="text", length=65535, nullable=true)
      */
     private $relatedrevCount;
-
-
 }

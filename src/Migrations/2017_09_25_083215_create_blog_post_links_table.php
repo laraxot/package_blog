@@ -4,10 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBlogPostLinksTable extends Migration{
+class CreateBlogPostLinksTable extends Migration
+{
     protected $table='blog_post_links';
 
-    public function up(){
+    public function up()
+    {
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
                 $table->increments('post_id');
@@ -23,7 +25,7 @@ class CreateBlogPostLinksTable extends Migration{
 
                 $table->ipAddress('created_ip')->nullable();
                 $table->ipAddress('updated_ip')->nullable();
-                $table->ipAddress('deleted_ip')->nullable(); 
+                $table->ipAddress('deleted_ip')->nullable();
                 $table->timestamps();
             });
         }

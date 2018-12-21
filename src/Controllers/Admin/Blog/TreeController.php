@@ -1,7 +1,7 @@
 <?php
 namespace XRA\Blog\Controllers\Admin\blog;
 
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
  

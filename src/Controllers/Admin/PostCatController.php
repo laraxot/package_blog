@@ -13,8 +13,10 @@ use XRA\Extend\Traits\ArtisanTrait;
 use XRA\Blog\Models\PostContent;
 use XRA\Blog\Models\PostRelated;
 use XRA\Blog\Models\Post;
+
 //use XRA\Blog\Models\PostRev;
 
-class PostCatController  extends Controller{
-	use CrudTrait;
+class PostCatController extends Controller
+{
+    use CrudTrait;
 }

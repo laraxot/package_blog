@@ -55,6 +55,4 @@ class Sessions
      * @ORM\Column(name="last_activity", type="integer", nullable=false)
      */
     private $lastActivity;
-
-
 }

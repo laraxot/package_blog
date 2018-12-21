@@ -4,10 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBlogPostProfilesTable extends Migration{
+class CreateBlogPostProfilesTable extends Migration
+{
     protected $table='blog_post_profiles';
 
-    public function up(){
+    public function up()
+    {
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
                 $table->integer('post_id');
@@ -17,10 +19,11 @@ class CreateBlogPostProfilesTable extends Migration{
                 $table->text('bio')->nullable();
                 $table->timestamps();
             });
-        }  
+        }
     }
 
-    public function down(){
+    public function down()
+    {
         Schema::dropIfExists($this->table);
     }
 }
