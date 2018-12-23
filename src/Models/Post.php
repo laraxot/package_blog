@@ -1132,6 +1132,15 @@ class Post extends Model
         }
         return $this->getUrlAct('destroy');
     }
+    public function getDetachUrlAttribute($value)
+    {
+        if (isset($this->pivot)) {
+            return $this->pivot->detach_url;
+        }
+        return $this->getUrlAct('detach');
+    }
+
+
 
     public function getUrlAct($act)
     {

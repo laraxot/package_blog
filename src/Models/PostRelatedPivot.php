@@ -112,6 +112,19 @@ class PostRelatedPivot extends Pivot
         }
         if (isset($params[$second_last])) {
             $second_last_obj=$params[$second_last];
+            if(!is_object($second_last_obj)){
+                ddd($second_last_obj);
+            }
+            if(!is_object($last_obj)){
+                ddd($last_obj);
+            }
+            if(!is_object($this->post)){
+                ddd($this->post);
+            }
+            if(!is_object($this->related)){
+                $this->delete();
+                ddd($this);
+            }
             if ($second_last_obj->type==$this->post->type && $last_obj->type==$this->related->type) {
                 return $this->getRouteN($n-1, $act);//.'#1['.$n.']';
             }
