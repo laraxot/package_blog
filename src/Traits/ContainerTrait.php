@@ -16,7 +16,7 @@ trait ContainerTrait
      * @var UserRepository
      */
     protected $repository;
-    
+
     public function getModel()
     {
         //return new Post;
@@ -33,7 +33,7 @@ trait ContainerTrait
         }
         return $model;
     }
-    
+
     public function __construct(PostRepository $repository)
     {
         $this->repository = $repository;
@@ -61,18 +61,26 @@ trait ContainerTrait
         return $controller;
     }
 
-    
+
     public function __call($method, $args)
     {
         //ddd($args);
         $controller=$this->getController();
+\Log::info('$controller');\Log::info($controller);
         if (in_array($method, ['store','update'])) {
             $request=str_replace('\\Controllers\\', '\\Requests\\', $controller);
+\Log::info('$request');\Log::info($request);
             $request=substr($request, 0, -strlen('Controller'));
+\Log::info($request);
             $pos=strrpos($request, '\\');
+\Log::info('$pos');\Log::info($pos);
             $request=substr($request, 0, $pos+1).studly_case($method).substr($request, $pos+1);
+\Log::info('$request');\Log::info($request);
             $request=$request::capture();
+\Log::info($request);
             $request->validate($request->rules(), $request->messages());
+\Log::info($request);
+\Log::info('app($controller)->$method($request)');\Log::info(app($controller)->$method($request));
             return app($controller)->$method($request);
         } else {
             return app($controller)->$method(Request::capture());
