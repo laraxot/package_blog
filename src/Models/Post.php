@@ -937,7 +937,7 @@ class Post extends Model
 
     public function getImageSrcAttribute($value){
         if($value!='') return $value;
-        $value=$this->linked->image_src;
+        $value=$this->linkedOrCreate->image_src;
         if($value!='') return $value;
         return '/images/nophoto.png';
     }
