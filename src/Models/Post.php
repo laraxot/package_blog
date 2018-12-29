@@ -1179,6 +1179,10 @@ class Post extends Model
             $act='show';
         }
         $routename_act=implode('.', array_slice($routename_arr, 0, $k+1)).'.'.$act;
+        if(starts_with($routename_act,'.')){ // caso da homepage
+            $routename_act='container0'.$routename_act;
+            $params['container0']=$this->guid;
+        }
         return route($routename_act, $params);
     }
 
