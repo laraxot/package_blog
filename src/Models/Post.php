@@ -1189,7 +1189,7 @@ class Post extends Model
     /*
     public function setLinkedCountAttribute($value){
 
-    }
+    } 
     */
     public function relatedCountType($type)
     {
