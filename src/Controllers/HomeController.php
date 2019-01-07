@@ -24,6 +24,9 @@ class HomeController extends Controller
             config(['app.APP_ENV' => 'local']);
             return ArtisanTrait::exe('migrate');
         }
+        if ($request->test==666) {
+            return ArtisanTrait::exe('make:notification',['name'=>'MyFirstNotification']);
+        }
         if ($request->clearcache==1 || $request->force==1) {
             \Cache::flush();
         }
