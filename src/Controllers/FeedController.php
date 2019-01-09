@@ -56,7 +56,7 @@ class FeedController extends Controller
         //item e' un elemento di tipo feed
         //ddd($item->archive()->orderBy('updated_at','desc')->limit(10)->get());
         $rows=Post::where('lang', $lang)
-                ->where('type', '=', $item->guid)
+                ->where('type', '=', $item0->guid)
                 ->orderBy('updated_at', 'desc')->paginate(10);
 
         $feed=view($view)
