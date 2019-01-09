@@ -11,9 +11,9 @@ $middleware=['web'];
 $prefix='blog';
 //Route::group(['prefix' => $prefix, /*'middleware' => $middleware,*/ 'namespace' => $namespace.'\\'.ucwords($prefix),'as'=>'blog.' ]
 //, function () {
-//	Route::get('/', 				  ['as'=>'category',	'uses'=>'BlogController@show'] );
-//	Route::get('cat/{guid_category}', ['as'=>'category',	'uses'=>'CategoryController@show'] );
-//	Route::get('post/{guid_post}'	, ['as'=>'post',		'uses'=>'PostController@show'] );
+	//Route::get('/', 				  ['as'=>'category',	'uses'=>'BlogController@show'] );
+	//Route::get('cat/{guid_category}', ['as'=>'category',	'uses'=>'CategoryController@show'] );
+	//Route::get('post/{guid_post}'	, ['as'=>'post',		'uses'=>'PostController@show'] );
 //});
 //*
 Route::get('/home',function(){

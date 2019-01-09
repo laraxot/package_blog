@@ -1,5 +1,5 @@
 <?php
-use XRA\Extend\library\XOT;
+use XRA\Extend\Traits\RouteTrait;
 
 $namespace=$this->getNamespace().'\Controllers';
 
@@ -37,6 +37,6 @@ $areas_prgs=[
 /*
 $middleware=['web','guest'];
 Route::group(['prefix' => null,'middleware' => $middleware,'namespace'=>$namespace], function () use ($areas_prgs){
-	XOT::dynamic_route($areas_prgs);
+	RouteTrait::dynamic_route($areas_prgs);
 });
 */

@@ -1,7 +1,7 @@
 <?php
 ////////////////////////////////////////////////
 //
-//	QUESTO E' IL GENERICO, per food va usato quello dentro XRA\Food\Models\Traits;
+	//QUESTO E' IL GENERICO, per food va usato quello dentro XRA\Food\Models\Traits;
 //
 /////////////////////////////////////////////////
 

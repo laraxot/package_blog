@@ -152,8 +152,8 @@ Route::group(
 	'namespace'=>$namespace.'\Controllers\Admin',
 	], 
 	function () use ($areas_prgs) {
-	//	Route::get('/', 'ContainerController@home');
-	//	Route::get('/home', 'ContainerController@home'); //togliere o tenere ?
+		//Route::get('/', 'ContainerController@home');
+		//Route::get('/home', 'ContainerController@home'); //togliere o tenere ?
 		RouteTrait::dynamic_route($areas_prgs);
 	}
 );
