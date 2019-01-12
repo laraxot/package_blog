@@ -544,7 +544,7 @@ class Post extends Model
         //---
         //*--  tolto cosi' non crea righe
 
-        if (!$row->exists()) {
+        if (!$row->exists() && $this->post_id!="") {
             $row0=$model::create(['post_id'=>$this->post_id]);
             $row=$this->hasOne($model, 'post_id', 'post_id');
         }
