@@ -120,8 +120,24 @@ class Home extends Model
 
     public function formFields()
     {
-        //$view=ThemeService::getView(); //non posso usarla perche' restituisce la view del chiamante
-        return view('blog::admin.post.partials.'.strtolower(class_basename($this)))->with('row', $this);
+        $roots=Post::getRoots();
+        $view='blog::admin.partials.'.snake_case(class_basename($this));
+        if (\View::exists($view)){
+            return view($view)->with('row', $this->post)->with($roots);
+        }else{
+            echo '<h3>' . \Route::currentRouteAction() . '</h3>';
+            //ddd(ThemeService::view_path($view));
+            $msg = '';
+            $msg .= chr(13) . chr(10) . '<h3>la view [' . $view . '] non esiste <br/>';
+            $msg .= chr(13) . chr(10) . 'pub_theme= ' . config('xra.pub_theme') . '</h3>';
+            $msg .= chr(13) . chr(10) . '[' . __LINE__ . '][' . __FILE__ . ']';
+            /* -- for debug --
+            $hints=\View::getFinder()->getHints();
+            $pub_theme_index=$hints['pub_theme'][0].DIRECTORY_SEPARATOR.'index.blade.php';
+            ddd($pub_theme_index.':'.file_exists($pub_theme_index));
+            */
+            die($msg);
+        }
     }
 
     /**
