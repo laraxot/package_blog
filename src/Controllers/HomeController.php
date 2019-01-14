@@ -8,12 +8,23 @@ use App\Http\Controllers\Controller;
 //------traits -----
 use XRA\Extend\Traits\ArtisanTrait;
 use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
+//-------services--------
+use XRA\Extend\Services\ThemeService;
+
 //-------models----------
 use XRA\Blog\Models\Post;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
+    //use CrudTrait;
+    public function index(Request $request){
+        $roots=Post::getRoots();
+        $row=$roots['home'];
+        ThemeService::setMetatags($row);
+        return ThemeService::view()->with($roots)->with('row',$row);
+    }
+    /*
+    public function indexOLD(Request $request)
     {
         $lang=\App::getLocale();
         $params = \Route::current()->parameters();
@@ -30,13 +41,9 @@ class HomeController extends Controller
         if ($request->clearcache==1 || $request->force==1) {
             \Cache::flush();
         }
+        return ThemeService::view();
         extract($params);
-        
         $roots=Post::getRoots();
-
-        /*
-        $roots['home']=$row;
-        */
         //$view = CrudTrait::getView($params);
         $view='pub_theme::index';
         return view($view)
@@ -47,4 +54,5 @@ class HomeController extends Controller
                 ->with($params)
                 ->with($roots);
     }
+    */
 }
