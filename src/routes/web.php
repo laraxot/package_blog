@@ -16,7 +16,11 @@ Route::get('/home', function () {
 
 Route::get('redirect', function () {
     $data=\Request::all();
-    return redirect($data['url']);
+    if(isset($data['url'])){
+        return redirect($data['url']);
+    }else{
+        return ;
+    }
 });
 
 $acts=[
