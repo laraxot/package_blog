@@ -18,6 +18,10 @@ class HomeController extends Controller
 {
     //use CrudTrait;
     public function index(Request $request){
+        if ($request->migrate==1) {
+            config(['app.APP_ENV' => 'local']);
+            return ArtisanTrait::exe('migrate');
+        }
         $roots=Post::getRoots();
         $row=$roots['home'];
         ThemeService::setMetatags($row);
