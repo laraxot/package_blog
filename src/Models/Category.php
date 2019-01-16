@@ -1,18 +1,20 @@
 <?php
 
+
+
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-use XRA\Extend\Traits\Updater;
-//--- services
 use XRA\Extend\Services\ThemeService;
+//--- services
+use XRA\Extend\Traits\Updater;
 
 /**
- * XRA\Blog\Models\Category
+ * XRA\Blog\Models\Category.
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\XRA\Blog\Models\Comment[] $comments
- * @property-read \Illuminate\Database\Eloquent\Collection|\XRA\Blog\Models\Post[] $posts
+ * @property \Illuminate\Database\Eloquent\Collection|\XRA\Blog\Models\Comment[] $comments
+ * @property \Illuminate\Database\Eloquent\Collection|\XRA\Blog\Models\Post[]    $posts
  * @mixin \Eloquent
  */
 class Category extends Model
@@ -31,7 +33,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','guid'];
+    protected $fillable = ['name', 'guid'];
 
     public function posts()
     {
@@ -60,7 +62,8 @@ class Category extends Model
     public function url()
     {
         //dd($this->toArray());
-        $url=route('blog.category', ['guid_category'=>$this->guid]);
+        $url = route('blog.category', ['guid_category' => $this->guid]);
+
         return $url;
     }
 

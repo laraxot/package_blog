@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace XRA\Blog\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -74,7 +76,7 @@ class CommentPolicy
     /**
      * Determine if the current user can view comments.
      *
-     * @param mixed                        $user
+     * @param mixed                    $user
      * @param \XRA\Blog\Models\Comment $comment
      *
      * @return bool
@@ -91,7 +93,7 @@ class CommentPolicy
     /**
      * Determine if the current user can view comments. (public).
      *
-     * @param mixed                        $user
+     * @param mixed                    $user
      * @param \XRA\Blog\Models\Comment $comment
      *
      * @return bool
@@ -108,7 +110,7 @@ class CommentPolicy
     /**
      * Determine if the current user can update comments.
      *
-     * @param mixed                        $user
+     * @param mixed                    $user
      * @param \XRA\Blog\Models\Comment $comment
      *
      * @return bool
@@ -125,7 +127,7 @@ class CommentPolicy
     /**
      * Determine if the current user can update comments. (public).
      *
-     * @param mixed                        $user
+     * @param mixed                    $user
      * @param \XRA\Blog\Models\Comment $comment
      *
      * @return bool
@@ -142,7 +144,7 @@ class CommentPolicy
     /**
      * Determine if the current user can delete comments.
      *
-     * @param mixed                        $user
+     * @param mixed                    $user
      * @param \XRA\Blog\Models\Comment $comment
      *
      * @return bool
@@ -160,7 +162,7 @@ class CommentPolicy
     /**
      * Determine if the current user can delete comments. (public).
      *
-     * @param mixed                        $user
+     * @param mixed                    $user
      * @param \XRA\Blog\Models\Comment $comment
      *
      * @return bool

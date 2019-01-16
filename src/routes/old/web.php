@@ -1,20 +1,23 @@
 <?php
+
+
 use XRA\Extend\Traits\RouteTrait;
 
-$namespace=$this->getNamespace();
+$namespace = $this->getNamespace();
 
-$namespace.='\Controllers';
+$namespace .= '\Controllers';
 
-$middleware=['web','guest']; //guest ti riindirizza se non sei loggato
-$middleware=['web'];
+$middleware = ['web', 'guest']; //guest ti riindirizza se non sei loggato
+$middleware = ['web'];
 
-$prefix='blog';
+$prefix = 'blog';
 Route::get('/home', function () {
     return redirect(\App::getLocale());
 });
 
 Route::get('redirect', function () {
-    $data=\Request::all();
+    $data = \Request::all();
+
     return redirect($data['url']);
 });
 
@@ -89,70 +92,68 @@ $item0=[
 ];
 tu
 //*/
-$item0=[
-    'name'=>'{container}',
-    'param_name'=>'item',
-    'controller' =>  'ContainerController',
-    'acts'=>[
-        ['name'=>'steps'],
-        ['name'=>'check_steps']
+$item0 = [
+    'name' => '{container}',
+    'param_name' => 'item',
+    'controller' => 'ContainerController',
+    'acts' => [
+        ['name' => 'steps'],
+        ['name' => 'check_steps'],
     ],
-    'subs'=>[
+    'subs' => [
         [
-            'name'=>'search',
-            'param_name'=>'query',
-            'controller' =>  'SearchController',
-            'only'=>['index','show',],
-
+            'name' => 'search',
+            'param_name' => 'query',
+            'controller' => 'SearchController',
+            'only' => ['index', 'show'],
         ],
         [
-            'name'=>null,
-            'prefix'=>'{item}',
-            'as'=>'',
+            'name' => null,
+            'prefix' => '{item}',
+            'as' => '',
             //'controller' =>  'ContainerController',
-            
-            'subs'=>[
-                
+
+            'subs' => [
                 [
-                    'name'=>'{container1}',
-                    'param_name'=>'item1',
-                    'controller' =>  'ContainerController',
-                    'acts'=>[
+                    'name' => '{container1}',
+                    'param_name' => 'item1',
+                    'controller' => 'ContainerController',
+                    'acts' => [
                         [
-                            'name'=>'attach',
-                        ],//end act_n
-                    ],//end acts
+                            'name' => 'attach',
+                        ], //end act_n
+                    ], //end acts
                     //*
-                    'subs'=>[
+                    'subs' => [
                         [
-                            'name'=>null,
-                            'prefix'=>'{item1}',
-                            'as'=>'',
+                            'name' => null,
+                            'prefix' => '{item1}',
+                            'as' => '',
                             //*
-                            'subs'=>[
+                            'subs' => [
                                 [
-                                    'name'=>'{container2}',
-                                    'param_name'=>'item2',
-                                    'controller' =>  'ContainerController',
-                                ],//end sub_n
-                            ],//end subs
+                                    'name' => '{container2}',
+                                    'param_name' => 'item2',
+                                    'controller' => 'ContainerController',
+                                ], //end sub_n
+                            ], //end subs
                             //*/
-                        ],//end sub_n
-                    ],//end subs
+                        ], //end sub_n
+                    ], //end subs
                     //*/
-                ],//end sub_n
-            ],//end subs
-        ],//end sub_n
-    ],//ens_subs
+                ], //end sub_n
+            ], //end subs
+        ], //end sub_n
+    ], //ens_subs
 ];
 
-$areas_prgs=[
-    $item0
+$areas_prgs = [
+    $item0,
 ];
 //,'middleware' => ['web','auth']
-$prefix=App::getLocale();
+$prefix = App::getLocale();
 //$prefix='{locale}';
-Route::group(['prefix' => $prefix,'middleware' =>$middleware, 'namespace'=>$namespace], function () use ($areas_prgs) {
+Route::group(['prefix' => $prefix, 'middleware' => $middleware, 'namespace' => $namespace], function () use ($areas_prgs) {
     Route::get('/', 'ContainerController@home');
     Route::get('/home', 'ContainerController@home'); //togliere o tenere ?
     RouteTrait::dynamic_route($areas_prgs);
@@ -162,16 +163,15 @@ Route::group(['prefix' => $prefix,'middleware' =>$middleware, 'namespace'=>$name
 Route::group(
     [
     'prefix' => 'api/'.App::getLocale(),
-    'middleware' => ['api','web'],
-    'namespace' => $namespace.'\Api','as'=>'api.'],
+    'middleware' => ['api', 'web'],
+    'namespace' => $namespace.'\Api', 'as' => 'api.', ],
     function () use ($areas_prgs) {
         RouteTrait::dynamic_route($areas_prgs);
     }
 );
 //*/
 
-
-Route::group(['prefix' => null,'middleware' =>$middleware,'namespace'=>$namespace], function () {
+Route::group(['prefix' => null, 'middleware' => $middleware, 'namespace' => $namespace], function () {
     Route::get('/', 'ContainerController@home');
 });
 

@@ -1,30 +1,29 @@
 <?php
 
+
+
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 //use Laralum\Users\Models\User;
 
 use Laravel\Scout\Searchable;
-
-
 //--- Models ---//
-use XRA\LU\Models\User;
+use XRA\Blog\Models\Post\PostTrait;
 //------- Traits --------
 use XRA\Extend\Traits\FilterTrait;
 use XRA\Extend\Traits\Updater;
-use XRA\Blog\Models\Post\PostTrait;
+use XRA\LU\Models\User;
 
 //https://developers.google.com/search/docs/data-types/articles
 
-
 /**
- * XRA\Blog\Models\Post
+ * XRA\Blog\Models\Post.
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\XRA\Blog\Models\PostContent[] $PostContent
- * @property-read \XRA\Blog\Models\Category $category
- * @property-read \Illuminate\Database\Eloquent\Collection|\XRA\Blog\Models\Comment[] $comments
- * @property-read \XRA\LU\Models\User $user
+ * @property \Illuminate\Database\Eloquent\Collection|\XRA\Blog\Models\PostContent[] $PostContent
+ * @property \XRA\Blog\Models\Category                                               $category
+ * @property \Illuminate\Database\Eloquent\Collection|\XRA\Blog\Models\Comment[]     $comments
+ * @property \XRA\LU\Models\User                                                     $user
  * @mixin \Eloquent
  */
 class Related extends Model
@@ -33,22 +32,21 @@ class Related extends Model
     // use Searchable; //ne update quando aggiungo un array mi da errore
     use Updater;
     use PostTrait;
-    
+
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
         'published_at',
     ];
-    
+
     protected $casts = [
         //'is_admin' => 'boolean',
         'content' => 'array',
         'content_type' => 'array',
     ];
-    
-    //protected $primaryKey = ['post_id','lang'];
 
+    //protected $primaryKey = ['post_id','lang'];
 
     /**
      * The table associated with the model.
@@ -73,10 +71,9 @@ class Related extends Model
         'description',
         'content',
        // 'parent_id',  //nella prox versione forse va a prendere il setAttributeId
-
     ];
 
     protected $appends = [
        // 'parent_id',
      ];
-};
+}

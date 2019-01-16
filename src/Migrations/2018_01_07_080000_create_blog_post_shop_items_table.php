@@ -1,15 +1,16 @@
 <?php
 
+
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateBlogPostShopItemsTable extends Migration
 {
-    protected $table='blog_post_shop_items';
+    protected $table = 'blog_post_shop_items';
+
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -27,11 +28,8 @@ class CreateBlogPostShopItemsTable extends Migration
         }
     }
 
-
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

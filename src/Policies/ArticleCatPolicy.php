@@ -1,23 +1,24 @@
 <?php
 
+
+
 namespace XRA\Blog\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-
-use XRA\LU\Models\User;
 use XRA\Blog\Models\Article as Post;
+use XRA\LU\Models\User;
 
 class ArticleCatPolicy
 {
     use HandlesAuthorization;
-   
+
     public function before($user, $ability)
     {
-        if (isset($user->perm) && $user->perm->perm_type>=5) {  //superadmin
+        if (isset($user->perm) && $user->perm->perm_type >= 5) {  //superadmin
             return true;
         }
     }
-    
+
     /*
     public function update(User $user, Post $post)
     {
@@ -32,9 +33,10 @@ class ArticleCatPolicy
 
     public function edit(User $user, Post $post)
     {
-        if ($post->created_by==$user->handle) {
+        if ($post->created_by == $user->handle) {
             return true;
         }
+
         return false;
     }
 

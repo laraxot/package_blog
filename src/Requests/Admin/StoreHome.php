@@ -1,4 +1,7 @@
 <?php
+
+
+
 namespace XRA\Blog\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -7,6 +10,7 @@ use XRA\XRA\Traits\FormRequestTrait;
 class StoreHome extends FormRequest
 {
     use FormRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,7 +29,6 @@ class StoreHome extends FormRequest
     public function rules()
     {
         return [
-            //
         ];
     }
 }

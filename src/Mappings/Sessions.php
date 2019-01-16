@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Sessions
+ * Sessions.
  *
  * @ORM\Table(name="sessions", uniqueConstraints={@ORM\UniqueConstraint(name="sessions_id_unique", columns={"id"})})
  * @ORM\Entity

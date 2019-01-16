@@ -1,15 +1,17 @@
 <?php
+
+
+
 namespace XRA\Blog;
 
-use Illuminate\Support\ServiceProvider;
-use XRA\Extend\Traits\ServiceProviderTrait;
 use Illuminate\Support\Facades\Blade;
-
-//-------models-----------
+use Illuminate\Support\ServiceProvider;
 use XRA\Blog\Models\Post;
-//use XRA\Blog\Models\PostRev;
+//-------models-----------
 use XRA\Blog\Models\PostRelated;
+//use XRA\Blog\Models\PostRev;
 use XRA\Blog\Models\PostShopItem;
+use XRA\Extend\Traits\ServiceProviderTrait;
 
 class BlogServiceProvider extends ServiceProvider
 {
@@ -17,9 +19,7 @@ class BlogServiceProvider extends ServiceProvider
         boot as protected bootTrait;
     }
 
-    protected $model=null;
-
-    
+    protected $model = null;
 
     public function boot(\Illuminate\Routing\Router $router)
     {
@@ -31,74 +31,75 @@ class BlogServiceProvider extends ServiceProvider
 
         //----------ROUTE PATTERN
 
-        if (is_array(config('xra.model'))) {
-            $pattern=implode('|', array_keys(config('xra.model')));
+        if (\is_array(config('xra.model'))) {
+            $pattern = \implode('|', \array_keys(config('xra.model')));
             //*
-            $patternC=str_replace('|', ' ', $pattern);
-            $patternC=ucwords($patternC);
-            $patternC=str_replace(' ', '|', $patternC);
-            $pattern.='|'.$patternC;
+            $patternC = \str_replace('|', ' ', $pattern);
+            $patternC = \ucwords($patternC);
+            $patternC = \str_replace(' ', '|', $patternC);
+            $pattern .= '|'.$patternC;
             //*/
-            for ($i=0;$i<4;$i++) {
-                $container_name='container';
-                $container_name.=$i;
+            for ($i = 0; $i < 4; ++$i) {
+                $container_name = 'container';
+                $container_name .= $i;
                 $router->pattern($container_name, '/|'.$pattern.'|/i');
             }
         }
-        
-
 
         //--------- ROUTE BIND
         //*
         $router->bind('lang', function ($value) {
             \App::setLocale($value);
+
             return $value;
         });
-        $lang=\App::getLocale();
+        $lang = \App::getLocale();
         //*
-        for ($i=0;$i<4;$i++) {
-            $container_name='container'.$i;
+        for ($i = 0; $i < 4; ++$i) {
+            $container_name = 'container'.$i;
             $router->bind($container_name, function ($value) use ($lang) {
-                $rows= Post::where('lang', $lang)
+                $rows = Post::where('lang', $lang)
                         ->where('guid', $value)
                         ->where('type', $value)
                         ;
                 if ($rows->exists()) {
                     return $rows->first();
                 }
+
                 return $value;
             });
         }
         //*/
         //*
-        for ($i=0;$i<4;$i++) {
-            $item_name='item';
-            $container_name='container';
-            $item_name.=$i;
-            $container_name.=$i;
+        for ($i = 0; $i < 4; ++$i) {
+            $item_name = 'item';
+            $container_name = 'container';
+            $item_name .= $i;
+            $container_name .= $i;
             $router->bind($item_name, function ($value) use ($container_name,$lang,$i) {
-                if ($i==0) {
-                    $rows= Post::where('lang', $lang)
+                if (0 == $i) {
+                    $rows = Post::where('lang', $lang)
                         ->where('guid', $value);
                     if (request()->route()->hasParameter($container_name)) {
-                        $container_curr=request()->$container_name;
-                        if (!is_object($container_curr)) {
+                        $container_curr = request()->$container_name;
+                        if (!\is_object($container_curr)) {
                             echo '<pre>';
-                            print_r($container_curr);
+                            \print_r($container_curr);
                             echo '</pre>';
                             ddd($params);
                         }
-                        $rows=$rows->where('type', $container_curr->type);
+                        $rows = $rows->where('type', $container_curr->type);
                     }
                 } else {
-                    $container_curr=request()->$container_name;
-                    $item_name_prev='item'.($i-1);
-                    $item_prev=request()->$item_name_prev;
-                    $rows=$item_prev->related($container_curr->type)->where('guid', $value);
+                    $container_curr = request()->$container_name;
+                    $item_name_prev = 'item'.($i - 1);
+                    $item_prev = request()->$item_name_prev;
+                    $rows = $item_prev->related($container_curr->type)->where('guid', $value);
                 }
                 if ($rows->exists()) {
                     return $rows->first();
                 }
+
                 return $value;
             });
         }
@@ -115,14 +116,14 @@ class BlogServiceProvider extends ServiceProvider
             });
         });
         */
-        
+
         Blade::directive('editorNotCache', function ($expression) {
             if (starts_with($expression, '(')) {
-                $expression = substr($expression, 1, -1);
+                $expression = \mb_substr($expression, 1, -1);
             }
-            $expression_array=explode(',', $expression);
-            list($row, $view, $params, $time, $id)=$expression_array;
-            $expression_cache=implode(',', (array_slice($expression_array, 1)));
+            $expression_array = \explode(',', $expression);
+            list($row, $view, $params, $time, $id) = $expression_array;
+            $expression_cache = \implode(',', (\array_slice($expression_array, 1)));
             //dd();
             //dd(get_defined_vars());
             //return '['.$view.']';;;
@@ -131,9 +132,9 @@ class BlogServiceProvider extends ServiceProvider
 					echo ".'$__env'."->make($view,$params, array_except(get_defined_vars(), array('__data', '__path')))->render();
 				}else{
 					echo app()->make('partialcache')
-				->cache(array_except(get_defined_vars(), ['__data', '__path']), ".$expression_cache.");
+				->cache(array_except(get_defined_vars(), ['__data', '__path']), ".$expression_cache.');
 				}
-			?>";
+			?>';
             /*
             return "<?php echo app()->make( $view , array_except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
             */
@@ -141,36 +142,33 @@ class BlogServiceProvider extends ServiceProvider
             return "<?php echo app()->make( $view , array_except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
             //*/
 
-
             /*
             return "<?php echo app()->make('partialcache')
                 ->cache(array_except(get_defined_vars(), ['__data', '__path']), {$expression}); ?>";
             //*/
         });
 
-
         // Add @var for Variable Assignment
         // Example: @var('foo', 'bar') cosi' tolgo tutte le inizializzazioni aprendo php
         Blade::directive('var', function ($expression) {
             // Strip Open and Close Parenthesis
-            $expression = substr(substr($expression, 0, -1), 1);
+            $expression = \mb_substr(\mb_substr($expression, 0, -1), 1);
 
             // Split variable and its value
-            list($variable, $value) = explode('\',', $expression, 2);
+            list($variable, $value) = \explode('\',', $expression, 2);
 
             // Ensure variable has no spaces or apostrophes
-            $variable = trim(str_replace('\'', '', $variable));
+            $variable = \trim(\str_replace('\'', '', $variable));
 
             // Make sure that the variable starts with $
             if (!starts_with($variable, '$')) {
-                $variable = '$' . $variable;
+                $variable = '$'.$variable;
             }
 
-            $value = trim($value);
+            $value = \trim($value);
+
             return "<?php {$variable} = {$value}; ?>";
         });
-    
-
 
         $this->bootTrait($router);
     }
@@ -197,7 +195,8 @@ class BlogServiceProvider extends ServiceProvider
     {
         //if($this->model==null) $this->model=new Post;
         //$rows=new PostRev;
-        $rows=new Post;
+        $rows = new Post();
+
         return $rows->ofRelatedType($type);
         /*
         $rows=$rows->relatedType($type);
@@ -216,33 +215,35 @@ class BlogServiceProvider extends ServiceProvider
     public static function getRoot($root)
     {
         //return Post::with(['related','relatedrev','archive'])->where('lang',\App::getLocale())->where('type',$root)->where('guid',$root)->first();
-        return Post::with(['related','relatedrev'])->firstOrCreate(['lang'=>\App::getLocale(),'type'=>$root,'guid'=>$root], ['title'=>$root]);//->with(['relatedrev']);
+        return Post::with(['related', 'relatedrev'])->firstOrCreate(['lang' => \App::getLocale(), 'type' => $root, 'guid' => $root], ['title' => $root]); //->with(['relatedrev']);
     }
 
     public static function rows()
     {
         //$rows=new PostRev;
-        $rows=new Post;
-        $rows=$rows->where('lang', \App::getLocale())->with(['related','parentPost']);
+        $rows = new Post();
+        $rows = $rows->where('lang', \App::getLocale())->with(['related', 'parentPost']);
+
         return $rows;
     }
 
     public static function postRelated($params)
     {
-        $rows=new PostRelated;
-        extract($params);
+        $rows = new PostRelated();
+        \extract($params);
         if (isset($type)) {
-            $rows=$rows->where('type', $type);
+            $rows = $rows->where('type', $type);
         }
-        return $rows->with(['post','related']);
+
+        return $rows->with(['post', 'related']);
     }
 
     public static function shopItems()
     {
-        $rows=new PostShopItem;
+        $rows = new PostShopItem();
+
         return $rows;
     }
-
 
     /*
     public static function ofParent($related_id){

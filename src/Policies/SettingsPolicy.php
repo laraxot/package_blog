@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace XRA\Blog\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;

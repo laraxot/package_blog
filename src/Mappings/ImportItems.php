@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ImportItems
+ * ImportItems.
  *
  * @ORM\Table(name="import_items")
  * @ORM\Entity

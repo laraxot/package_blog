@@ -1,20 +1,16 @@
 <?php
 
+
+
 namespace XRA\Blog\Controllers\Api;
 
 use Illuminate\Http\Request;
-use Intervention\Image\ImageManagerStatic as Image;
-use App\Http\Controllers\Controller;
-
-use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
-use XRA\Extend\Traits\ArtisanTrait;
-
+use XRA\Blog\Controllers\Api\APIBaseController as APIBaseController;
 //-------models----------
 use XRA\Blog\Models\Post;
 //use XRA\Blog\Models\PostRev;
 //------services---------
-use XRA\Extend\Services\ThemeService as Theme;
-use XRA\Blog\Controllers\Api\APIBaseController as APIBaseController;
+use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 
 class Container2Controller extends APIBaseController
 {
@@ -23,16 +19,17 @@ class Container2Controller extends APIBaseController
     {
         //die('['.__LINE__.']['.__FILE__.']');
         $params = \Route::current()->parameters();
-        extract($params);
-        $model=config('xra.model.'.$container);
-        $model_obj=new $model;
+        \extract($params);
+        $model = config('xra.model.'.$container);
+        $model_obj = new $model();
         /*
         $lang=\App::getLocale();
         $rows=POST::where('lang',$lang)->where('type',$container)->where('guid','!=',$container);
 
         */
-        $rows=$model_obj->where('latitude', '>', 40);
-        $rows=$rows->get();
+        $rows = $model_obj->where('latitude', '>', 40);
+        $rows = $rows->get();
+
         return $rows;
     }
 
@@ -45,16 +42,17 @@ class Container2Controller extends APIBaseController
     public function update(Request $request)
     {
         $params = \Route::current()->parameters();
-        $result=$request->all();
-        $message=$params;
+        $result = $request->all();
+        $message = $params;
         $response = [
             'success' => true,
-            'data'    => $result,
+            'data' => $result,
             'message' => $message,
         ];
         if (\Request::ajax()) {
             \Debugbar::disable();
         }
+
         return response()->json($response, 200);
     }
 }

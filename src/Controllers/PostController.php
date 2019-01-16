@@ -1,10 +1,11 @@
 <?php
 
+
+
 namespace XRA\Blog\Controllers;
 
 use App\Http\Controllers\Controller;
 //use GrahamCampbell\Markdown\Facades\Markdown;
-use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Auth;
 //------- models ---------
 //use XRA\Blog\Models\Category;

@@ -1,20 +1,18 @@
 <?php
+
+
+
 namespace XRA\Blog\Controllers\Admin\blog\post;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
- 
 //--- extends ---
-use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
-use XRA\Extend\Traits\ArtisanTrait;
-//--- services
-use XRA\Extend\Services\ThemeService;
-
-//--- Models ---//
-use XRA\Blog\Models\PostContent;
-use XRA\Blog\Models\PostRelated;
 use XRA\Blog\Models\Post;
+//--- services
+use XRA\Blog\Models\PostRelated;
+//--- Models ---//
+use XRA\Extend\Services\ThemeService;
+use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 
 //use XRA\Blog\Models\PostRev;
 
@@ -26,12 +24,13 @@ class RelatedController extends Controller
 
     public function getModel()
     {
-        return new Post;
+        return new Post();
     }
+
     public function index(Request $request)
     {
         $params = \Route::current()->parameters();
-        extract($params);
+        \extract($params);
         if (isset($lang)) {
             \App::setlocale($lang);
         } //?
@@ -44,8 +43,6 @@ class RelatedController extends Controller
         echo '<pre>';print_r($rows1->get()->toArray()); echo '</pre>';
         dd('['.__LINE__.']['.__FILE__.']');
         */
-    
-
 
         \DB::update('update blog_posts set post_id=id where post_id=0');
         /*
@@ -57,7 +54,7 @@ class RelatedController extends Controller
               ->get();
         //*/
 
-        $duplicateRecords=PostRelated::selectRaw('post_id,related_id,type,count(*) as `occurences`')
+        $duplicateRecords = PostRelated::selectRaw('post_id,related_id,type,count(*) as `occurences`')
             ->groupBy('post_id', 'related_id', 'type')
             ->having('occurences', '>', 1)
             ;
@@ -68,7 +65,6 @@ class RelatedController extends Controller
                 ->limit($row->occurences - 1)
                 ->delete();
         }
-        
 
         /*
         $row=Post::where('post_id',$id_post)->where('lang',$lang)->first();
@@ -80,24 +76,25 @@ class RelatedController extends Controller
         }
         */
         //$row=PostRev::where('id', $id_post)->first();
-        $row=Post::where('id', $id_post)->first();
+        $row = Post::where('id', $id_post)->first();
         //dd($row);
-        $rows=$row->related()->orderBy('pivot_pos');
+        $rows = $row->related()->orderBy('pivot_pos');
+
         return ThemeService::addViewParam('row', $row)->addViewParam('allrows', $rows)->view();
     }
-
 
     public function store(Request $request)
     {
         $params = \Route::current()->parameters();
-        extract($params);
-        $row=Post::where('post_id', $id_post)->where('lang', $lang)->first();
-        $request->_out='model';
-        $row_new=$this->storeTrait($request);
-        $row_new->post_id=$row_new->id;
+        \extract($params);
+        $row = Post::where('post_id', $id_post)->where('lang', $lang)->first();
+        $request->_out = 'model';
+        $row_new = $this->storeTrait($request);
+        $row_new->post_id = $row_new->id;
         $row_new->save();
         //echo '<h3>'.$row_new->post_id.'</h3>';
-        $row->related()->attach($row_new->post_id, ['type'=>$row->type.'_x_'.$row_new->type]);
+        $row->related()->attach($row_new->post_id, ['type' => $row->type.'_x_'.$row_new->type]);
+
         return redirect()->back();
     }
 
@@ -106,23 +103,25 @@ class RelatedController extends Controller
         $params = \Route::current()->parameters();
         //dd($params);
 
-        extract($params);
+        \extract($params);
         //$row=PostRev::where('id', $id_post)->where('lang', $lang)->first();
-        $row=Post::where('id', $id_post)->where('lang', $lang)->first();
+        $row = Post::where('id', $id_post)->where('lang', $lang)->first();
         //dd($request->all());
-        if ($request->_method=='PUT') {
+        if ('PUT' == $request->_method) {
             //dd('aa');
-            $row->related()->attach($request->post_id, ['type'=>$request->type]);
+            $row->related()->attach($request->post_id, ['type' => $request->type]);
+
             return redirect()->route('blog.post.related.index', $params); //response()->back();
         }
+
         return ThemeService::addViewParam('row', $row)->view();
     }
 
     public function deattach(Request $request)
     {
         $params = \Route::current()->parameters();
-        extract($params);
-        $row=Post::where('post_id', $id_post)->where('lang', $lang)->first();
+        \extract($params);
+        $row = Post::where('post_id', $id_post)->where('lang', $lang)->first();
         $row->related()->detach($id_related);
         //return redirect()->route('blog.post.related.index',$params); //response()->back();
         return redirect()->back();

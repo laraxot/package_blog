@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BlogFeeds
+ * BlogFeeds.
  *
  * @ORM\Table(name="blog_feeds", indexes={@ORM\Index(name="blog_feeds_post_id_index", columns={"post_id"})})
  * @ORM\Entity

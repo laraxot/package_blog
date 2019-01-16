@@ -1,15 +1,16 @@
 <?php
 
+
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateBlogPostCountTable extends Migration
 {
-    protected $table='blog_post_count';
+    protected $table = 'blog_post_count';
+
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -31,11 +32,8 @@ class CreateBlogPostCountTable extends Migration
         }
     }
 
-
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

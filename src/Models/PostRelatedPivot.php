@@ -1,16 +1,16 @@
 <?php
 
+
+
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
-
 /**
- * XRA\Blog\Models\PostContent
+ * XRA\Blog\Models\PostContent.
  *
- * @property-read \XRA\Blog\Models\Post $Post
+ * @property \XRA\Blog\Models\Post $Post
  * @mixin \Eloquent
  */
 //class PostRelated extends Model {
@@ -18,6 +18,7 @@ class PostRelatedPivot extends Pivot
 {
     protected $table = 'blog_post_related';
     protected $primaryKey = 'id';
+
     //$timestamps = false;
     /*
     protected $fillable =   [
@@ -27,27 +28,29 @@ class PostRelatedPivot extends Pivot
     */
     public function post()
     {
-        $rel=$this->hasOne(Post::class, 'post_id', 'post_id')->where('lang', \App::getLocale());
-        $tmp=explode('_x_', $this->type);
-        if (count($tmp)==2) {
-            $rel=$rel->where('type', $tmp[0]);
+        $rel = $this->hasOne(Post::class, 'post_id', 'post_id')->where('lang', \App::getLocale());
+        $tmp = \explode('_x_', $this->type);
+        if (2 == \count($tmp)) {
+            $rel = $rel->where('type', $tmp[0]);
         } else {
             ddd($this);
         }
-        return $rel;
-    }
-    public function related()
-    {
-        $rel=$this->hasOne(Post::class, 'post_id', 'related_id')->where('lang', \App::getLocale());
-        $tmp=explode('_x_', $this->type);
-        if (count($tmp)==2) {
-            $rel=$rel->where('type', $tmp[1]);
-        } else {
-            ddd($this);
-        }
+
         return $rel;
     }
 
+    public function related()
+    {
+        $rel = $this->hasOne(Post::class, 'post_id', 'related_id')->where('lang', \App::getLocale());
+        $tmp = \explode('_x_', $this->type);
+        if (2 == \count($tmp)) {
+            $rel = $rel->where('type', $tmp[1]);
+        } else {
+            ddd($this);
+        }
+
+        return $rel;
+    }
 
     //------------- MUTUATORS -----------
     /*
@@ -73,71 +76,73 @@ class PostRelatedPivot extends Pivot
     //}
     public function getRouteN($n, $act)
     {
-        $params=\Route::current()->parameters();
-        $params['container'.$n]=$this->post->type;
-        $params['item'.$n]=$this->post->guid;
-        $params['container'.($n+1)]=$this->related->type;
-        $params['item'.($n+1)]=$this->related->guid;
-        $r='';
-        for ($i=0;$i<=($n+1);$i++) {
-            $r.='container'.$i.'.';
+        $params = \Route::current()->parameters();
+        $params['container'.$n] = $this->post->type;
+        $params['item'.$n] = $this->post->guid;
+        $params['container'.($n + 1)] = $this->related->type;
+        $params['item'.($n + 1)] = $this->related->guid;
+        $r = '';
+        for ($i = 0; $i <= ($n + 1); ++$i) {
+            $r .= 'container'.$i.'.';
         }
-        $route=$r.$act;
-        if ($route=='container0.container1.container2.container3.show') {
+        $route = $r.$act;
+        if ('container0.container1.container2.container3.show' == $route) {
             //echo '<h3>'.$route.'</h3>';
             //ddd(array_keys($params));
             return '1';
         }
         if (in_admin()) {
-            $route='blog.'.$route;
+            $route = 'blog.'.$route;
         }
+
         return route($route, $params);
     }
 
     public function getUrlAct($act)
     {
-        $params=\Route::current()->parameters();
-        $routename=\Request::route()->getName();
-        $routename_arr=explode('.', $routename);
-        $routename_arr=array_slice($routename_arr, 0, -1);
-        $last=last($routename_arr);
-        $second_last=collect(array_slice($routename_arr, -2))->first(); //penultimo
-        if ($last==null) {
-            return $this->getRouteN(0, $act);//.'#0';
+        $params = \Route::current()->parameters();
+        $routename = \Request::route()->getName();
+        $routename_arr = \explode('.', $routename);
+        $routename_arr = \array_slice($routename_arr, 0, -1);
+        $last = last($routename_arr);
+        $second_last = collect(\array_slice($routename_arr, -2))->first(); //penultimo
+        if (null == $last) {
+            return $this->getRouteN(0, $act); //.'#0';
         }
-        $last_obj=$params[$last];
-        $n=str_replace('container', '', $last);
+        $last_obj = $params[$last];
+        $n = \str_replace('container', '', $last);
         if (!isset($params[$second_last])) {
             return '['.__LINE__.']['.__FILE__.']';
         }
         if (isset($params[$second_last])) {
-            $second_last_obj=$params[$second_last];
-            if(!is_object($second_last_obj)){
+            $second_last_obj = $params[$second_last];
+            if (!\is_object($second_last_obj)) {
                 ddd($second_last_obj);
             }
-            if(!is_object($last_obj)){
+            if (!\is_object($last_obj)) {
                 ddd($last_obj);
             }
-            if(!is_object($this->post)){
+            if (!\is_object($this->post)) {
                 ddd($this->post);
             }
-            if(!is_object($this->related)){
+            if (!\is_object($this->related)) {
                 $this->delete();
                 ddd($this);
             }
-            if ($second_last_obj->type==$this->post->type && $last_obj->type==$this->related->type) {
-                return $this->getRouteN($n-1, $act);//.'#1['.$n.']';
+            if ($second_last_obj->type == $this->post->type && $last_obj->type == $this->related->type) {
+                return $this->getRouteN($n - 1, $act); //.'#1['.$n.']';
             }
         }
 
         if ($second_last_obj->type == $this->related->type) {
             return $this->getRouteN($n, $act); // forse -1
         }
-        
-        if ($last_obj->type!=$this->post->type) {
-            return $this->getRouteN($n+1, $act);//.'#2['.$n.']['.$second_last_obj->type.']['.$this->post->type.']';
+
+        if ($last_obj->type != $this->post->type) {
+            return $this->getRouteN($n + 1, $act); //.'#2['.$n.']['.$second_last_obj->type.']['.$this->post->type.']';
         }
-        return $this->getRouteN($n, $act);//.'#3['.$n.']';
+
+        return $this->getRouteN($n, $act); //.'#3['.$n.']';
     }
 
     public function getUrlAttribute($value)
@@ -153,47 +158,58 @@ class PostRelatedPivot extends Pivot
         return url($this->post->lang.'/'.$post_url.'/'.$related_url);
         */
     }
+
     public function getStoreUrlAttribute($value)
     {
         return $this->getUrlAct('store');
     }
+
     public function getIndexUrlAttribute($value)
     {
         return $this->getUrlAct('index');
     }
+
     public function getCreateUrlAttribute($value)
     {
         return $this->getUrlAct('create');
     }
+
     public function getDestroyUrlAttribute($value)
     {
         return $this->getUrlAct('destroy');
     }
+
     public function getUpdateUrlAttribute($value)
     {
         return $this->getUrlAct('update');
     }
+
     public function getShowUrlAttribute($value)
     {
         return $this->getUrlAct('show');
     }
+
     public function getEditUrlAttribute($value)
     {
         return $this->getUrlAct('edit');
     }
+
     //--------------------------------------------------
     public function getAttachUrlAttribute($value)
     {
         return $this->getUrlAct('attach');
     }
+
     public function getDetachUrlAttribute($value)
     {
         return $this->getUrlAct('detach');
     }
+
     public function getMovedownUrlAttribute($value)
     {
         return $this->getUrlAct('movedown');
     }
+
     public function getMoveupUrlAttribute($value)
     {
         return $this->getUrlAct('moveup');

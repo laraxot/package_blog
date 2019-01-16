@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BlogPostOpeningHours
+ * BlogPostOpeningHours.
  *
  * @ORM\Table(name="blog_post_opening_hours")
  * @ORM\Entity

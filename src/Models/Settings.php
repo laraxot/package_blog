@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,7 +9,7 @@ use Laravel\Scout\Searchable;
 use XRA\Extend\Traits\Updater;
 
 /**
- * XRA\Blog\Models\Settings
+ * XRA\Blog\Models\Settings.
  *
  * @mixin \Eloquent
  */

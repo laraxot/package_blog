@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BlogPostRestaurants
+ * BlogPostRestaurants.
  *
  * @ORM\Table(name="blog_post_restaurants", uniqueConstraints={@ORM\UniqueConstraint(name="blog_post_restaurants_post_id_unique", columns={"post_id"})}, indexes={@ORM\Index(name="post_id", columns={"post_id"})})
  * @ORM\Entity

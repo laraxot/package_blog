@@ -1,8 +1,10 @@
 <?php
 
+
+
 return [
     'title' => 'Titolo',
-    'type'  => 'Tipo',
+    'type' => 'Tipo',
     'subtitle' => 'Sottotitolo',
     'parent_id' => 'id Padre',
     'image_src' => 'immagine src',

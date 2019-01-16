@@ -1,15 +1,16 @@
 <?php
 
+
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateBlogPostContentsTable extends Migration
 {
-    protected $table='blog_post_contents';
+    protected $table = 'blog_post_contents';
+
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -26,14 +27,11 @@ class CreateBlogPostContentsTable extends Migration
                 $table->integer('post_id');
                 $table->timestamps();
             });
-        };
+        }
     }
-
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

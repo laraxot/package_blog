@@ -1,8 +1,9 @@
 <?php
 
+
+
 namespace XRA\Blog\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
 
 class APIBaseController extends Controller
@@ -14,7 +15,7 @@ class APIBaseController extends Controller
         }
         $response = [
             'success' => true,
-            'data'    => $result,
+            'data' => $result,
             'message' => $message,
         ];
 

@@ -1,27 +1,29 @@
 <?php
 
+
+
 namespace XRA\Blog\Policies;
 
 /*
 use App\User;
 use App\Post;
 */
-use XRA\LU\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 use XRA\Blog\Models\Page as Post;
 //use XRA\Food\Models\Post;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use XRA\LU\Models\User;
 
 class PostPolicy
 {
     use HandlesAuthorization;
-   
+
     public function before($user, $ability)
     {
-        if (isset($user->perm) && $user->perm->perm_type>=5) {  //superadmin
+        if (isset($user->perm) && $user->perm->perm_type >= 5) {  //superadmin
             return true;
         }
     }
-    
+
     /*
     public function update(User $user, Post $post)
     {
@@ -36,9 +38,10 @@ class PostPolicy
 
     public function edit(User $user, Post $post)
     {
-        if ($post->created_by==$user->handle) {
+        if ($post->created_by == $user->handle) {
             return true;
         }
+
         return false;
     }
 

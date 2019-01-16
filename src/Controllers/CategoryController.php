@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace XRA\Blog\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -86,7 +88,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request      $request
+     * @param \Illuminate\Http\Request  $request
      * @param \XRA\Blog\Models\Category $category
      *
      * @return \Illuminate\Http\Response
@@ -116,9 +118,9 @@ class CategoryController extends Controller
         $this->authorize('delete', $category);
 
         return view('XRA::pages.confirmation', [
-            'method'  => 'DELETE',
+            'method' => 'DELETE',
             'message' => __('XRA_blog::general.sure_del_category', ['category' => $category->name]),
-            'action'  => route('XRA::blog.categories.destroy', ['category' => $category->id]),
+            'action' => route('XRA::blog.categories.destroy', ['category' => $category->id]),
         ]);
     }
 

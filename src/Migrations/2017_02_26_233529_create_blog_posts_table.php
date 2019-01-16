@@ -1,12 +1,14 @@
 <?php
 
+
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class CreateBlogPostsTable extends Migration
 {
-    protected $table='blog_posts';
+    protected $table = 'blog_posts';
 
     public function up()
     {
@@ -29,10 +31,14 @@ class CreateBlogPostsTable extends Migration
                 $table->timestamps();
             });
         }
-    }//end up
+    }
+
+    //end up
 
     public function down()
     {
         Schema::dropIfExists($this->table);
-    }//end down
+    }
+
+    //end down
 }//end class

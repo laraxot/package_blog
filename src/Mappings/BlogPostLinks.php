@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BlogPostLinks
+ * BlogPostLinks.
  *
  * @ORM\Table(name="blog_post_links")
  * @ORM\Entity

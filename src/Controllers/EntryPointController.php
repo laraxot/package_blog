@@ -1,13 +1,12 @@
 <?php
 
+
+
 namespace XRA\Blog\Controllers;
 
-use Illuminate\Http\Request;
-use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
 use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
-use XRA\Extend\Traits\ArtisanTrait;
 
 class EntryPointController extends Controller
 {
@@ -15,8 +14,9 @@ class EntryPointController extends Controller
 
     public function getModel()
     {
-        return new \XRA\Blog\Models\Post;
+        return new \XRA\Blog\Models\Post();
     }
+
     /*
     public function show(Request $request,$id){
 

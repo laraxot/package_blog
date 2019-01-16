@@ -1,20 +1,21 @@
 <?php
 
+
+
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use XRA\Extend\Traits\Updater;
-
 //--- Models ---//
 //use Laralum\Users\Models\User;
 use XRA\LU\Models\User;
 
 /**
- * XRA\Blog\Models\Comment
+ * XRA\Blog\Models\Comment.
  *
- * @property-read \XRA\Blog\Models\Post $post
- * @property-read \XRA\LU\Models\User $user
+ * @property \XRA\Blog\Models\Post $post
+ * @property \XRA\LU\Models\User   $user
  * @mixin \Eloquent
  */
 class Comment extends Model

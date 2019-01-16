@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BlogSettings
+ * BlogSettings.
  *
  * @ORM\Table(name="blog_settings")
  * @ORM\Entity

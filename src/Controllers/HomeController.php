@@ -1,32 +1,36 @@
 <?php
 
+
+
 namespace XRA\Blog\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
 //------traits -----
-use XRA\Extend\Traits\ArtisanTrait;
-use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
-//-------services--------
-use XRA\Extend\Services\ThemeService;
-
-//-------models----------
 use XRA\Blog\Models\Post;
+use XRA\Extend\Services\ThemeService;
+//-------services--------
+use XRA\Extend\Traits\ArtisanTrait;
+//-------models----------
+use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
 
 class HomeController extends Controller
 {
     //use CrudTrait;
-    public function index(Request $request){
-        if ($request->migrate==1) {
+    public function index(Request $request)
+    {
+        if (1 == $request->migrate) {
             config(['app.APP_ENV' => 'local']);
+
             return ArtisanTrait::exe('migrate');
         }
-        $roots=Post::getRoots();
-        $row=$roots['home'];
+        $roots = Post::getRoots();
+        $row = $roots['home'];
         ThemeService::setMetatags($row);
-        return ThemeService::view()->with($roots)->with('row',$row);
+
+        return ThemeService::view()->with($roots)->with('row', $row);
     }
+
     /*
     public function indexOLD(Request $request)
     {

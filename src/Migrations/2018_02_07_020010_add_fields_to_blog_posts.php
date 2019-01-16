@@ -1,16 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+
+
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddFieldsToBlogPosts extends Migration
 {
-    protected $table='blog_posts';
+    protected $table = 'blog_posts';
+
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -47,16 +48,16 @@ class AddFieldsToBlogPosts extends Migration
                 ->getDoctrineSchemaManager()
                 ->listTableDetails($table->getTable());
 
-            if (! $schema_builder->hasIndex($this->table.'_'.'post_id'.'_index')) {
+            if (!$schema_builder->hasIndex($this->table.'_'.'post_id'.'_index')) {
                 $table->integer('post_id')->nullable()->index()->change();
             }
-            if (! $schema_builder->hasIndex($this->table.'_'.'type'.'_index')) {
+            if (!$schema_builder->hasIndex($this->table.'_'.'type'.'_index')) {
                 $table->string('type', 30)->nullable()->index()->change();
             }
-            if (! $schema_builder->hasIndex($this->table.'_'.'guid'.'_index')) {
+            if (!$schema_builder->hasIndex($this->table.'_'.'guid'.'_index')) {
                 //    $table->string('guid',30)->nullable()->index()->change();
             }
-            if (! $schema_builder->hasIndex($this->table.'_'.'lang'.'_index')) {
+            if (!$schema_builder->hasIndex($this->table.'_'.'lang'.'_index')) {
                 $table->string('lang', 3)->nullable()->index()->change();
             }
             //-------- CHANGE FIELD -------------
@@ -66,8 +67,6 @@ class AddFieldsToBlogPosts extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

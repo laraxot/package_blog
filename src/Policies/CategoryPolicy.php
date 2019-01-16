@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace XRA\Blog\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -18,7 +20,7 @@ class CategoryPolicy
      */
     public function before($user, $ability)
     {
-        if ($ability != 'delete' && User::findOrFail($user->id)->superAdmin()) {
+        if ('delete' != $ability && User::findOrFail($user->id)->superAdmin()) {
             return true;
         }
     }

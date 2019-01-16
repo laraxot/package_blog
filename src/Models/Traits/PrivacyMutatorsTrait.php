@@ -1,36 +1,29 @@
 <?php
+
+
 ////////////////////////////////////////////////
 //
-	//QUESTO E' IL GENERICO, per food va usato quello dentro XRA\Food\Models\Traits;
+    //QUESTO E' IL GENERICO, per food va usato quello dentro XRA\Food\Models\Traits;
 //
 /////////////////////////////////////////////////
 
 namespace XRA\Blog\Models\Traits;
 
-use Illuminate\Database\Eloquent\Model;
-
 //use Laravel\Scout\Searchable;
 
-use Carbon\Carbon;
-use XRA\Extend\Traits\Updater;
 //----- models------
-use XRA\Blog\Models\Post;
-use XRA\Blog\Models\PostRelatedPivot;
-
 
 //------ traits ---
-use XRA\Extend\Services\ThemeService;
 
 /*
-	protected $fillable = [
+    protected $fillable = [
         'prvFlag_0', 'prvFlag_1', 'prvFlag_2', 'prvFlag_3', 'prvFlag_0Descr', 'prvFlag_1Descr', 'prvFlag_2Descr', 'prvFlag_3Descr'// qui per il set
 
     ];
     protected $appends = [
-    	'prvFlag_0', 'prvFlag_1', 'prvFlag_2', 'prvFlag_3', 'prvFlag_0Descr', 'prvFlag_1Descr', 'prvFlag_2Descr', 'prvFlag_3Descr' // qui per il get
+        'prvFlag_0', 'prvFlag_1', 'prvFlag_2', 'prvFlag_3', 'prvFlag_0Descr', 'prvFlag_1Descr', 'prvFlag_2Descr', 'prvFlag_3Descr' // qui per il get
     ];
 */
-
 
 trait PrivacyMutatorsTrait
 {
@@ -43,17 +36,17 @@ trait PrivacyMutatorsTrait
     {
         return $this->hasOne(User::class, 'auth_user_id', 'auth_user_id');
     }
+
     public function getPrvFlagX($k)
     {
-
         //$row = ProfilePrivacy::firstOrCreate(['auth_user_id' => $this->auth_user_id, 'flag_id' => $k]);
 
-        $row = ProfilePrivacy::where("flag_id", "=", $k)
-            ->where("auth_user_id", $this->auth_user_id)
+        $row = ProfilePrivacy::where('flag_id', '=', $k)
+            ->where('auth_user_id', $this->auth_user_id)
             ->latest()
             ->first();
 
-        if ($row == null) {
+        if (null == $row) {
             $row = ProfilePrivacy::create(['auth_user_id' => $this->auth_user_id, 'flag_id' => $k]);
         }
         $ris = $row->flag_value;
@@ -167,6 +160,4 @@ trait PrivacyMutatorsTrait
     {
         $this->setPrvFlagX(3, $value);
     }
-
-
 }

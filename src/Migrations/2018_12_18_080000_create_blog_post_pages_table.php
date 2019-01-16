@@ -1,16 +1,17 @@
 <?php
 
+
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
 use XRA\Blog\Models\Page;
 
 class CreateBlogPostPagesTable extends Migration
 {
     public function getTable()
     {
-        return with(new Page)->getTable();
+        return with(new Page())->getTable();
     }
 
     public function up()

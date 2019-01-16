@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Cache
+ * Cache.
  *
  * @ORM\Table(name="cache", uniqueConstraints={@ORM\UniqueConstraint(name="cache_key_unique", columns={"key"})})
  * @ORM\Entity

@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BlogPostShopItems
+ * BlogPostShopItems.
  *
  * @ORM\Table(name="blog_post_shop_items")
  * @ORM\Entity

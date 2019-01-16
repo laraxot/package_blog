@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SeoPhrases
+ * SeoPhrases.
  *
  * @ORM\Table(name="seo_phrases")
  * @ORM\Entity

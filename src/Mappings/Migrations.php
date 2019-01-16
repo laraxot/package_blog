@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Migrations
+ * Migrations.
  *
  * @ORM\Table(name="migrations")
  * @ORM\Entity

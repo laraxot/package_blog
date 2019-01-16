@@ -1,12 +1,14 @@
 <?php
 
+
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class CreateBlogFeedsTable extends Migration
 {
-    protected $table='blog_feeds';
+    protected $table = 'blog_feeds';
 
     public function up()
     {

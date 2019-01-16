@@ -1,19 +1,18 @@
 <?php
 
+
+
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
-
 /**
- * XRA\Blog\Models\PostContent
+ * XRA\Blog\Models\PostContent.
  *
- * @property-read \XRA\Blog\Models\Post $Post
+ * @property \XRA\Blog\Models\Post $Post
  * @mixin \Eloquent
  */
-
 class PostRelated extends Model
 {
     //class PostRelated extends Pivot { diventato PostRelatedPivot
@@ -21,8 +20,8 @@ class PostRelated extends Model
     //protected $primaryKey = 'post_id'; // mi da errore su aggiornamenti diretti
     //protected $primaryKey = 'id';
     //$timestamps = false;
-   
-    protected $fillable =   [
+
+    protected $fillable = [
                                 'post_id',
                                 'related_id',
                                 'type',
@@ -30,7 +29,7 @@ class PostRelated extends Model
                                 'price_currency',
                                 'pos',
                             ];
-    
+
     /*
     public function post(){
     	return $this->belongsTo(Post::class, 'post_id', 'post_id');
@@ -48,15 +47,15 @@ class PostRelated extends Model
         return $this->hasMany(PostRelatedPost::class, 'post_related_id', 'id');
     }
 
-    public function post($fieldname=null)
+    public function post($fieldname = null)
     {
-        $rows= $this->belongsTo(Post::class, 'post_id', 'post_id');
+        $rows = $this->belongsTo(Post::class, 'post_id', 'post_id');
         //return $rows;
-        if ($fieldname==null) {
+        if (null == $fieldname) {
             return $rows;
         }
-        $row=$rows->first();
-        if ($fieldname=='url') {
+        $row = $rows->first();
+        if ('url' == $fieldname) {
             return $row->url;
         }
         //echo '['.$this->post_id;
@@ -64,16 +63,17 @@ class PostRelated extends Model
         return $row->$fieldname;
     }
 
-    public function related($fieldname=null)
+    public function related($fieldname = null)
     {
-        $rows= $this->belongsTo(Post::class, 'related_id', 'post_id');// Post_id
-        if ($fieldname==null) {
+        $rows = $this->belongsTo(Post::class, 'related_id', 'post_id'); // Post_id
+        if (null == $fieldname) {
             return $rows;
         }
-        $row=$rows->first();
-        if ($fieldname=='url') {
+        $row = $rows->first();
+        if ('url' == $fieldname) {
             return $row->url;
         }
+
         return $row->field($fieldname);
         /*
         if(in_array($fieldname,Post::fields()->all())) return $row->$fieldname;
@@ -83,23 +83,23 @@ class PostRelated extends Model
         */
     }
 
-
     public function getSonsCountAttribute($value)
     {
-        if ($value=='') {
-            $value=$this->where('related_id', $this->post_id)->count();
-            $this->sons_count=$value;
+        if ('' == $value) {
+            $value = $this->where('related_id', $this->post_id)->count();
+            $this->sons_count = $value;
             $this->save();
         }
+
         return $value;
     }
 
     /**
-     * { item_description }
+     * { item_description }.
      */
     public static function deleteDuplicateRecords()
     {
-        $duplicateRecords=self::selectRaw('post_id,related_id,type,count(*) as `occurences`')
+        $duplicateRecords = self::selectRaw('post_id,related_id,type,count(*) as `occurences`')
             ->groupBy('post_id', 'related_id', 'type')
             ->having('occurences', '>', 1)
             ;
@@ -110,5 +110,7 @@ class PostRelated extends Model
                 ->limit($row->occurences - 1)
                 ->delete();
         }
-    }//end deleteDuplicateRecords
+    }
+
+    //end deleteDuplicateRecords
 }//end class

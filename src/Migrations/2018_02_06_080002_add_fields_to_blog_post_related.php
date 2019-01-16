@@ -1,16 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+
+
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddFieldsToBlogPostRelated extends Migration
 {
-    protected $table='blog_post_related';
+    protected $table = 'blog_post_related';
+
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -41,13 +42,13 @@ class AddFieldsToBlogPostRelated extends Migration
                 ->getDoctrineSchemaManager()
                 ->listTableDetails($table->getTable());
 
-            if (! $schema_builder->hasIndex($this->table.'_'.'post_id'.'_index')) {
+            if (!$schema_builder->hasIndex($this->table.'_'.'post_id'.'_index')) {
                 $table->integer('post_id')->nullable()->index()->change();
             }
-            if (! $schema_builder->hasIndex($this->table.'_'.'related_id'.'_index')) {
+            if (!$schema_builder->hasIndex($this->table.'_'.'related_id'.'_index')) {
                 $table->integer('related_id')->nullable()->index()->change();
             }
-            if (! $schema_builder->hasIndex($this->table.'_'.'type'.'_index')) {
+            if (!$schema_builder->hasIndex($this->table.'_'.'type'.'_index')) {
                 $table->string('type', 50)->nullable()->index()->change();
             }
             if (!Schema::hasColumn($this->table, 'related_type')) {
@@ -61,8 +62,6 @@ class AddFieldsToBlogPostRelated extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

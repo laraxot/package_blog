@@ -1,56 +1,58 @@
 <?php
 
+
+
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-    protected $table = "blog_posts";
+    protected $table = 'blog_posts';
 
     //--- relationship --
     public function archive()
     {
-        $rows= $this->hasMany(Post::class, 'type', 'type')
+        $rows = $this->hasMany(Post::class, 'type', 'type')
                 ->where('lang', $this->lang)
                 ->where('guid', '!=', $this->type)
-                ->with(['relatedrev','related']);
+                ->with(['relatedrev', 'related']);
         if (\Request::has('lat') && \Request::has('lng')) {
             $currentLocation = [
-                'latitude'  => \Request::input('lat'),
+                'latitude' => \Request::input('lat'),
                 'longitude' => \Request::input('lng'),
             ];
 
             $distance = 30; //km
-            $rows=$rows->findNearest($this->type, $currentLocation, $distance, 1000);
+            $rows = $rows->findNearest($this->type, $currentLocation, $distance, 1000);
         }
+
         return $rows;
     }
 
-
     public function types()
     {
-        return Blog::where('lang', \App::getLocale())->whereRaw('type=guid');
+        return self::where('lang', \App::getLocale())->whereRaw('type=guid');
     }
 
     public function firstItem()
     {
-        return Blog::where('lang', \App::getLocale())->orderBy('updated_at')->first();
+        return self::where('lang', \App::getLocale())->orderBy('updated_at')->first();
     }
 
     public function lastItem()
     {
-        return Blog::where('lang', \App::getLocale())->orderBy('updated_at', 'desc')->first();
+        return self::where('lang', \App::getLocale())->orderBy('updated_at', 'desc')->first();
     }
 
     public function createJsonFileChart()
     {
-        $rows=\DB::select("select date_format(created_at,'%Y-%m-%d') as x,count(*) as y
+        $rows = \DB::select("select date_format(created_at,'%Y-%m-%d') as x,count(*) as y
 		from blog_posts
 		group by date_format(created_at,'%Y-%m-%d') order by created_at desc limit 15");
         //dd(json_encode($rows->toArray()));
         //ddd(json_encode($rows));
-        \File::put(public_path('test.json'), json_encode($rows));
+        \File::put(public_path('test.json'), \json_encode($rows));
     }
 }
 

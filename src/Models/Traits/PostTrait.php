@@ -1,17 +1,14 @@
 <?php
-namespace XRA\Blog\Models\Traits;
 
-use Illuminate\Database\Eloquent\Model;
+
+
+namespace XRA\Blog\Models\Traits;
 
 //use Laravel\Scout\Searchable;
 
-use Carbon\Carbon;
-use XRA\Extend\Traits\Updater;
 //----- models------
 use XRA\Blog\Models\Post;
 use XRA\Blog\Models\PostRelatedPivot;
-
-
 //------ traits ---
 use XRA\Extend\Services\ThemeService;
 
@@ -20,35 +17,36 @@ trait PostTrait
     //--------- relationship --------------
     public function post()
     {
-        $row=$this->hasOne(Post::class, 'post_id', 'post_id')
+        $row = $this->hasOne(Post::class, 'post_id', 'post_id')
                 ->where('lang', \App::getLocale())
                 ->where('type', $this->type)
                 ->withDefault()
                 ;
+
         return $row;
     }
 
     public function postOrCreate()
     {
-        $post=$this->post;
-        if ($post==null) {
-            $post=Post::firstOrCreate(['guid'=>$this->guid,'type'=>$this->type,'lang'=>\App::getLocale()], ['title'=>$this->title]);
+        $post = $this->post;
+        if (null == $post) {
+            $post = Post::firstOrCreate(['guid' => $this->guid, 'type' => $this->type, 'lang' => \App::getLocale()], ['title' => $this->title]);
             self::where('post_id', $post->post_id)->delete();
-            $this->post_id=$post->post_id;
+            $this->post_id = $post->post_id;
             $this->save();
-            $this->post=$post;
+            $this->post = $post;
         }
+
         return $post;
     }
-
 
     public function related()
     {
         //return $this->belongsToMany(PostRev::class, 'blog_post_related', 'post_id', 'related_id')
         //belongsToMany($related, $table, $foreignPivotKey, $relatedPivotKey,$parentKey, $relatedKey, $relation)
         //echo '<br/>'.$this->type;
-        $pivot_fields=['type','pos','price','price_currency','id'];
-        $rows= $this->belongsToMany(Post::class, 'blog_post_related', 'post_id', 'related_id', 'post_id', 'post_id')
+        $pivot_fields = ['type', 'pos', 'price', 'price_currency', 'id'];
+        $rows = $this->belongsToMany(Post::class, 'blog_post_related', 'post_id', 'related_id', 'post_id', 'post_id')
                 ->withPivot($pivot_fields)
                 ->using(PostRelatedPivot::class)
                 ->where('lang', \App::getLocale())
@@ -61,8 +59,8 @@ trait PostTrait
     public function relatedrev()
     {
         //return $this->belongsToMany(PostRev::class, 'blog_post_related', 'related_id', 'post_id')
-        $pivot_fields=['type','pos','price','price_currency','id'];
-        $rows= $this->belongsToMany(Post::class, 'blog_post_related', 'related_id', 'post_id', 'post_id', 'post_id')
+        $pivot_fields = ['type', 'pos', 'price', 'price_currency', 'id'];
+        $rows = $this->belongsToMany(Post::class, 'blog_post_related', 'related_id', 'post_id', 'post_id', 'post_id')
                 ->withPivot($pivot_fields)
                 //->using(PostRelatedPivot::class)
                 ->where('lang', \App::getLocale());
@@ -72,10 +70,11 @@ trait PostTrait
 
     public function relatedType($type)
     {
-        if (strpos($type, '_x_')===false) {
-            $type=$this->type.'_x_'.$type;
+        if (false === \mb_strpos($type, '_x_')) {
+            $type = $this->type.'_x_'.$type;
         }
-        return $this->related()->wherePivot('type', $type);//->where('lang',\App::getLocale());
+
+        return $this->related()->wherePivot('type', $type); //->where('lang',\App::getLocale());
         //return $this->related->where('pivot.type', $type);//->where('lang',\App::getLocale());
     }
 

@@ -5,7 +5,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * RestaurantProviders
+ * RestaurantProviders.
  *
  * @ORM\Table(name="restaurant_providers", indexes={@ORM\Index(name="restaurant_providers_post_id_index", columns={"post_id"})})
  * @ORM\Entity
