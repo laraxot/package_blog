@@ -44,6 +44,14 @@ class PagePolicy
 
         return false;
     }
+    public function update(User $user, Post $post)
+    {
+        if ($post->created_by == $user->handle) {
+            return true;
+        }
+
+        return false;
+    }
 
     public function show(User $user, Post $post)
     {
