@@ -21,16 +21,8 @@ class BlogServiceProvider extends ServiceProvider
 
     protected $model = null;
 
-    public function boot(\Illuminate\Routing\Router $router)
-    {
-        //die('['.__LINE__.']['.__FILE__.']');
-        //https://stackoverflow.com/questions/42567445/how-to-bind-multiple-related-parameters-in-one-route-in-laravel
-
-        //--------- MIDDLEWARE
-        $router->aliasMiddleware('editor', XRA\Blog\Middleware\Editor::class);
-
+    public function registerRoutePattern(\Illuminate\Routing\Router $router){
         //----------ROUTE PATTERN
-
         if (\is_array(config('xra.model'))) {
             $pattern = \implode('|', \array_keys(config('xra.model')));
             //*
@@ -45,7 +37,9 @@ class BlogServiceProvider extends ServiceProvider
                 $router->pattern($container_name, '/|'.$pattern.'|/i');
             }
         }
+    }
 
+    public function registerRouteBind(\Illuminate\Routing\Router $router){
         //--------- ROUTE BIND
         //*
         $router->bind('lang', function ($value) {
@@ -103,6 +97,9 @@ class BlogServiceProvider extends ServiceProvider
                 return $value;
             });
         }
+    }
+
+    public function registerBladeDirective(){
         //*/
         //*/
         //*/
@@ -128,13 +125,13 @@ class BlogServiceProvider extends ServiceProvider
             //dd(get_defined_vars());
             //return '['.$view.']';;;
             return "<?php 
-				if (\Illuminate\Support\Facades\Blade::check('editor', $row)){
-					echo ".'$__env'."->make($view,$params, array_except(get_defined_vars(), array('__data', '__path')))->render();
-				}else{
-					echo app()->make('partialcache')
-				->cache(array_except(get_defined_vars(), ['__data', '__path']), ".$expression_cache.');
-				}
-			?>';
+                if (\Illuminate\Support\Facades\Blade::check('editor', $row)){
+                    echo ".'$__env'."->make($view,$params, array_except(get_defined_vars(), array('__data', '__path')))->render();
+                }else{
+                    echo app()->make('partialcache')
+                ->cache(array_except(get_defined_vars(), ['__data', '__path']), ".$expression_cache.');
+                }
+            ?>';
             /*
             return "<?php echo app()->make( $view , array_except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
             */
@@ -169,7 +166,20 @@ class BlogServiceProvider extends ServiceProvider
 
             return "<?php {$variable} = {$value}; ?>";
         });
+    }
 
+
+    public function boot(\Illuminate\Routing\Router $router)
+    {
+        //die('['.__LINE__.']['.__FILE__.']');
+        //https://stackoverflow.com/questions/42567445/how-to-bind-multiple-related-parameters-in-one-route-in-laravel
+
+        //--------- MIDDLEWARE
+        $router->aliasMiddleware('editor', XRA\Blog\Middleware\Editor::class);
+        $this->registerRoutePattern($router);
+        $this->registerRouteBind($router);
+        $this->registerBladeDirective();
+        
         $this->bootTrait($router);
     }
 
