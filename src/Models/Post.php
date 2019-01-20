@@ -859,11 +859,12 @@ class Post extends Model
                         if ('' != $tmp) {
                             $rowlang->$field = $tmp;
                         }
-                        if ('guid' == $field) {
-                            $rowlang->$field = str_slug($rowlang->$field);
-                        }
+                        //if ('guid' == $field) {
+                        //    $rowlang->$field = str_slug($rowlang->$field);
+                        //}
                     }
                 }
+                $rowlang->guid=str_slug($rowlang->guid);
                 $rowlang->url = null;
                 $rowlang->url_lang = null;
                 $rowlang->save();
