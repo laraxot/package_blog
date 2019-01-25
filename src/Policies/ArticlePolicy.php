@@ -52,4 +52,8 @@ class ArticlePolicy
     {
         return false;
     }
+
+    public function delete(User $user, Post $post){
+        return true;
+    }
 }
