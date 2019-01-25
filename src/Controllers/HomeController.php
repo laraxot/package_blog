@@ -24,6 +24,9 @@ class HomeController extends Controller
 
             return ArtisanTrait::exe('migrate');
         }
+        if (1 == $request->routelist) {
+            return ArtisanTrait::exe('route:list');
+        }
         $roots = Post::getRoots();
         $row = $roots['home'];
         ThemeService::setMetatags($row);

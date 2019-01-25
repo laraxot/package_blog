@@ -49,17 +49,13 @@ class BlogServiceProvider extends ServiceProvider
         });
         $lang = \App::getLocale();
         //*
+        $roots=Post::getRoots();
         for ($i = 0; $i < 4; ++$i) {
             $container_name = 'container'.$i;
-            $router->bind($container_name, function ($value) use ($lang) {
-                $rows = Post::where('lang', $lang)
-                        ->where('guid', $value)
-                        ->where('type', $value)
-                        ;
-                if ($rows->exists()) {
-                    return $rows->first();
+            $router->bind($container_name, function ($value) use ($roots) {
+                if(isset($roots[$value])){
+                    return $roots[$value];
                 }
-
                 return $value;
             });
         }
