@@ -50,13 +50,17 @@ class BlogServiceProvider extends ServiceProvider
         $lang = \App::getLocale();
         //*
         $roots=Post::getRoots();
+        $roots_low=array_change_key_case($roots);
         for ($i = 0; $i < 4; ++$i) {
             $container_name = 'container'.$i;
-            $router->bind($container_name, function ($value) use ($roots) {
+            $router->bind($container_name, function ($value) use ($roots,$roots_low) {
                 if(isset($roots[$value])){
                     return $roots[$value];
                 }
-                //array_key_exists(strtolower($key), array_change_key_case($search));
+                if( array_key_exists(strtolower($value), $roots_low) ){ //per prendere sia location che Location
+                    $value_low=strtolower($value);
+                    return $roots_low[$value_low];
+                }
                 return $value;
             });
         }
