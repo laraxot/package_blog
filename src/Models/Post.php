@@ -831,65 +831,56 @@ class Post extends Model
         return '<img src="'.asset($src1).'" alt="'.$this->image_alt.'" title="'.$this->image_title.'"  width="'.$width.'px" height="'.$height.'px" class="'.$class.'"/>';
     }
 
+    public function generateRowLang($lang){
+        $rowlang = $this->replicate();
+        $rowlang->lang = $lang;
+        $fields = ['title', 'subtitle', 'txt', 'image_alt', 'image_title', 'guid'];//campi da tradurre
+        foreach ($fields as $field) {
+            if ('guid' == $field && $this->guid == $this->type) {
+                //root
+            } else {
+                $tmp = $this->trans(['q' => $this->$field, 'from' => $this->lang, 'to' => $lang]);
+                if ('' != $tmp) {
+                    $rowlang->$field = $tmp;
+                }
+            }
+        }
+        $rowlang->guid=str_slug($rowlang->guid);
+        $rowlang->url = null; //forzo rigenerazione
+        $rowlang->save();
+        return $rowlang;
+    }
+
+
     public function generateUrlLang($lang){
+        //--- se il post ha "problemi"
+        if (!$this->post_id) {
+            $segments = \Request::segments();
+            $segments[0] = $lang;
+            $url = (\implode('/', $segments));
+            return $url;
+        }
+        //--- prendo la riga di traduzione
+        $row = self::where('post_id', $this->post_id)->where('lang', $lang)->first();
+        if (null == $row) { //se non esiste la genero
+            $row=$this->generateRowLang($lang);
+        }
+        return $row->url;
 
     }
 
     public function urlLang($lang)
     {
         $url = $this->url_lang;
-        $url=[]; //forzo rigenerazione
+        //$url=[]; //forzo rigenerazione x debug
 
         if (!isset($url[$lang])) {
-            if (!$this->post_id) {
-                $segments = \Request::segments();
-                $segments[0] = $lang;
-                $url = (\implode('/', $segments));
-
-                return url($url);
-            }
-            $row = self::where('post_id', $this->post_id)->where('lang', $lang)->first();
-            if (null == $row) {
-                $rowlang = $this->replicate();
-                $rowlang->lang = $lang;
-                $fields = ['title', 'subtitle', 'txt', 'image_alt', 'image_title', 'guid'];
-                foreach ($fields as $field) {
-                    if ('guid' == $field && $this->guid == $this->type) {
-                        //root
-                    } else {
-                        $tmp = $this->trans(['q' => $this->$field, 'from' => $this->lang, 'to' => $lang]);
-                        if ('' != $tmp) {
-                            $rowlang->$field = $tmp;
-                        }
-                        //if ('guid' == $field) {
-                        //    $rowlang->$field = str_slug($rowlang->$field);
-                        //}
-                    }
-                }
-                $rowlang->guid=str_slug($rowlang->guid);
-                $rowlang->url = null;
-                $rowlang->url_lang = null;
-                $rowlang->save();
-                $url[$lang] = \str_replace(url('/'), '', $rowlang->url);
-                $this->url_lang = $url;
-                $this->save();
-
-                return url($url[$lang]);
-            }
-
-            $url[$lang] = \str_replace(url('/'), '', $row->url);
+            $url[$lang]=$this->generateUrlLang($lang);
             $this->url_lang = $url;
-
             $this->save();
-
-            return url($url[$lang]);
         }
-        $str = '/'.$lang.'/home'; //http://food.local/en/home/test-home-it
-        if (false !== \mb_strpos($url[$lang], $str)) {
-            return url($lang);
-        }
-
-        return url($url[$lang]);
+        return $url[$lang];
+        
     }
 
     public function url_edit($lang)
@@ -1114,7 +1105,7 @@ class Post extends Model
             return url($lang);
         }
         //*/
-        return url($value);
+        return $value;  //no url($value) se no salvo il dominio nel db
     }
 
     public function getMoveupUrlAttribute($value)
@@ -1341,7 +1332,11 @@ class Post extends Model
             $this->attributes['guid'] = $value;
             $this->save();
         }
-
+        if($value!=str_slug($value)){
+            $value=str_slug($value);
+            $this->attributes['guid'] = $value; 
+            $this->save();
+        }
         return $value;
     }
 
