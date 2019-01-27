@@ -865,7 +865,7 @@ class Post extends Model
         if (null == $row) { //se non esiste la genero
             $row=$this->generateRowLang($lang);
         }
-        return $row->url;
+        return str_replace(url('/'),'',$row->url);
 
     }
 
@@ -879,7 +879,7 @@ class Post extends Model
             $this->url_lang = $url;
             $this->save();
         }
-        return $url[$lang];
+        return url($url[$lang]);
         
     }
 
@@ -1105,7 +1105,8 @@ class Post extends Model
             return url($lang);
         }
         //*/
-        return $value;  //no url($value) se no salvo il dominio nel db
+        //return $value;  //no url($value) se no salvo il dominio nel db
+        return url($value);
     }
 
     public function getMoveupUrlAttribute($value)
