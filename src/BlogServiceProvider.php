@@ -76,6 +76,7 @@ class BlogServiceProvider extends ServiceProvider
                             echo '<pre>';
                             \print_r($container_curr);
                             echo '</pre>';
+                            $params = \Route::current()->parameters();
                             ddd($params);
                         }
                         $rows = $rows->where('type', $container_curr->type);
