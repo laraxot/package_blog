@@ -56,6 +56,7 @@ class BlogServiceProvider extends ServiceProvider
                 if(isset($roots[$value])){
                     return $roots[$value];
                 }
+                //array_key_exists(strtolower($key), array_change_key_case($search));
                 return $value;
             });
         }

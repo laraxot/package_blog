@@ -1332,11 +1332,13 @@ class Post extends Model
             $this->attributes['guid'] = $value;
             $this->save();
         }
+        /* //-- non puo' per articleCat
         if($value!=str_slug($value)){
             $value=str_slug($value);
             $this->attributes['guid'] = $value; 
             $this->save();
         }
+        */
         return $value;
     }
 
