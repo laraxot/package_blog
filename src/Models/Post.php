@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Cache;
@@ -834,9 +831,14 @@ class Post extends Model
         return '<img src="'.asset($src1).'" alt="'.$this->image_alt.'" title="'.$this->image_title.'"  width="'.$width.'px" height="'.$height.'px" class="'.$class.'"/>';
     }
 
+    public function generateUrlLang($lang){
+
+    }
+
     public function urlLang($lang)
     {
         $url = $this->url_lang;
+        $url=[]; //forzo rigenerazione
 
         if (!isset($url[$lang])) {
             if (!$this->post_id) {
