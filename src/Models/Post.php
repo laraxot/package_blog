@@ -794,7 +794,7 @@ class Post extends Model
                 $buff[$dim] = '/'.$buff[$dim];
             }
 
-            return $buff[$dim];
+            return asset($buff[$dim]);
         }
         $image_path = $src;
         $str = asset('');
@@ -817,7 +817,7 @@ class Post extends Model
         $this->image_resize_src = $buff;
         $this->save();
 
-        return $buff[$dim];
+        return asset($buff[$dim]);
     }
 
     public function image_html($params)
