@@ -945,7 +945,8 @@ class Post extends Model
         if ('' != $value) {
             return $value;
         }
-        $linked = $this->linkedOrCreate;
+        //$linked = $this->linkedOrCreate;
+        $linked = $this->linked; //si generano troppo query 
         if (\is_object($linked)) {
             $value = $linked->image_src;
             if ('' != $value) {
