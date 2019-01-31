@@ -68,11 +68,13 @@ $item1 = [
             'param_name' => 'query',
             'only' => ['index', 'show'],
         ],
-        [
+       /* [
             'name' => 'map',
             'param_name' => 'query',
             'only' => ['index', 'show'],
         ],
+        creato controller restaurant_map che e' la mappa dei ristoranti 
+        */
     ],
 ];
 
