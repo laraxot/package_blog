@@ -176,4 +176,8 @@ class CommentPolicy
 
         return User::findOrFail($user->id)->hasPermission('XRA::blog.comments.delete-public');
     }
+
+    public function indexEdit(User $user, Post $post){
+        return true;
+    }
 }

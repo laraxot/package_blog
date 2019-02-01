@@ -57,4 +57,7 @@ class PostCatPolicy
     {
         return false;
     }
+    public function indexEdit(User $user, Post $post){
+        return true;
+    }
 }

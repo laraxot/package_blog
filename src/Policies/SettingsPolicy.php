@@ -47,4 +47,7 @@ class SettingsPolicy
     {
         return User::findOrFail($user->id)->hasPermission('XRA::blog.settings');
     }
+    public function indexEdit(User $user, Post $post){
+        return true;
+    }
 }

@@ -68,6 +68,12 @@ $item1 = [
             'param_name' => 'query',
             'only' => ['index', 'show'],
         ],
+        /*
+        [
+            'name' => 'edit',
+            'only' => ['index'],
+        ],
+        */
        /* [
             'name' => 'map',
             'param_name' => 'query',
@@ -78,7 +84,39 @@ $item1 = [
     ],
 ];
 
+$item2=[     //questo per avere /it/restaurant/ristotest/photo/edit
+    'name' => '{container0}',
+    'param_name' => 'item0',
+    'subs' => [
+        [
+            'name' => '{container1}',
+            'param_name' => '',
+            'as'=>'container1.index_',
+            //'prefix'=>'ddd',
+            //'prefix'=>'index_edit',
+            /*
+            'subs' => [
+                [
+                    'name'=>'Edit',
+                //    'as'=>'index_edit',
+                //    'prefix'=>'index_edit',
+                    'only' => ['index'],
+                ]
+            ],//end subs
+            */
+            'acts'=>[
+                [
+                    'name'=>'Edit',
+                    'act'=>'indexEdit',
+                ],//end act_n
+            ],//end acts
+        ], //end sub_n
+    ],//end subs
+];//end item2
+
+
 $areas_prgs = [
+    $item2,
     $item1,
     $item0,
 ];

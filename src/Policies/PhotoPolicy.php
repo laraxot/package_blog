@@ -53,4 +53,7 @@ class PhotoPolicy
     public function delete(User $user, Post $post){
         return true;
     }
+    public function indexEdit(User $user, Post $post){
+        return true;
+    }
 }

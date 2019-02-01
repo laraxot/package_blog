@@ -90,4 +90,8 @@ class CategoryPolicy
 
         return $user->superAdmin() || $user->hasPermission('XRA::blog.categories.delete');
     }
+
+    public function indexEdit(User $user, Post $post){
+        return true;
+    }
 }
