@@ -1,18 +1,15 @@
 <?php
-
-
-
 namespace XRA\Blog\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 //------traits -----
-use XRA\Blog\Models\Post;
-use XRA\Extend\Services\ThemeService;
-//-------services--------
-use XRA\Extend\Traits\ArtisanTrait;
-//-------models----------
 use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
+use XRA\Extend\Traits\ArtisanTrait;
+//-------services--------
+use XRA\Extend\Services\ThemeService;
+//-------models----------
+use XRA\Blog\Models\Post;
 
 class HomeController extends Controller
 {
@@ -27,11 +24,28 @@ class HomeController extends Controller
         if (1 == $request->routelist) {
             return ArtisanTrait::exe('route:list');
         }
+        /*
         $roots = Post::getRoots();
         $row = $roots['home'];
         ThemeService::setMetatags($row);
 
         return ThemeService::view()->with($roots)->with('row', $row);
+        */
+        $cache_key=str_slug(__CLASS__.__FUNCTION__);
+        if(\Auth::check()){
+            $cache_key.='_'.\Auth::user()->handle;
+        }
+        $view = \Cache::store('file')->remember($cache_key,3600,function () use($request){
+            //return $this->showTrait($request)->render();
+            $roots = Post::getRoots();
+            $row = $roots['home'];
+            ThemeService::setMetatags($row);
+
+            return ThemeService::view()->with($roots)->with('row', $row)->render();
+        });
+        return $view;
+
+
     }
 
     /*
