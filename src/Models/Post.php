@@ -226,7 +226,8 @@ class Post extends Model
 
     public function archiveRand($n){
         $cache_key=$this->post_id.'_'.$n;
-        $rows = Cache::get($cache_key, function () use($n){
+       // $obj=$this;
+        $rows = Cache::store('file')->get($cache_key,  function () use($n){
             return $this->archive()->inRandomOrder()->limit($n)->get();
         });
         return $rows;
