@@ -18,6 +18,7 @@ trait LinkedTrait
     public function post()
     {
         //return $this->morphOne(Post::class,'linkable',null,'post_id');
+        return $this->hasOne(Post::class,'post_id','post_id')->where('lang',$this->lang);
     }
 
     public function related()
@@ -48,6 +49,11 @@ trait LinkedTrait
     public function getTypeAttribute($value)
     {
         return camel_case(class_basename($this));
+    }
+
+    public function getLangAttribute($value){
+        $lang=\App::getLocale();
+        return $lang;
     }
 
     public function getTitleAttribute($value)
@@ -81,6 +87,16 @@ trait LinkedTrait
     {
         if (isset($this->post)) {
             $value = $this->post->url;
+        }
+
+        return $value;
+    }
+
+    //----------------------------------------------
+    public function imageResizeSrc($params){
+        $value=null;
+        if (isset($this->post)) {
+            $value = $this->post->imageResizeSrc($params);
         }
 
         return $value;
