@@ -224,6 +224,14 @@ class Post extends Model
         return $rows;
     }
 
+    public function archiveRand($n){
+        $cache_key=$this->post_id.'_'.$n;
+        $rows = Cache::get($cache_key, function () use($n){
+            return $this->archive()->inRandomOrder()->limit($n)->get();
+        });
+        return $rows;
+    }
+
     /*--- to study
     public function getArchiveAttribute(){
         return $this->getRelationValue('archive')->keyBy('guid');
@@ -715,7 +723,9 @@ class Post extends Model
     {
         $lang = \App::getLocale();
         $all = config('xra.model');
-        $roots = self::where('lang', $lang)->whereRaw('guid = type ')->get();
+        $roots = Cache::get('roots', function () use($lang){
+            return self::with(['archive'])->where('lang', $lang)->whereRaw('guid = type ')->get();
+        });
         $roots = $roots->keyBy('type')->all();
         $add = collect(\array_keys($all))->diff(\array_keys($roots));
         foreach ($add as $k => $v) {

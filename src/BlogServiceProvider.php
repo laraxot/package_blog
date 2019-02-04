@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog;
 
 use Illuminate\Support\Facades\Blade;
@@ -92,8 +89,9 @@ class BlogServiceProvider extends ServiceProvider
                     $item_prev = request()->$item_name_prev;
                     $rows = $item_prev->related($container_curr->type)->where('guid', $value);
                 }
-                if ($rows->exists()) {
-                    return $rows->first();
+                $row=$rows->first();
+                if (is_object($row)) {
+                    return $row;
                 }
 
                 return $value;
