@@ -725,7 +725,8 @@ class Post extends Model
         $lang = \App::getLocale();
         $all = config('xra.model');
         $roots = Cache::get('roots', function () use($lang){
-            return self::with(['archive'])->where('lang', $lang)->whereRaw('guid = type ')->get();
+            //mettendo with archive mi da errore 
+            return self::with([])->where('lang', $lang)->whereRaw('guid = type ')->get();
         });
         $roots = $roots->keyBy('type')->all();
         $add = collect(\array_keys($all))->diff(\array_keys($roots));
