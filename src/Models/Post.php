@@ -955,18 +955,18 @@ class Post extends Model
     public function getImageSrcAttribute($value)
     {
         if ('' != $value) {
-            return $value;
+            return asset($value);
         }
         //$linked = $this->linkedOrCreate;
         $linked = $this->linked; //si generano troppo query 
         if (\is_object($linked)) {
             $value = $linked->image_src;
             if ('' != $value) {
-                return $value;
+                return $value; //l'asset e' nel mutators del linked
             }
         }
 
-        return '/images/nophoto.png';
+        return asset('/images/nophoto.png');
     }
 
     public function getPostIdAttribute($value)
