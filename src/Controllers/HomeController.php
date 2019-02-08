@@ -35,6 +35,7 @@ class HomeController extends Controller
         if(\Auth::check()){
             $cache_key.='_'.\Auth::user()->handle;
         }
+        $cache_key.='_1'; //force refresh
         $view = \Cache::store('file')->remember($cache_key,3600,function () use($request){
             //return $this->showTrait($request)->render();
             $roots = Post::getRoots();
