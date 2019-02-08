@@ -130,16 +130,16 @@ class PostRelatedPivot extends Pivot
         }
         $routename=null;
         if($i!==null && $j===null){
-            return $this->getRouteN($i, $act);
+            return $this->getRouteN($i, $act); //.'#1';
         }
-        if($i!==null && $j!==null){
-            return $this->getRouteN($j, $act);
+        if($i!==null && $j!==null && $j==$i+1){
+            return $this->getRouteN($i, $act); //.'#2';
         }
         if($i===null && $j===null){ //esempio da /restaurant/ristotest/menu/edit    cambio un piatto percio cuisine recipe
             //ddd(count($items));
             //se menu avesse "cuisines" allora
             //dovrei controllare se l'ultimo item ha cuisines ..
-            return $this->getRouteN($n_items, $act); 
+            return $this->getRouteN($n_items, $act);//.'#3'; 
         }
 
         ddd('<h3>['.$post->type.']['.$i.']['.$related->type.']['.$j.']['.$routename.']</h3>');
