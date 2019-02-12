@@ -124,6 +124,7 @@ $areas_prgs = [
 if ('admin' != \Request::segment(1)) { //dal backend si creano i link per il frontend ..
     $prefix = App::getLocale();
     //$prefix='{locale}';
+    //'where' => ['locale' => '[a-zA-Z]{2}']
     Route::group(
         [
         'prefix' => $prefix,
