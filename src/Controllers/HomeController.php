@@ -14,7 +14,7 @@ use XRA\Blog\Models\Post;
 class HomeController extends Controller
 {
 
-    public $cache = 3600;
+    public $cache = 0;
     //use CrudTrait;
     public function index(Request $request)
     {
@@ -38,7 +38,7 @@ class HomeController extends Controller
         if(\Auth::check()){
             $cache_key.='_'.\Auth::user()->handle;
         }
-        $cache_key.='_1'; //force refresh
+        $cache_key.='_2'; //force refresh
         $view = \Cache::store('file')->remember($cache_key,$this->cache,function () use($request){
             //return $this->showTrait($request)->render();
             $roots = Post::getRoots();
