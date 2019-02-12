@@ -1,12 +1,13 @@
 <?php
-
-
-
 namespace XRA\Blog\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
+
+//---- services ----
+use XRA\Extend\Services\ThemeService;
+
 
 class PageController extends Controller
 {
