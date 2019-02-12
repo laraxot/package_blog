@@ -5,7 +5,6 @@ use Carbon\Carbon;
 //use Laravel\Scout\Searchable;
 
 use Illuminate\Database\Eloquent\Model;
-use XRA\Extend\Services\ThemeService;
 //------services---------
 use XRA\Extend\Services\ThemeService;
 use XRA\Extend\Traits\Updater;
