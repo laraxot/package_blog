@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Carbon\Carbon;
@@ -9,7 +6,8 @@ use Carbon\Carbon;
 
 use Illuminate\Database\Eloquent\Model;
 use XRA\Extend\Services\ThemeService;
-//--- services
+//------services---------
+use XRA\Extend\Services\ThemeService;
 use XRA\Extend\Traits\Updater;
 
 /**

@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 use XRA\Blog\Models\Traits\LinkedTrait;
 use XRA\Extend\Traits\Updater;
 
+//------services---------
+use XRA\Extend\Services\ThemeService;
+
+
 /**
  * { item_description }
  * da fare php artisan scout:import XRA\Blog\Models\Post.
