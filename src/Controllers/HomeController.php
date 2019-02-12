@@ -13,6 +13,8 @@ use XRA\Blog\Models\Post;
 
 class HomeController extends Controller
 {
+
+    public $cache = 3600;
     //use CrudTrait;
     public function index(Request $request)
     {
@@ -24,6 +26,7 @@ class HomeController extends Controller
         if (1 == $request->routelist) {
             return ArtisanTrait::exe('route:list');
         }
+
         /*
         $roots = Post::getRoots();
         $row = $roots['home'];
@@ -36,7 +39,7 @@ class HomeController extends Controller
             $cache_key.='_'.\Auth::user()->handle;
         }
         $cache_key.='_1'; //force refresh
-        $view = \Cache::store('file')->remember($cache_key,3600,function () use($request){
+        $view = \Cache::store('file')->remember($cache_key,$this->cache,function () use($request){
             //return $this->showTrait($request)->render();
             $roots = Post::getRoots();
             $row = $roots['home'];
