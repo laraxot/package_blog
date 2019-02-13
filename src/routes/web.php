@@ -123,10 +123,12 @@ $areas_prgs = [
 //,'middleware' => ['web','auth']
 if ('admin' != \Request::segment(1)) { //dal backend si creano i link per il frontend ..
     $prefix = App::getLocale();
-    //$prefix='{locale}';
+    //$prefix='{lang}';
+    
     Route::group(
         [
         'prefix' => $prefix,
+        //'where' => ['lang' => '[a-zA-Z]{2}'],
         'middleware' => $middleware,
         'namespace' => $namespace,
         ],
@@ -157,3 +159,7 @@ Route::group(['prefix' => null, 'middleware' => $middleware, 'namespace' => $nam
 });
 
 $this->routes();
+
+Route::fallback(function() {
+    return 'Hm, why did you land here somehow?';
+});

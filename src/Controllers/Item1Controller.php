@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -11,6 +8,7 @@ use XRA\Blog\Models\Post;
 use XRA\Extend\Traits\CrudSimpleTrait as CrudTrait;
 //use XRA\Blog\Models\PostRev;
 //------services---------
+use XRA\Extend\Services\ThemeService;
 
 class Item1Controller extends Controller
 {

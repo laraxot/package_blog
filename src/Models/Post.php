@@ -813,8 +813,12 @@ class Post extends Model
         if (\mb_substr($this->image_src, 0, \mb_strlen($str)) == $str) {
             $image_path = public_path(\str_replace($str, '', $this->image_src));
         }
+        $image_path=str_replace(
+            DIRECTORY_SEPARATOR.'public_html'.DIRECTORY_SEPARATOR.'laravel-filemanager'.DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR.'public_html'.DIRECTORY_SEPARATOR,
+            $image_path
+        );
         $params['image_path'] = $image_path;
-        //$src1=$this->image_resized_canvas($params);
         $src1 = ImageService::image_resized_canvas($params);
         $buff[$dim] = $src1;
         if (isset($this->relatedrev_count)) {

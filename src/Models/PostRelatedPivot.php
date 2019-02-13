@@ -98,8 +98,74 @@ class PostRelatedPivot extends Pivot
         return route($route, $params);
     }
 
-    public function getUrlAct($act)
+    public function getUrlAct($act){
+        $params = \Route::current()->parameters();
+        list($containers,$items)=$this->params2ContainerItem($params);
+        $n_containers=count($containers);
+        $n_items=count($items);
+        //ddd($this->type); //restaurant_x_cuisine
+        //ddd($container[0]->type); // restaurant
+        //ddd($container[1]->type); // menu
+        //ddd($this->post->type); //restaurant
+        //ddd($this->related->type); //cuisine
+        //$i=collect($container)->where('type',$this->post->type)->first();
+        $post=$this->post;
+        $related=$this->related;
+        /*
+        $i=collect($container)->each(function($item,$key) use($post){
+            if($item->type==$post->type) return $key;
+        });
+        */
+        $i=null; // quando trovo la collection giusta la sostituisco
+        foreach($containers as $k=>$container){
+            if($container->type == $post->type){
+                $i=$k; break;
+            }
+        }
+        $j=null;
+        foreach($containers as $k=>$container){
+            if($container->type == $related->type){
+                $j=$k; break;
+            }
+        }
+        $routename=null;
+        if($i!==null && $j===null){
+            return $this->getRouteN($i, $act); //.'#1';
+        }
+        if($i!==null && $j!==null && $j==$i+1){
+            return $this->getRouteN($i, $act); //.'#2';
+        }
+        if($i===null && $j===null){ //esempio da /restaurant/ristotest/menu/edit    cambio un piatto percio cuisine recipe
+            //ddd(count($items));
+            //se menu avesse "cuisines" allora
+            //dovrei controllare se l'ultimo item ha cuisines ..
+            return $this->getRouteN($n_items, $act);//.'#3'; 
+        }
+
+        ddd('<h3>['.$post->type.']['.$i.']['.$related->type.']['.$j.']['.$routename.']</h3>');
+        //ddd($params);
+        //ddd($j);
+    }
+
+    public function params2ContainerItem($params){
+        $container=[];
+        $item=[];
+        foreach($params as $k=>$v){
+            $pattern='/(container|item)([0-9]+)/';
+            preg_match($pattern, $k,$matches);
+            if(isset($matches[1]) && isset($matches[2]) ){
+                $sk=$matches[1];
+                $sv=$matches[2];
+                $$sk[$sv]=$v;
+            };
+        }
+        return [$container,$item];
+    }    
+
+
+    public function getUrlAct_old($act)
     {
+
         $params = \Route::current()->parameters();
         $routename = \Request::route()->getName();
         $routename_arr = \explode('.', $routename);

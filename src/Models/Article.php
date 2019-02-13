@@ -11,7 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 //---- traits 
 use XRA\Extend\Traits\Updater;
 use XRA\Blog\Models\Traits\LinkedTrait;
-//--- services
+//------services---------
+use XRA\Extend\Services\ThemeService;
+
 //--- models ---
 
 /**

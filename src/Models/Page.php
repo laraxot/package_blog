@@ -1,15 +1,12 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Carbon\Carbon;
 //use Laravel\Scout\Searchable;
 
 use Illuminate\Database\Eloquent\Model;
+//------services---------
 use XRA\Extend\Services\ThemeService;
-//--- services
 use XRA\Extend\Traits\Updater;
 
 /**
