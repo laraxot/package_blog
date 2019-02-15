@@ -19,7 +19,7 @@ class LangController extends Controller
         if (\View::exists($view)) {
             return view($view);
         } else {
-            return '<h3>La view ['.$view.'] non esiste</h3>';
+            return '<h3>La view ['.$view.'] non esiste</h3>['.__LINE__.']['.__FILE__.']';
         }
     }
 }//end class

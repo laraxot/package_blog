@@ -133,6 +133,7 @@ class Home extends Model
             $msg = '';
             $msg .= \chr(13).\chr(10).'<h3>la view ['.$view.'] non esiste <br/>';
             $msg .= \chr(13).\chr(10).'pub_theme= '.config('xra.pub_theme').'</h3>';
+            $msg .= \chr(13).\chr(10).'adm_theme= '.config('xra.adm_theme').'</h3>';
             $msg .= \chr(13).\chr(10).'['.__LINE__.']['.__FILE__.']';
             /* -- for debug --
             $hints=\View::getFinder()->getHints();

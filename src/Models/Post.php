@@ -878,6 +878,7 @@ class Post extends Model
         }
         //--- prendo la riga di traduzione
         $row = self::where('post_id', $this->post_id)->where('lang', $lang)->first();
+       // ddd( $this->post_id);
         if (null == $row) { //se non esiste la genero
             $row=$this->generateRowLang($lang);
         }
@@ -887,6 +888,7 @@ class Post extends Model
 
     public function urlLang($lang)
     {
+        //ddd($this);
         $url = $this->url_lang;
         //$url=[]; //forzo rigenerazione x debug
 
@@ -894,6 +896,13 @@ class Post extends Model
             $url[$lang]=$this->generateUrlLang($lang);
             $this->url_lang = $url;
             $this->save();
+        }
+        $routename = \Route::current()->getName();
+        $route_arr=explode('.',$routename);
+        $act=last($route_arr);
+        //ddd($act);
+        if($act!='index' && $act!='show'){
+            return url($url[$lang].'/'.$act);   
         }
         return url($url[$lang]);
         
