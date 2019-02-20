@@ -878,19 +878,21 @@ class Post extends Model
 		}
 		//--- prendo la riga di traduzione
 		$row = self::where('post_id', $this->post_id)->where('lang', $lang)->first();
-	   // ddd( $this->post_id);
+	    
 		if (null == $row) { //se non esiste la genero
 			$row=$this->generateRowLang($lang);
 		}
-		return str_replace(url('/'),'',$row->url);
-
+		$url= str_replace(url('/'),'',$row->url);
+		//ddd($url);
+		//ddd($row->attributes['url']);
+		return $url;
 	}
 
 	public function urlLang($lang)
 	{
-		//ddd($this);
+		
 		$url = $this->url_lang;
-		//$url=[]; //forzo rigenerazione x debug
+		$url=[]; //forzo rigenerazione x debug
 
 		if (!isset($url[$lang])) {
 			$url[$lang]=$this->generateUrlLang($lang);
@@ -1115,10 +1117,13 @@ class Post extends Model
 		//dd($this->attributes['url']);
 	}
 
-	public function getRouteN($n, $act){
-		$params = \Route::current()->parameters();
+	public function getRouteN($n, $act,$params=null){
+		if($params==null){
+			$params = \Route::current()->parameters();
+		}
 		$params['container'.$n] = $this->type;
 		$params['item'.$n] = $this->guid;
+		//$params['lang'] = $this->lang;
 		//$params['container'.($n + 1)] = $this->related->type;
 		//$params['item'.($n + 1)] = $this->related->guid;
 		$r = '';
@@ -1131,7 +1136,13 @@ class Post extends Model
 			$route = 'blog.'.$route;
 		}
 
-		return route($route, $params);
+		$url= route($route, $params,false);  //con il false mi da il relativo 
+		$url_arr=explode('/',$url);
+		if(isset($url_arr[1]) && strlen($url_arr[1])==2){
+			$url_arr[1]=$this->lang;
+		}
+		$url=implode('/',$url_arr);
+		return $url;
 		//return $route;
 	}
 
