@@ -1160,7 +1160,7 @@ class Post extends Model
 		//ddd('item');
 		$j=null; // quando trovo la collection giusta la sostituisco
 		foreach($items as $k=>$item){
-			if($item->type == $this->type && $item->guid == $this->guid){
+			if(is_object($item) && $item->type == $this->type && $item->guid == $this->guid){
 				$j=$k; break;
 			}
 		}
@@ -1209,7 +1209,7 @@ class Post extends Model
 	public function getUrlAttribute($value)
 	{
 		if (isset($this->pivot)) {
-			return $this->pivot->url;
+			return $this->pivot->url;//.'#PIVOT';
 		}
 		$value=$this->getUrl();
 		if ('' == $value) {
@@ -1224,7 +1224,7 @@ class Post extends Model
 		}
 		//*/
 		//return $value;  //no url($value) se no salvo il dominio nel db
-		return url($value);
+		return url($value);//.'#NO-PIVOT';
 	}
 
 	public function getMoveupUrlAttribute($value)
@@ -1266,10 +1266,10 @@ class Post extends Model
 	public function getEditUrlAttribute($value)
 	{
 		if (isset($this->pivot)) {
-			return $this->pivot->edit_url;
+			return $this->pivot->edit_url;//.'#PIVOT';
 		}
 
-		return $this->getUrlAct('edit');
+		return $this->getUrlAct('edit');//.'#NO-PIVOT';
 	}
 
 	public function getUpdateUrlAttribute($value)
