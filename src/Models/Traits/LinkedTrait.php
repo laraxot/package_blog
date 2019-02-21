@@ -92,6 +92,22 @@ trait LinkedTrait
         return $value;
     }
 
+    public function getTabsAttribute($value){
+        //if($this->post->guid!=$this->post->type){
+            //ddd($this->post->guid.'  '.$this->post->type);
+            //ddd('['.$this->attributes['guid'].']  ['.$this->attributes['type'].']');
+        //    return ['cuisine','photo','article','contact','map'];
+        //}
+    }
+
+    public function getParentTabsAttribute($value){
+        $params = \Route::current()->parameters();
+        $second_last = collect(\array_slice($params, -2))->first(); //penultimo
+        if(is_object($second_last)){
+            return $second_last->linked->tabs;
+        }
+    }
+
     //----------------------------------------------
     public function imageResizeSrc($params){
         $value=null;
@@ -101,4 +117,6 @@ trait LinkedTrait
 
         return $value;
     }
+
+
 }
