@@ -106,7 +106,7 @@ trait LinkedTrait
         $n_params=count($params);
         $second_last=collect($params)->take(-2)->first();        
         if(is_object($second_last) && $n_params>1){
-            return $second_last->linked->tabs;
+            return $second_last->linkedOrCreate->tabs;
         }
     }
 

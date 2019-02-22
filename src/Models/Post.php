@@ -1165,6 +1165,14 @@ class Post extends Model
 			}
 		}
 
+		$roots=config('xra.roots');
+		if(!is_array($roots)){
+			$roots=[];
+		}
+
+		if(strtolower($this->type)!=strtolower($this->guid) && in_array($this->type,$roots)){
+			return $this->getRouteN(0, 'show');//.'#2['.$i.']['.$j.']';
+		}
 
 		
 		if(strtolower($this->type)==strtolower($this->guid)){
