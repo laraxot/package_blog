@@ -177,7 +177,9 @@ class BlogServiceProvider extends ServiceProvider
         //--------- MIDDLEWARE
         $router->aliasMiddleware('editor', XRA\Blog\Middleware\Editor::class);
         $this->registerRoutePattern($router);
-        $this->registerRouteBind($router);
+        if(!\Request::has('migrate')){
+            $this->registerRouteBind($router);
+        }
         $this->registerBladeDirective();
         
         $this->bootTrait($router);
