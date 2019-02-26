@@ -160,6 +160,8 @@ Route::group(['prefix' => null, 'middleware' => $middleware, 'namespace' => $nam
 
 $this->routes();
 
+///*
 Route::fallback(function() {
     return 'Hm, why did you land here somehow?';
 });
+//*/
