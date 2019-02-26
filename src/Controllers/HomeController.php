@@ -34,11 +34,12 @@ class HomeController extends Controller
 
         return ThemeService::view()->with($roots)->with('row', $row);
         */
+        $lang=\App::getLocale();
         $cache_key=str_slug(__CLASS__.__FUNCTION__);
         if(\Auth::check()){
             $cache_key.='_'.\Auth::user()->handle;
         }
-        $cache_key.='_2'; //force refresh
+        $cache_key.='_'.$lang.'_2'; //force refresh
         $view = \Cache::store('file')->remember($cache_key,$this->cache,function () use($request){
             //return $this->showTrait($request)->render();
             $roots = Post::getRoots();
