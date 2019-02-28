@@ -87,6 +87,10 @@ class BlogServiceProvider extends ServiceProvider
                     $container_curr = request()->$container_name;
                     $item_name_prev = 'item'.($i - 1);
                     $item_prev = request()->$item_name_prev;
+                    if(!is_object($item_prev)){
+                    	echo '<h3>['.$item_name_prev.']</h3>';
+                    	ddd($item_prev);
+                    }
                     $rows = $item_prev->related($container_curr->type)->where('guid', $value);
                 }
                 $row=$rows->first();
