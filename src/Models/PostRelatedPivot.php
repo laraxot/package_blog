@@ -248,6 +248,11 @@ class PostRelatedPivot extends Pivot
         return $this->getUrlAct('index');
     }
 
+    public function getIndexEditUrlAttribute($value)
+    {
+        return $this->getUrlAct('index_edit');
+    }
+
     public function getCreateUrlAttribute($value)
     {
         return $this->getUrlAct('create');
