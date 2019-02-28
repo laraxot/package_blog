@@ -1262,6 +1262,15 @@ class Post extends Model
 		return $this->getUrlAct('index');
 	}
 
+	public function getShowUrlAttribute($value)
+	{
+		if (isset($this->pivot)) {
+			return $this->pivot->show_url;//.'#PIVOT';
+		}
+
+		return $this->getUrlAct('show');//.'#NO-PIVOT';
+	}
+
 	public function getIndexEditUrlAttribute($value)
 	{
 		if (isset($this->pivot)) {
