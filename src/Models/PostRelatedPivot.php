@@ -129,6 +129,19 @@ class PostRelatedPivot extends Pivot
             }
         }
         $routename=null;
+
+        $roots=config('xra.roots');
+        if(!is_array($roots)){
+            $roots=[];
+        }
+        /*
+        ddd($this->related);
+        if(strtolower($this->related->type)!=strtolower($this->related->guid) && in_array($this->related->type,$roots)){
+            return $this->getRouteN(0, $act);//.'#2['.$i.']['.$j.']';
+        }
+        */
+
+
         if($i!==null && $j===null){
             return $this->getRouteN($i, $act); //.'#1';
         }
