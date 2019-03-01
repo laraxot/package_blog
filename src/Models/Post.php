@@ -497,6 +497,7 @@ class Post extends Model
 			$model = config('xra.model.post');
 		}
 		$with = [];
+		//$with[] = 'related'; con related = 313 senza = 291
 		//dd($type);
 		//*
 		switch ($type) {
