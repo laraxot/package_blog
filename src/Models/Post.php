@@ -500,7 +500,7 @@ class Post extends Model
 		//dd($type);
 		//*
 		switch ($type) {
-			case 'restaurant':$with[] = 'cuisines'; break;
+			case 'restaurant':$with[] = 'cuisines'; /*$with[] = 'cuisineCats';*/ break;
 			case 'location': $with[] = 'restaurants'; break;
 			case 'cuisine': $with[] = 'ingredientCats'; $with[] = 'recipes'; break;
 
@@ -726,7 +726,7 @@ class Post extends Model
 		$all = config('xra.model');
 		$roots = Cache::get('roots', function () use($lang){
 			//mettendo with archive mi da errore 
-			return self::with([])->where('lang', $lang)->whereRaw('guid = type ')->get();
+			return self::with(['related'])->where('lang', $lang)->whereRaw('guid = type ')->get();
 		});
 		$roots = $roots->keyBy('type')->all();
 		$add = collect(\array_keys($all))->diff(\array_keys($roots));
