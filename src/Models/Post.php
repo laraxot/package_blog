@@ -1363,8 +1363,18 @@ class Post extends Model
 			$routename_act = 'container0'.$routename_act;
 			$params['container0'] = $this->guid;
 		}
-
-		return route($routename_act, $params);
+		/*
+		if(\Route::exists($routename_act)){
+			return route($routename_act, $params);
+		}else{
+			return '#'.$routename_act;
+		}
+		*/
+		try{
+			return route($routename_act, $params);
+		}catch(\Exception $e){
+			return '#'.$routename_act;	
+		}
 	}
 
 	/*
