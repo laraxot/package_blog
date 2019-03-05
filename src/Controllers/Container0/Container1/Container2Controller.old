@@ -126,7 +126,7 @@ class Container2Controller extends Controller{
 	public function home(Request $request){
 		$lang=\App::getLocale();
 		$params = \Route::current()->parameters();
-		if ($request->routelist==1) {
+		if ($request->act=='routelist') {
 			return ArtisanTrait::exe('route:list');
 		}
 		if ($request->migrate==1) {
