@@ -1335,7 +1335,9 @@ class Post extends Model
 
 	public function getUrlAct($act)
 	{
+		
 		$params = \Route::current()->parameters();
+		list($containers,$items)=$this->params2ContainerItem($params);
 		$routename = \Request::route()->getName();
 		$ris = null;
 		$routename_arr =[];
@@ -1358,7 +1360,7 @@ class Post extends Model
 		}
 		*/
 		//ddd($k);
-		if ($ris_tmp == $ris && 'edit' == $act) {
+		if ($ris_tmp == $ris && 'edit' == $act && $ris!=null) {
 			$n = \str_replace('container', '', $ris);
 			$params['item'.$n] = $params['container'.$n];
 		}

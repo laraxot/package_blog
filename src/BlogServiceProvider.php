@@ -100,14 +100,31 @@ class BlogServiceProvider extends ServiceProvider
                     	echo '<h3>['.$item_name_prev.']</h3>';
                     	ddd($item_prev);
                     }
-                    ddd($item_prev);
-                    $rows = $item_prev->related($container_curr->type)->where('guid', $value);
+                    //ddd($item_prev);
+                    //ddd($container_curr->type);
+                    //$rows = $item_prev->related($container_curr->type)->where('guid', $value);
+                    $types = str_plural($container_curr->type);
+                    $types = camel_case($types);
+                    //ddd($types.'  '.$value);
+                    $rows= $item_prev->$types()->where('guid', $value);
+                    //ddd($rows->first());
                 }
                 $row=$rows->first();
                 if (is_object($row)) {
+                    if($row->type=='restaurant'){
+                        //ddd('si'); //sempre 33 queries..
+                        $row->load('cuisines','cuisineCats');
+                    }
                     return $row;
+                }else{
+                    /* -- 4 debug
+                    echo '<h3>I:'.$i.'</h3>';
+                    echo '<h3>itemprev:'.$item_prev->type.'</h3>';
+                    echo '<h3>types:'.$types.'</h3>';
+                    echo '<h3>guid:'.$value.'</h3>';
+                    ddd($rows->toSql());
+                    */
                 }
-               // ddd($rows->toSql());
                 return $value;
             });
         }
