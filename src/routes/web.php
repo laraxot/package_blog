@@ -165,3 +165,10 @@ Route::fallback(function() {
     return 'Hm, why did you land here somehow?';
 });
 //*/
+
+ Route::get('/morph',function () {
+    $risto=\XRA\Food\Models\Restaurant::find(14677);
+    //ddd($risto->post_id);
+    //ddd($risto->post()->toSql());
+    ddd($risto->cuisineCats);
+});

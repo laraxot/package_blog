@@ -17,9 +17,31 @@ trait LinkedTrait
     //------- relationships ------------
     public function post()
     {
-        //return $this->morphOne(Post::class,'linkable',null,'post_id');
-        return $this->hasOne(Post::class,'post_id','post_id')->where('lang',$this->lang);
+        //update blog_posts set linkable_type=type
+        //return $this->morphOne(Post::class,'linkable',null,'post_id')->where('lang',$this->lang);
+        return $this->hasOne(Post::class,'post_id','post_id')->where('type',$this->type)->where('lang',$this->lang); 
     }
+
+    public function morphRelated($related){
+        //-- name post perche' dopo va a cercare il proprio oggetto dentro $name .'_type';
+        // percio' post_type=restaurant 
+        $name='post';//'related';//'relatable'; 
+        $table ='blog_post_related'; 
+        $foreignPivotKey = 'post_id';
+        $relatedPivotKey = 'related_id'; 
+        $parentKey = 'post_id';
+        $relatedKey = 'post_id'; 
+        $inverse = false;
+        $pivot_fields = ['type', 'pos', 'price', 'price_currency', 'id'];
+        return $this->morphToMany($related, $name,$table, $foreignPivotKey,
+                                $relatedPivotKey, $parentKey,
+                                $relatedKey, $inverse)
+                    ->withPivot($pivot_fields)
+                    //->using(PostRelatedPivot::class) /// Call to undefined method  setMorphType() ??
+                    ->orderBy('blog_post_related.pos', 'asc');
+                    ; 
+    }
+
 
     public function related()
     {
