@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Models\Traits;
 
 //use Laravel\Scout\Searchable;
@@ -86,6 +83,14 @@ trait LinkedTrait
 
         return $value;
     }
+    public function getGuidAttribute($value)
+    {
+        if (isset($this->post)) {
+            $value = $this->post->guid;
+        }
+
+        return $value;
+    }
 
     public function getSubtitleAttribute($value)
     {
@@ -128,7 +133,7 @@ trait LinkedTrait
         $n_params=count($params);
         $second_last=collect($params)->take(-2)->first();        
         if(is_object($second_last) && $n_params>1){
-            return $second_last->linkedOrCreate->tabs;
+            return $second_last->tabs;
         }
     }
 
@@ -140,6 +145,15 @@ trait LinkedTrait
         }
 
         return $value;
+    }
+
+    public function image_html($params){
+        $value=null;
+        if (isset($this->post)) {
+            $value = $this->post->image_html($params);
+        }
+
+        return $value;    
     }
 
 

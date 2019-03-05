@@ -88,7 +88,9 @@ class BlogServiceProvider extends ServiceProvider
                     $container_curr = request()->$container_name;
                     $model=$container_curr->getLinkedModel();
                     $tbl=$model->getTable();
-                    $rows=$model->join('blog_posts','blog_posts.post_id','=',$tbl.'.post_id')->where('lang',$lang)->where('guid',$value);
+                    $rows=$model->join('blog_posts','blog_posts.post_id','=',$tbl.'.post_id')
+                                ->where('lang',$lang)
+                                ->where('guid',$value);
                     //ddd($rows->get());
                 } else {
                     $container_curr = request()->$container_name;
@@ -98,6 +100,7 @@ class BlogServiceProvider extends ServiceProvider
                     	echo '<h3>['.$item_name_prev.']</h3>';
                     	ddd($item_prev);
                     }
+                    ddd($item_prev);
                     $rows = $item_prev->related($container_curr->type)->where('guid', $value);
                 }
                 $row=$rows->first();
