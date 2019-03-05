@@ -90,7 +90,7 @@ $item2=[     //questo per avere /it/restaurant/ristotest/photo/edit
     'subs' => [
         [
             'name' => '{container1}',
-            //'param_name' => 'a',
+            'param_name' => '',
             'as'=>'container1.index_', 
             //'prefix'=>'ddd',
             //'prefix'=>'index_edit',
