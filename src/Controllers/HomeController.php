@@ -18,9 +18,7 @@ class HomeController extends Controller
     //use CrudTrait;
     public function index(Request $request)
     {
-        if (1 == $request->migrate) {
-            config(['app.APP_ENV' => 'local']);
-
+        if ($request->act=='migrate') {
             return ArtisanTrait::exe('migrate');
         }
         if ($request->act=='routelist') {
