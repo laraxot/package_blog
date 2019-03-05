@@ -124,6 +124,13 @@ class Post extends Model
 		$this->importInit();
 	}
 
+	public function getLinkedModel(){
+		
+		$model=config('xra.model.'.$this->type);
+		return new $model;
+	}
+
+
 	public function getRouteKeyName()
 	{
 		return 'guid';

@@ -69,7 +69,8 @@ class BlogServiceProvider extends ServiceProvider
             $item_name .= $i;
             $container_name .= $i;
             $router->bind($item_name, function ($value) use ($container_name,$lang,$i) {
-                if (0 == $i) {
+                if ($i == 0) {
+                    /*
                     $rows = Post::where('lang', $lang)
                         ->where('guid', $value);
                     if (request()->route()->hasParameter($container_name)) {
@@ -83,6 +84,12 @@ class BlogServiceProvider extends ServiceProvider
                         }
                         $rows = $rows->where('type', $container_curr->type);
                     }
+                    */
+                    $container_curr = request()->$container_name;
+                    $model=$container_curr->getLinkedModel();
+                    $tbl=$model->getTable();
+                    $rows=$model->join('blog_posts','blog_posts.post_id','=',$tbl.'.post_id')->where('lang',$lang)->where('guid',$value);
+                    //ddd($rows->get());
                 } else {
                     $container_curr = request()->$container_name;
                     $item_name_prev = 'item'.($i - 1);
