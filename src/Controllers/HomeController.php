@@ -23,7 +23,7 @@ class HomeController extends Controller
 
             return ArtisanTrait::exe('migrate');
         }
-        if (1 == $request->routelist) {
+        if ($request->act=='routelist') {
             return ArtisanTrait::exe('route:list');
         }
 
@@ -58,7 +58,7 @@ class HomeController extends Controller
     {
         $lang=\App::getLocale();
         $params = \Route::current()->parameters();
-        if ($request->routelist==1) {
+        if ($request->act=='routelist') {
             return ArtisanTrait::exe('route:list');
         }
         if ($request->migrate==1) {

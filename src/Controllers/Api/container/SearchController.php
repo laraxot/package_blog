@@ -38,7 +38,7 @@ class SearchController extends Controller
     public function show(Request $request)
     {
         die('show');
-        if (1 == $request->routelist) {
+        if ($request->act=='routelist') {
             return ArtisanTrait::exe('route:list');
         }
         $params = \Route::current()->parameters();
