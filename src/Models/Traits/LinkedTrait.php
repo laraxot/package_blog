@@ -2,7 +2,7 @@
 namespace XRA\Blog\Models\Traits;
 
 //use Laravel\Scout\Searchable;
-
+use Illuminate\Support\Str;
 //----- models------
 use XRA\Blog\Models\Post;
 use XRA\Blog\Models\PostRelatedPivot;
@@ -29,10 +29,15 @@ trait LinkedTrait
     public function morphRelated($related,$inverse=false){
         //-- name post perche' dopo va a cercare il proprio oggetto dentro $name .'_type';
         // percio' post_type=restaurant
-        $related_table=with(new $related)->getTable(); 
+        $related_table=with(new $related)->getTable();
+        $alias=array_flip(config('xra.model'));
+        if(!isset($alias[$related])){
+            ddd($related);
+        }
+        $related_type=($alias[$related]); 
         $name='post';//'related';//'relatable'; 
         $table ='blog_post_related'; 
-        $foreignPivotKey = 'post_id';
+        $foreignPivotKey = 'post_id'; 
         $relatedPivotKey = 'related_id'; 
         $parentKey = 'post_id';
         $relatedKey = 'post_id'; 
@@ -42,11 +47,15 @@ trait LinkedTrait
                                 $relatedPivotKey, $parentKey,
                                 $relatedKey, $inverse)
                     ->withPivot($pivot_fields)
-                    ->using(PostRelatedMorphPivot::class) /// Call to undefined method  setMorphType() ??
+                    ->wherePivot('related_type', $related_type)
+                    ->using(PostRelatedMorphPivot::class)
+                    //------------------------------ 
+                    ->join('blog_posts','blog_posts.post_id','=',$related_table.'.post_id')
+                    ->where('blog_posts.post_type',$related_type)
+                    ->where('blog_posts.lang',$this->lang)
+                    //--------------------------------
                     ->orderBy('blog_post_related.pos', 'asc')
                     ->with(['post'])
-                    ->join('blog_posts','blog_posts.post_id','=',$related_table.'.post_id')
-                    ->where('blog_posts.lang',$this->lang)
                     ; 
     }
 public function morphRelatedRev($related/*,$inverse=false*/){
@@ -111,6 +120,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
 
     public function getTitleAttribute($value)
     {
+        if($value!=null) return($value);
         if (isset($this->post)) {
             $value = $this->post->title;
         }
@@ -119,6 +129,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
     }
     public function getGuidAttribute($value)
     {
+        if($value!=null) return($value);
         if (isset($this->post)) {
             $value = $this->post->guid;
         }
@@ -128,6 +139,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
 
     public function getSubtitleAttribute($value)
     {
+        if($value!=null) return($value);
         if (isset($this->post)) {
             $value = $this->post->subtitle;
         }
@@ -137,6 +149,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
 
     public function getTxtAttribute($value)
     {
+        if($value!=null) return($value);
         if (isset($this->post)) {
             $value = $this->post->txt;
         }
@@ -152,16 +165,30 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         return $value;
     }
 
-    public function getEditUrlAttribute($value)
-    {   
+    public function urlActFunc($func,$value){
+        $str0='get';
+        $str1='Attribute';
+        $name=substr($func, strlen($str0),-strlen($str1));
+        $name=Str::snake($name);
         if (isset($this->pivot)) {
-            return $this->pivot->edit_url;//.'#PIVOT';
+            return $this->pivot->$name;//.'#PIVOT';
         }
         if (isset($this->post)) {
-            $value = $this->post->edit_url;
+            return $this->post->$name;
         }
         return $value;
     }
+
+    public function getEditUrlAttribute($value)     {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getMoveupUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getMovedownUrlAttribute($value) {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getIndexUrlAttribute($value)    {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getShowUrlAttribute($value)     {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getIndexEditUrlAttribute($value){return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getCreateUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getUpdateUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getDestroyUrlAttribute($value)  {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getDetachUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
 
 
     public function getTabsAttribute($value){

@@ -1,16 +1,8 @@
 <?php
-
-
-
 namespace XRA\Blog\Policies;
-
-/*
-use App\User;
-use App\Post;
-*/
 use Illuminate\Auth\Access\HandlesAuthorization;
-use XRA\Blog\Models\Page as Post;
-//use XRA\Food\Models\Post;
+
+use XRA\Blog\Models\Post as Post;
 use XRA\LU\Models\User;
 
 class PostPolicy
@@ -52,11 +44,17 @@ class PostPolicy
 
         return false;
     }
+    
+    public function index(User $user, Post $post)
+    {
+        return true;
+    }
 
     public function show(User $user, Post $post)
     {
-        return false;
+        return true;
     }
+
     public function indexEdit(User $user, Post $post){
         return true;
     }

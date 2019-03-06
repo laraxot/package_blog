@@ -22,6 +22,8 @@ class PostRelated extends Model
                                 'post_id',
                                 'related_id',
                                 'type',
+                                'post_type',
+                                'related_type',
                                 'price',
                                 'price_currency',
                                 'pos',
