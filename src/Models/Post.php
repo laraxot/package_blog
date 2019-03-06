@@ -477,6 +477,10 @@ class Post extends Model
 		return $this->relatedrev()->wherePivot('type', $type); //->where('lang',\App::getLocale());
 	}
 
+	public function linkable(){
+		return $this->morphTo('post');
+	}
+
 	public function linked()
 	{
 		return $this->linkedType($this->type);

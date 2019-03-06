@@ -26,7 +26,7 @@ trait LinkedTrait
         //return $this->hasOne(Post::class,'post_id','post_id')->where('type',$this->type)->where('lang',$this->lang); 
     }
 
-    public function morphRelated($related){
+    public function morphRelated($related,$inverse=false){
         //-- name post perche' dopo va a cercare il proprio oggetto dentro $name .'_type';
         // percio' post_type=restaurant
         $related_table=with(new $related)->getTable(); 
@@ -36,7 +36,30 @@ trait LinkedTrait
         $relatedPivotKey = 'related_id'; 
         $parentKey = 'post_id';
         $relatedKey = 'post_id'; 
-        $inverse = false;
+        //$inverse = false; //passato da parametro
+        $pivot_fields = ['type', 'pos', 'price', 'price_currency', 'id','post_type','related_type'];
+        return $this->morphToMany($related, $name,$table, $foreignPivotKey,
+                                $relatedPivotKey, $parentKey,
+                                $relatedKey, $inverse)
+                    ->withPivot($pivot_fields)
+                    ->using(PostRelatedMorphPivot::class) /// Call to undefined method  setMorphType() ??
+                    ->orderBy('blog_post_related.pos', 'asc')
+                    ->with(['post'])
+                    ->join('blog_posts','blog_posts.post_id','=',$related_table.'.post_id')
+                    ->where('blog_posts.lang',$this->lang)
+                    ; 
+    }
+public function morphRelatedRev($related/*,$inverse=false*/){
+        //-- name post perche' dopo va a cercare il proprio oggetto dentro $name .'_type';
+        // percio' post_type=restaurant
+        $related_table=with(new $related)->getTable(); 
+        $name='post';//'related';//'relatable'; 
+        $table ='blog_post_related'; 
+        $foreignPivotKey = 'related_id';         //where `blog_post_related`.`post_id_1` = 220792
+        $relatedPivotKey = 'post_id';      //chiave `blog_post_related`.`related_id_2`
+        $parentKey = 'post_id';                 //chiave che gli passo
+        $relatedKey = 'post_id';              //chiave di blog_post_restaurants`.`post_id_4`
+        $inverse = true; //passato da parametro
         $pivot_fields = ['type', 'pos', 'price', 'price_currency', 'id','post_type','related_type'];
         return $this->morphToMany($related, $name,$table, $foreignPivotKey,
                                 $relatedPivotKey, $parentKey,
