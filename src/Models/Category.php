@@ -9,6 +9,9 @@ use Laravel\Scout\Searchable;
 use XRA\Extend\Services\ThemeService;
 //--- services
 use XRA\Extend\Traits\Updater;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
+
 
 /**
  * XRA\Blog\Models\Category.
@@ -21,6 +24,7 @@ class Category extends Model
 {
     use Searchable;
     use Updater;
+    use LinkedTrait;
     /**
      * The table associated with the model.
      *

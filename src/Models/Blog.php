@@ -1,13 +1,13 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
 
 class Blog extends Model
 {
+    use LinkedTrait;
     protected $table = 'blog_posts';
 
     //--- relationship --

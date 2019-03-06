@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use XRA\Extend\Services\ThemeService;
 //--- services
 use XRA\Extend\Traits\Updater;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
 
 /**
  * { item_description }
@@ -21,6 +20,7 @@ class CartItem extends Model
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use Updater;
+    use LinkedTrait;
     protected $table = 'blog_post_shop_items';
     protected $fillable = ['id', 'post_id', 'post_cat_id', 'post_var_cat_id', 'post_id_adds', 'post_id_subs'];
     protected $appends = [];

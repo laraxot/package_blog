@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 //------services---------
 use XRA\Extend\Services\ThemeService;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
 use XRA\Extend\Traits\Updater;
 
 /**
@@ -22,6 +24,7 @@ class Home extends Model
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use Updater;
+    use LinkedTrait;
     protected $table = 'blog_post_pages';
     /**
      * The attributes that are mass assignable.

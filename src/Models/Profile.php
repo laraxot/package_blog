@@ -1,17 +1,16 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
 
-use XRA\Extend\Services\ThemeService;
 //--------- models --------
+use XRA\LU\Models\User;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
 use XRA\Extend\Traits\Updater;
 //--- services
-use XRA\LU\Models\User;
+use XRA\Extend\Services\ThemeService;
 
 /**
  * { item_description }
@@ -23,6 +22,7 @@ class Profile extends Model
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use Updater;
+    use LinkedTrait;
     protected $table = 'blog_post_profiles';
     protected $fillable = ['post_id', 'bio'];
     protected $appends = [];

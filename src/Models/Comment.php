@@ -10,6 +10,9 @@ use XRA\Extend\Traits\Updater;
 //--- Models ---//
 //use Laralum\Users\Models\User;
 use XRA\LU\Models\User;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
+
 
 /**
  * XRA\Blog\Models\Comment.
@@ -22,6 +25,7 @@ class Comment extends Model
 {
     use Searchable;
     use Updater;
+    use LinkedTrait;
     /**
      * The table associated with the model.
      *

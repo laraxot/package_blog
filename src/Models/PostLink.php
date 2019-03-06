@@ -1,14 +1,13 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
 
-//----- traits -------
-use XRA\Blog\Models\Traits\PostTrait;
+
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Blog\Models\Traits\PostTrait;
 use XRA\Extend\Traits\Updater;
 
 /**
@@ -20,8 +19,9 @@ use XRA\Extend\Traits\Updater;
 class PostLink extends Model
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
-    use PostTrait;
+    //use PostTrait; //vecchio
     use Updater;
+    use LinkedTrait;
     protected $table = 'blog_post_links';
     protected $fillable = ['post_id', 'url', 'title', 'type'];
     protected $appends = [];

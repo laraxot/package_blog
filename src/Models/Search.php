@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Carbon\Carbon;
@@ -11,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use XRA\Extend\Services\ThemeService;
 //------services---------
 use XRA\Extend\Services\ThemeService;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
 use XRA\Extend\Traits\Updater;
 
 //--- models ---
@@ -25,6 +24,7 @@ class Search extends Model
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use Updater;
+    use LinkedTrait;
     protected $table = 'blog_post_articles';
     /**
      * The attributes that are mass assignable.

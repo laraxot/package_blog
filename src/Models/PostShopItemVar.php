@@ -1,12 +1,10 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
-
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
 use XRA\Extend\Traits\Updater;
 
 /**

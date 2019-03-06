@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 use Laravel\Scout\Searchable;
 //--- Models ---//
-use XRA\Blog\Models\Post\PostTrait;
-//------- Traits --------
+//use XRA\Blog\Models\Post\PostTrait;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
 use XRA\Extend\Traits\FilterTrait;
 use XRA\Extend\Traits\Updater;
 use XRA\LU\Models\User;
@@ -31,7 +32,8 @@ class Related extends Model
     use FilterTrait;
     // use Searchable; //ne update quando aggiungo un array mi da errore
     use Updater;
-    use PostTrait;
+    //use PostTrait;
+    use LinkedTrait;
 
     protected $dates = [
         'created_at',

@@ -1,14 +1,13 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
 
-use XRA\Extend\Services\ThemeService;
 //--- services
+use XRA\Extend\Services\ThemeService;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
 use XRA\Extend\Traits\Updater;
 
 /**
@@ -19,6 +18,7 @@ use XRA\Extend\Traits\Updater;
  */
 class Sitemap extends Model
 {
+    use LinkedTrait;
     //use Searchable; //se non si crea prima indice da un sacco di errori
     //use Updater;
     protected $table = 'blog_feeds';

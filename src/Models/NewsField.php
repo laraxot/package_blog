@@ -1,10 +1,9 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
+//--- TRAITS ---
+use XRA\Blog\Models\Traits\LinkedTrait;
 
 /**
  * XRA\Blog\Models\PostContent.
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class NewsField extends Model
 {
+    use LinkedTrait;
     protected $table = 'blog_news_fields';
     protected $dates = [
         'created_at',
