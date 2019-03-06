@@ -65,7 +65,13 @@ class SitemapController extends Controller
         $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
         PostRelated::whereRaw('post_id=related_id')->delete();
         $lang = \App::getLocale();
-        $root = Post::firstOrCreate(['lang' => $lang, 'type' => $item0->guid, 'guid' => $item0->guid], ['title' => $item0->guid]);
+        $type=is_object($item0)?$item0->type:$item0;
+        $roots=array_keys(config('xra.model'));
+        if(!in_array($type,$roots)){
+            return abort(404);
+        }
+        $root = Post::firstOrCreate(['lang' => $lang, 'type' => $type, 'guid' => $type], ['title' => $type]);
+
         $locale = config('laravellocalization.supportedLocales.'.$lang);
         //$view=CrudTrait::getView($params); //special case, so i write view path
         $view = 'blog::sitemap.show';

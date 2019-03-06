@@ -54,8 +54,9 @@ class FeedController extends Controller
         $lang = \App::getLocale();
         //item e' un elemento di tipo feed
         //ddd($item->archive()->orderBy('updated_at','desc')->limit(10)->get());
+        $type=is_object($item0)?$item0->type:$item0;
         $rows = Post::where('lang', $lang)
-                ->where('type', '=', $item0->guid)
+                ->where('type', '=', $type)
                 ->orderBy('updated_at', 'desc')->paginate(10);
 
         $feed = view($view)
