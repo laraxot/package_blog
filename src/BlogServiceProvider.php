@@ -121,7 +121,7 @@ class BlogServiceProvider extends ServiceProvider
                     $row=$rows->first();
                     if (!is_object($row)) {
                         echo '<h3>['.__LINE__.']['.$container_prev->type.']['.$item_name_prev.']['.$item_prev->type.']['.$lang.']['.$container_curr->type.']['.$value.']</h3>';
-                        $tmps=Post::where('type',$container_curr->type)->where('guid',$value)->where('lang','!=',$lang)->groupBy('post_id')->get();
+                        $tmps=Post::where('type',$container_curr->type)->where('guid',$value)->where('lang','!=',$lang)->get();
                         //--- genero traduzioni ipotetiche mancanti
                         foreach($tmps as $tmp){
                             $tmp->generateRowLang($lang); //genero le traduzioni
