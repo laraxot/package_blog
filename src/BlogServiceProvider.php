@@ -70,21 +70,6 @@ class BlogServiceProvider extends ServiceProvider
             $container_name .= $i;
             $router->bind($item_name, function ($value) use ($container_name,$lang,$i) {
                 if ($i == 0) {
-                    /*
-                    $rows = Post::where('lang', $lang)
-                        ->where('guid', $value);
-                    if (request()->route()->hasParameter($container_name)) {
-                        $container_curr = request()->$container_name;
-                        if (!\is_object($container_curr)) {
-                            echo '<pre>';
-                            \print_r($container_curr);
-                            echo '</pre>';
-                            $params = \Route::current()->parameters();
-                            ddd($params);
-                        }
-                        $rows = $rows->where('type', $container_curr->type);
-                    }
-                    */
                     $container_curr = request()->$container_name;
                     $model=$container_curr->getLinkedModel();
                     $tbl=$model->getTable();
@@ -93,6 +78,14 @@ class BlogServiceProvider extends ServiceProvider
                                 ->where('guid',$value);
                     //ddd($rows->get());
                     $row=$rows->first();
+                    if (!is_object($row)) {
+                        $tmp=Post::where('post_type',$container_curr->type)->where('guid',$value)->first();
+                        if(is_object($tmp)){
+                            $tmp_lang=$tmp->generateRowLang($lang);
+                            return $tmp_lang->linkable; /// boh da valutare 
+                        }
+                        //ddd($tmp);
+                    }
                 } else {
                     $container_curr = request()->$container_name;
                     $item_name_prev = 'item'.($i - 1);
@@ -100,11 +93,13 @@ class BlogServiceProvider extends ServiceProvider
                     $container_name_prev = 'container'.($i - 1);
                     $container_prev = request()->$container_name_prev;
                     if(!is_object($item_prev)){ 
+                        //echo '<h3>['.__LINE__.']['.$container_prev->type.']['.$item_name_prev.']['.$item_prev.']['.$lang.']['.$value.']</h3>';
+                        //ddd('o');
+                        return abort(404); //da tenere d'occhio
                         /* --- sbagliato devo prendere l'oggetto collegato e tradurlo, non tradurre quello con lo stesso guid
 
                         $tmp=Post::where('post_type',$container_prev->type)->where('guid',$item_prev)->first();
                         if(is_object($tmp)){
-                    	    echo '<h3>['.$container_prev->type.']['.$item_name_prev.']['.$item_prev.']['.$lang.']['.$tmp->post_id.']</h3>';
                             $row_lang=$tmp->generateRowLang($lang);
                             $item_prev=$row_lang->linkable; //DEVO COLLEGARLA AL CONTENITORE !!!!! 
                             //ddd($row_lang);
@@ -119,11 +114,13 @@ class BlogServiceProvider extends ServiceProvider
                     $types = str_plural($container_curr->type);
                     $types = camel_case($types);
                     //ddd($types.'  '.$value);
+                    
                     $rows= $item_prev->$types()->where('guid', $value);
+                    
                     //ddd($rows->first());
                     $row=$rows->first();
                     if (!is_object($row)) {
-                        echo '<h3>['.$container_prev->type.']['.$item_name_prev.']['.$item_prev->type.']['.$lang.']['.$container_curr->type.']['.$value.']</h3>';
+                        echo '<h3>['.__LINE__.']['.$container_prev->type.']['.$item_name_prev.']['.$item_prev->type.']['.$lang.']['.$container_curr->type.']['.$value.']</h3>';
                         $tmps=Post::where('type',$container_curr->type)->where('guid',$value)->where('lang','!=',$lang)->groupBy('post_id')->get();
                         //--- genero traduzioni ipotetiche mancanti
                         foreach($tmps as $tmp){

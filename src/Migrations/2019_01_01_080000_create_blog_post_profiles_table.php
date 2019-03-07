@@ -22,6 +22,10 @@ class CreateBlogPostProfilesTable extends Migration
                 $table->timestamps();
             });
         }
+        Schema::table($this->table, function (Blueprint $table) {
+            $table->increments('post_id')->change();
+            //->autoIncrement()
+        });
     }
 
     public function down()
