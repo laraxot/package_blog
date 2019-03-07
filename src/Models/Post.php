@@ -860,20 +860,18 @@ class Post extends Model
 	}
 
 	public function generateRowLang($lang){
+		if($lang==$this->lang) return $this;
+		$post=Post::where('post_id',$this->post_id)->where('type',$this->type)->where('lang',$lang)->first();
+		if($post!=null) return $post;
 		$rowlang = $this->replicate();
 		$rowlang->lang = $lang;
-		$fields = ['title', 'subtitle', 'txt', 'image_alt', 'image_title', 'guid'];//campi da tradurre
+		$fields = ['title', 'subtitle', 'txt', 'image_alt', 'image_title'];//campi da tradurre
 		foreach ($fields as $field) {
-			if ('guid' == $field && $this->guid == $this->type) {
-				//root
-			} else {
-				$tmp = $this->trans(['q' => $this->$field, 'from' => $this->lang, 'to' => $lang]);
-				if ('' != $tmp) {
-					$rowlang->$field = $tmp;
-				}
+			$tmp = $this->trans(['q' => $this->$field, 'from' => $this->lang, 'to' => $lang]);
+			if ('' != $tmp) {
+				$rowlang->$field = $tmp;
 			}
 		}
-		$rowlang->guid=str_slug($rowlang->guid);
 		$rowlang->url = null; //forzo rigenerazione
 		$rowlang->save();
 		return $rowlang;
