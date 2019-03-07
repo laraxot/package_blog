@@ -78,7 +78,7 @@ class BlogServiceProvider extends ServiceProvider
                                 ->where('guid',$value);
                     //ddd($rows->get());
                     $row=$rows->first();
-                    if (!is_object($row)) {
+                    if (!is_object($row) && !in_array($container_curr->type,['feed','sitemap'])) {
                         $tmp=Post::where('post_type',$container_curr->type)->where('guid',$value)->first();
                         if(is_object($tmp)){
                             $tmp_lang=$tmp->generateRowLang($lang);
