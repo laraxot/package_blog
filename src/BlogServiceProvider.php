@@ -118,7 +118,16 @@ class BlogServiceProvider extends ServiceProvider
                     $rows= $item_prev->$types()->where('guid', $value);
                     
                     //ddd($rows->first());
-                    $row=$rows->first();
+                    //try{
+                    //ddd($rows->toSql());
+                        $row=$rows->first();
+                    //}catch(\Exception $e){
+                        //ddd($item_prev); //location
+                        //ddd($types); //restaurants
+                    //    ddd($e);
+                    //    echo '<h3>'.$item_prev->type.' - '.$types.'</h3>';
+                    //    $row=null;
+                    //}
                     if (!is_object($row)) {
                         echo '<h3>['.__LINE__.']['.$container_prev->type.']['.$item_name_prev.']['.$item_prev->type.']['.$lang.']['.$container_curr->type.']['.$value.']</h3>';
                         $tmps=Post::where('type',$container_curr->type)->where('guid',$value)->where('lang','!=',$lang)->get();
