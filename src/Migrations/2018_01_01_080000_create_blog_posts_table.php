@@ -31,6 +31,11 @@ class CreateBlogPostsTable extends Migration
                 $table->timestamps();
             });
         }
+        Schema::table($this->table, function (Blueprint $table) {
+            if (!Schema::hasColumn($this->table, 'post_type')) {
+                $table->string('post_type', 40)->after('type')->index()->nullable();
+            }
+        });
     }
 
     //end up
