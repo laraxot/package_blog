@@ -1,15 +1,11 @@
 <?php
 namespace XRA\Blog\Models;
-
 use Illuminate\Database\Eloquent\Model;
-//------ traits ----
 use Laravel\Scout\Searchable;
 //--- services
 use XRA\Extend\Services\ThemeService;
 //--- TRAITS ---
 use XRA\Blog\Models\Traits\LinkedTrait;
-//use XRA\Blog\Models\Traits\PostTrait;
-use XRA\Extend\Traits\ImportTrait;
 use XRA\Extend\Traits\Updater;
 //--------- models --------
 
@@ -17,7 +13,6 @@ class PostCat extends Model
 {
     use Updater;
     use Searchable;
-    use ImportTrait;
     use LinkedTrait;
     //use PostTrait; //vecchio
 

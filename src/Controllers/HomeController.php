@@ -24,14 +24,15 @@ class HomeController extends Controller
         if ($request->act=='routelist') {
             return ArtisanTrait::exe('route:list');
         }
-
-        /*
         $roots = Post::getRoots();
+        return ThemeService::view()->with($roots);
+        /*
         $row = $roots['home'];
         ThemeService::setMetatags($row);
 
         return ThemeService::view()->with($roots)->with('row', $row);
         */
+        /*
         $lang=\App::getLocale();
         $cache_key=str_slug(__CLASS__.__FUNCTION__);
         if(\Auth::check()){
@@ -47,8 +48,8 @@ class HomeController extends Controller
             return ThemeService::view()->with($roots)->with('row', $row)->render();
         });
         return $view;
-
-
+        */
+    
     }
 
     /*

@@ -233,16 +233,15 @@ class BlogServiceProvider extends ServiceProvider
     {
         //die('['.__LINE__.']['.__FILE__.']');
         //https://stackoverflow.com/questions/42567445/how-to-bind-multiple-related-parameters-in-one-route-in-laravel
-
         //--------- MIDDLEWARE
         $router->aliasMiddleware('editor', XRA\Blog\Middleware\Editor::class);
         $this->registerRoutePattern($router);
-        if(!\Request::input('act')=='migrate'){
+        if(\Request::input('act')!='migrate'  && !$this->app->runningInConsole() ){
             $this->registerRouteBind($router);
         }
         $this->registerBladeDirective();
-        
         $this->bootTrait($router);
+        
     }
 
     /*
