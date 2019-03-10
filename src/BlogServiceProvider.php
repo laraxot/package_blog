@@ -237,7 +237,7 @@ class BlogServiceProvider extends ServiceProvider
         //--------- MIDDLEWARE
         $router->aliasMiddleware('editor', XRA\Blog\Middleware\Editor::class);
         $this->registerRoutePattern($router);
-        if(!\Request::has('migrate')){
+        if(!\Request::input('act')=='migrate'){
             $this->registerRouteBind($router);
         }
         $this->registerBladeDirective();
