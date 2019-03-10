@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +9,8 @@ use XRA\Extend\Traits\Updater;
 
 //------services---------
 use XRA\Extend\Services\ThemeService;
+//------ models --------
+use XRA\Blog\Models\Article;
 
 
 /**
@@ -32,7 +31,7 @@ class ArticleCat extends Model
     public $incrementing = true;
     //------- relationship ---
 
-    public function articles()
+    public function postArticles()
     {
         /*
         $type=$this->type.'_x_articles';
@@ -40,6 +39,18 @@ class ArticleCat extends Model
         */
         return $this->relatedType('article');
     }
+
+    public function articles()
+    {
+        /*
+        $type=$this->type.'_x_articles';
+        return $this->related()->wherePivot('type',$type);
+        */
+        $related=Article::class;
+        return $this->morphRelated($related);
+    }
+
+
 
     //------- functions
     public function formFields()
