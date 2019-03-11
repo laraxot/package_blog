@@ -129,7 +129,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
     }
     public function getGuidAttribute($value)
     {
-        if($value!=null) return($value);
+        if($value!=null) return($value); 
         if (isset($this->post)) {
             $value = $this->post->guid;
         }
