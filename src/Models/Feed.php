@@ -23,6 +23,7 @@ class Feed extends Model
     use LinkedTrait;
     protected $table = 'blog_feeds';
     protected $fillable = ['post_id'];
+    //public $incrementing = true;
 
     public function formFields()
     {

@@ -19,7 +19,7 @@ class PostRelatedRev extends Model
     protected $table = 'blog_post_related';
     protected $primaryKey = 'related_id';
 
-    //public $incrementing = false;
+    //public $incrementing = true;
     //$timestamps = false;
     /*
     protected $fillable =   [

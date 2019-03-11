@@ -38,7 +38,7 @@ class Search extends Model
     ];
     protected $dates = ['published_at'/* 'created_at', 'updated_at'*/];
     protected $primaryKey = 'post_id';
-    public $incrementing = false;
+    public $incrementing = true;
 
     public function filter($params)
     {

@@ -33,5 +33,5 @@ class Photo extends Model
     //protected $casts = [ 'category_id' => 'integer', ];
     protected $dates = ['published_at'/* 'created_at', 'updated_at'*/];
     protected $primaryKey = 'post_id';
-    public $incrementing = false;
+    public $incrementing = true;
 }

@@ -24,7 +24,7 @@ class Event extends Model
     protected $appends = [];
     protected $dates = ['created_at', 'updated_at'];
     protected $primaryKey = 'post_id';
-    public $incrementing = false;
+    public $incrementing = true;
 
     public function filter($params)
     {

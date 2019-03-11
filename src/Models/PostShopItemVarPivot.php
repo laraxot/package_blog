@@ -24,8 +24,7 @@ class PostShopItemVarPivot extends Pivot
     protected $appends = [];
     protected $dates = ['created_at', 'updated_at'];
     protected $primaryKey = 'post_shop_item_id';
-    public $incrementing = false;
-
+    public $incrementing = true;
     //------------ RELATIONSHIP ---------------
     public function related()
     {

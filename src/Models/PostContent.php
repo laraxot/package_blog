@@ -15,6 +15,7 @@ class PostContent extends Model
 {
 	use LinkedTrait;
     protected $table = 'blog_post_contents';
+    public $incrementing = true;
 
     public function Post()
     {

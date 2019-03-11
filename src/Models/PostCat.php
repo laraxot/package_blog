@@ -18,7 +18,7 @@ class PostCat extends Model
 
     protected $table = 'blog_post_cats';
     protected $primaryKey = 'post_id';
-    public $incrementing = false;
+    public $incrementing = true;
 
     protected $dates = [
         'created_at',
