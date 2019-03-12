@@ -229,6 +229,9 @@ public function morphRelatedRev($related/*,$inverse=false*/){
     }
 
     public function urlLang($params){
+        if (!isset($this->post)) {
+            return '#';
+        }
         return $this->post->urlLang($params);
     }
 
