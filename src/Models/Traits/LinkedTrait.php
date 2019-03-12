@@ -30,11 +30,23 @@ trait LinkedTrait
         //-- name post perche' dopo va a cercare il proprio oggetto dentro $name .'_type';
         // percio' post_type=restaurant
         $related_table=with(new $related)->getTable();
-        $alias=array_flip(config('xra.model'));
-        if(!isset($alias[$related])){
-            ddd($related);
+        $related_class=$related;
+        if(is_object($related_class)){
+            $related_class=get_class($related_class);
+            //ddd($related_class);
         }
-        $related_type=($alias[$related]); 
+        $related_type=collect(config('xra.model'))->search($related_class);
+        //ddd(is_object($related));
+        if($related_type==''){
+            //var_dump(debug_backtrace());
+            ddd($related);
+
+        }
+        //ddd($related);
+        //if(!isset($alias[$related])){
+        //    ddd($related);
+        //}
+        //$related_type=($alias[$related]); 
         $name='post';//'related';//'relatable'; 
         $table ='blog_post_related'; 
         $foreignPivotKey = 'post_id'; 
