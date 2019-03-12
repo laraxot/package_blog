@@ -235,5 +235,11 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         return $this->post->urlLang($params);
     }
 
+    public function linkedFormFields(){
+        $roots = Post::getRoots();
+        $view = 'blog::admin.partials.'.snake_case(class_basename($this));
+        return view($view)->with('row', $this->post)->with($roots);
+    }
+
 
 }
