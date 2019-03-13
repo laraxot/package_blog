@@ -21,7 +21,7 @@
 		<changefreq>weekly</changefreq>
    </url>
 
-@foreach($root->archive()->paginate(200) as $row)
+@foreach($root->archive()->paginate(50) as $row)
 	<url>
 	  <loc>{{ $row->url }}</loc>
 		@foreach (config('laravellocalization.supportedLocales') as $k=>$lang)

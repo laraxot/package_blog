@@ -71,7 +71,9 @@ class SitemapController extends Controller
             return abort(404);
         }
         $root = Post::firstOrCreate(['lang' => $lang, 'type' => $type, 'guid' => $type], ['title' => $type]);
-
+        
+        $rows=$root->archive()->paginate(50);
+        ddd($rows);
         $locale = config('laravellocalization.supportedLocales.'.$lang);
         //$view=CrudTrait::getView($params); //special case, so i write view path
         $view = 'blog::sitemap.show';
