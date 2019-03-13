@@ -66,14 +66,23 @@ class SitemapController extends Controller
         PostRelated::whereRaw('post_id=related_id')->delete();
         $lang = \App::getLocale();
         $type=is_object($item0)?$item0->type:$item0;
-        $roots=array_keys(config('xra.model'));
-        if(!in_array($type,$roots)){
+        //$type='article';
+        $model=collect(array_flip(config('xra.model')))->search($type);
+        if($model==false){
             return abort(404);
         }
         $root = Post::firstOrCreate(['lang' => $lang, 'type' => $type, 'guid' => $type], ['title' => $type]);
-        
-        $rows=$root->archive()->paginate(50);
-        ddd($rows);
+        $obj=new $model;
+        $table=$obj->getTable();
+        //ddd($item0);//ingredient
+        $rows=$obj->join('blog_posts','blog_posts.post_id',$table.'.post_id')
+                    ->where('lang',$lang)
+                    ->where('post_type',$type)
+                    ->orderBy($table.'.updated_at','desc')
+                    ->paginate(200)
+                    //->get()
+                    ;
+        //ddd($rows->get());
         $locale = config('laravellocalization.supportedLocales.'.$lang);
         //$view=CrudTrait::getView($params); //special case, so i write view path
         $view = 'blog::sitemap.show';
@@ -81,6 +90,7 @@ class SitemapController extends Controller
                     ->with('lang', $lang)
                     ->with('locale', $locale)
                     ->with('root', $root)
+                    ->with('rows', $rows)
                     ->with('params', $params)
                     ->with($params)
                     ;
