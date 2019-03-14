@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -75,6 +72,7 @@ class SitemapController extends Controller
         $obj=new $model;
         $table=$obj->getTable();
         //ddd($item0);//ingredient
+        if($table!='blog_posts'){
         $rows=$obj->join('blog_posts','blog_posts.post_id',$table.'.post_id')
                     ->where('lang',$lang)
                     ->where('post_type',$type)
@@ -82,6 +80,13 @@ class SitemapController extends Controller
                     ->paginate(200)
                     //->get()
                     ;
+        }else{
+            $rows=$obj->where('lang',$lang)
+                    ->where('post_type',$type)
+                    ->orderBy($table.'.updated_at','desc')
+                    ->paginate(200)
+                    ;
+        }
         //ddd($rows->get());
         $locale = config('laravellocalization.supportedLocales.'.$lang);
         //$view=CrudTrait::getView($params); //special case, so i write view path
