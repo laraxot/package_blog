@@ -5,13 +5,14 @@ use Cache;
 use Illuminate\Database\Eloquent\Model;
 //--- Models ---
 use Intervention\Image\Facades\Image;
-//------- Traits --------
 use Laravel\Scout\Searchable;
-use XRA\Extend\Services\ImageService;
-use XRA\Extend\Services\ThemeService;
-use XRA\Extend\Traits\FilterTrait;
 //--- services
-use XRA\Extend\Traits\ImportTrait;
+use XRA\Extend\Services\ImageService;
+use XRA\Extend\Services\ImportService;
+use XRA\Extend\Services\ThemeService;
+//------- Traits --------
+use XRA\Extend\Traits\FilterTrait;
+//use XRA\Extend\Traits\ImportTrait;
 //use XRA\Blog\Models\Post\PostTrait;
 
 //use Laralang;
@@ -34,7 +35,7 @@ class Post extends Model
 	use FilterTrait;
 	use Searchable; //ne update quando aggiungo un array mi da errore
 	use Updater;
-	use ImportTrait;
+	//use ImportTrait;
 	//use PostTrait;
 
 	protected $dates = [
@@ -118,11 +119,12 @@ class Post extends Model
 	}
 
 	//--------------------------------------------------
+	/*
 	public function __construct($attributes = [])
 	{
 		parent::__construct($attributes);
 		$this->importInit();
-	}
+	}*/
 
 	public function getLinkedModel(){
 		
@@ -184,7 +186,7 @@ class Post extends Model
 		return $this->archive->pluck('title', 'post_id')->prepend('', '');
 	}
 
-	public function archive()
+	public function postArchive()
 	{
 		$rows = $this->hasMany(self::class, 'type', 'type')
 				->where('lang', $this->lang)
@@ -230,6 +232,28 @@ class Post extends Model
 		//*/
 		return $rows;
 	}
+
+
+	function archive(){
+		//ddd($this->linkable->get());
+		//ddd($this->getLinkedModel());
+		$lang=$this->lang;
+		$type=$this->type;
+		$obj=$this->getLinkedModel();
+		$table=$obj->getTable();
+
+		$rows=$obj->join('blog_posts','blog_posts.post_id',$table.'.post_id')
+                    ->where('lang',$lang)
+                    ->where('post_type',$type)
+                    ->orderBy($table.'.updated_at','desc')
+                    //->paginate(200)
+                    ->with('post')
+                    ->get()
+                    ;
+        return $rows;
+	}//end function
+
+	
 
 	public function archiveRand($n){
 		$cache_key=$this->post_id.'_'.$n;
@@ -736,9 +760,14 @@ class Post extends Model
 	{
 		$lang = \App::getLocale();
 		$all = config('xra.model');
-		$roots = Cache::get('roots', function () use($lang){
-			//mettendo with archive mi da errore 
-			return self::with(['related'])->where('lang', $lang)->whereRaw('guid = type ')->get();
+
+		$roots = Cache::get('roots', function () use($lang,$all){
+			//mettendo with archive mi da errore
+			//con related = 48 senza =  47
+			return self::with([])->where('lang', $lang)
+					->whereIn('guid',array_keys($all)) //la query durava 1.2 sec ora 1/10 
+					->whereRaw('guid = type ')
+					->get();
 		});
 		$roots = $roots->keyBy('type')->all();
 		$add = collect(\array_keys($all))->diff(\array_keys($roots));
@@ -867,7 +896,7 @@ class Post extends Model
 		$rowlang->lang = $lang;
 		$fields = ['title', 'subtitle', 'txt', 'image_alt', 'image_title'];//campi da tradurre
 		foreach ($fields as $field) {
-			$tmp = $this->trans(['q' => $this->$field, 'from' => $this->lang, 'to' => $lang]);
+			$tmp = ImportService::trans(['q' => $this->$field, 'from' => $this->lang, 'to' => $lang]);
 			if ('' != $tmp) {
 				$rowlang->$field = $tmp;
 			}
@@ -902,7 +931,7 @@ class Post extends Model
 	{
 		
 		$url = $this->url_lang;
-		$url=[]; //forzo rigenerazione x debug
+		//$url=[]; //forzo rigenerazione x debug
 
 		if (!isset($url[$lang])) {
 			$url[$lang]=$this->generateUrlLang($lang);
@@ -977,7 +1006,7 @@ class Post extends Model
 	}
 	*/
 
-	public function getImageSrcAttribute($value)
+	public function getImageSrcAttribute_frittata($value) //dato che ora viene chiamato dal linked se e' particolare lo si setta da li da 62q a 48q
 	{
 		if ('' != $value) {
 			return asset($value);

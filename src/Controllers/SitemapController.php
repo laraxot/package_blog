@@ -73,7 +73,7 @@ class SitemapController extends Controller
         $table=$obj->getTable();
         //ddd($item0);//ingredient
         if($table!='blog_posts'){
-        $rows=$obj->join('blog_posts','blog_posts.post_id',$table.'.post_id')
+            $rows=$obj->join('blog_posts','blog_posts.post_id',$table.'.post_id')
                     ->where('lang',$lang)
                     ->where('post_type',$type)
                     ->orderBy($table.'.updated_at','desc')

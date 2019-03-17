@@ -19,7 +19,7 @@ class CreateBlogPostPagesTable extends Migration
         if (!Schema::hasTable($this->getTable())) {
             Schema::create($this->getTable(), function (Blueprint $table) {
                 //$table->increments('id');
-                $table->integer('post_id')->index();
+                $table->increments('post_id')->index();
                 $table->datetime('published_at')->nullable();
                 $table->timestamps();
             });
@@ -34,6 +34,8 @@ class CreateBlogPostPagesTable extends Migration
             if (!Schema::hasColumn($this->getTable(), 'layout_position')) {
                 $table->string('layout_position')->nullable();
             }
+            $sql='ALTER TABLE '.$this->getTable().' CHANGE COLUMN post_id post_id INT(16) NOT NULL AUTO_INCREMENT FIRST;';
+            \DB::unprepared($sql);
         });
     }
 

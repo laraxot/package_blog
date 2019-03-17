@@ -25,7 +25,15 @@ class HomeController extends Controller
             return ArtisanTrait::exe('route:list');
         }
         $roots = Post::getRoots();
-        return ThemeService::view()->with($roots);
+
+        //var_dump(debug_backtrace());ddd('u');
+        //ddd(microtime(true)-LARAVEL_START); //1,5
+        //ddd(xdebug_time_index());
+        //1.4
+        $out= ThemeService::view()->with($roots);
+        return $out;
+        //$out=(string)$out;
+        //3.8
         /*
         $row = $roots['home'];
         ThemeService::setMetatags($row);

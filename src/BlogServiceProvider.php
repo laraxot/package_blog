@@ -239,6 +239,7 @@ class BlogServiceProvider extends ServiceProvider
         //die('['.__LINE__.']['.__FILE__.']');
         //https://stackoverflow.com/questions/42567445/how-to-bind-multiple-related-parameters-in-one-route-in-laravel
         //--------- MIDDLEWARE
+        //$start=microtime(true);
         $router->aliasMiddleware('editor', XRA\Blog\Middleware\Editor::class);
         $this->registerRoutePattern($router);
         if(\Request::input('act')!='migrate'  && !$this->app->runningInConsole() ){
@@ -246,7 +247,7 @@ class BlogServiceProvider extends ServiceProvider
         }
         $this->registerBladeDirective();
         $this->bootTrait($router);
-        
+        //ddd(microtime(true)-$start);//0.171
     }
 
     /*
@@ -287,13 +288,13 @@ class BlogServiceProvider extends ServiceProvider
     return $rows;
     */
     }
-
+    /*
     public static function getRoot($root)
     {
         //return Post::with(['related','relatedrev','archive'])->where('lang',\App::getLocale())->where('type',$root)->where('guid',$root)->first();
         return Post::with(['related', 'relatedrev'])->firstOrCreate(['lang' => \App::getLocale(), 'type' => $root, 'guid' => $root], ['title' => $root]); //->with(['relatedrev']);
     }
-
+    */
     public static function rows()
     {
         //$rows=new PostRev;

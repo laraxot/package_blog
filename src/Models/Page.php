@@ -47,11 +47,12 @@ class Page extends Model
     //end filter
 
     //--------- relationship ---------------
+    /* on linkedtrait
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id', 'post_id');
     }
-
+    */
     public function relatedType($type)
     {
         $post = $this->post;
