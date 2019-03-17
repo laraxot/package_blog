@@ -39,6 +39,9 @@ trait LinkedTrait
         //ddd(is_object($related));
         if($related_type==''){
             //var_dump(debug_backtrace());
+            echo '<h3>['.$related_class.']</h3>';
+            var_dump(config('xra.model'));
+            var_dump(debug_backtrace());
             ddd($related);
 
         }

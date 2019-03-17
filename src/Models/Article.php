@@ -53,10 +53,12 @@ class Article extends Model
     //end filter
 
     //--------- relationship ---------------
+    /*
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id', 'post_id');
     }
+    */
 
     /*
     public function relatedType($type){
