@@ -235,8 +235,6 @@ class Post extends Model
 
 
 	function archive(){
-		//ddd($this->linkable->get());
-		//ddd($this->getLinkedModel());
 		$lang=$this->lang;
 		$type=$this->type;
 		$obj=$this->getLinkedModel();
@@ -248,7 +246,7 @@ class Post extends Model
                     ->orderBy($table.'.updated_at','desc')
                     //->paginate(200)
                     ->with('post')
-                    ->get()
+                    //->get()
                     ;
         return $rows;
 	}//end function
