@@ -14,8 +14,7 @@ class CreateBlogPostCategoriesTable extends Migration
     {
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
-                $table->integer('post_id');
-                $table->index('post_id');
+                $table->increments('post_id');
                 $table->timestamps();
             });
         }

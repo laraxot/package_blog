@@ -14,7 +14,7 @@ class CreateBlogPostCatsTable extends Migration
     {
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
-                $table->integer('post_id')->index()->nullable();
+                $table->increments('post_id');
                 $table->string('created_by')->nullable();
                 $table->string('updated_by')->nullable();
                 //$table->softDeletes();

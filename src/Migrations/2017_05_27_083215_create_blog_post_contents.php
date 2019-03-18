@@ -18,6 +18,7 @@ class CreateBlogPostContents extends Migration
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
                 $table->increments('id');
+                $table->integer('post_id')->index();
                 $table->string('content_type');
                 $table->string('content_source')->nullable();
                 $table->text('content');
@@ -25,7 +26,6 @@ class CreateBlogPostContents extends Migration
                 $table->integer('y');
                 $table->integer('width');
                 $table->integer('height');
-                $table->integer('post_id');
                 $table->timestamps();
             });
         }

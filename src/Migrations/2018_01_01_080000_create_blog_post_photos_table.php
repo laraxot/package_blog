@@ -18,7 +18,9 @@ class CreateBlogPostPhotosTable extends Migration
     {
         if (!Schema::hasTable($this->getTable())) {
             Schema::create($this->getTable(), function (Blueprint $table) {
-                $table->integer('post_id')->index();
+                $table->increments('post_id')->index();
+                $table->string('updated_by')->nullable();
+                $table->string('created_by')->nullable();
                 $table->timestamps();
             });
         }
@@ -30,6 +32,8 @@ class CreateBlogPostPhotosTable extends Migration
             if (!Schema::hasColumn($this->getTable(), 'created_by')) {
                 $table->string('created_by')->nullable()->after('created_at');
             }
+            $sql='ALTER TABLE '.$this->getTable().' CHANGE COLUMN post_id post_id INT(16) NOT NULL AUTO_INCREMENT FIRST;';
+            \DB::unprepared($sql);
         });
     }
 

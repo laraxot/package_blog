@@ -14,8 +14,7 @@ class CreateBlogPostEventsTable extends Migration
     {
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
-                $table->integer('post_id');
-                $table->index('post_id');
+                $table->increments('post_id');
                 //$table->string('article_type',50)->nullable();
                 //$table->datetime('published_at')->nullable();
                 $table->text('bio')->nullable();

@@ -14,7 +14,7 @@ class CreateBlogFeedsTable extends Migration
     {
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
-                $table->integer('post_id')->index();
+                $table->increments('post_id')->index();
                 $table->timestamps();
             });
         }
