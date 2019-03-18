@@ -45,10 +45,10 @@ class SitemapController extends Controller
         foreach ($models as $k => $v) {
             $m = Post::firstOrCreate(['lang' => $lang, 'type' => 'sitemap', 'guid' => $k], ['title' => $k]);
         }
-
+        $roots=Post::getRoots();
         //ddd($row->archive);
         $view = 'blog::sitemap.index';
-        $out = view($view)->with('row', $row)->with('lang', $lang);
+        $out = view($view)->with('row', $row)->with('lang', $lang)->with('roots',$roots);
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>'.\chr(13).(string) $out;
 
