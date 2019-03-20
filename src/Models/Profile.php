@@ -23,6 +23,7 @@ class Profile extends Model
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use Updater;
     use LinkedTrait;
+    protected $connection = 'mysql'; // this will use the specified database conneciton
     protected $table = 'blog_post_profiles';
     protected $fillable = ['post_id', 'bio'];
     protected $appends = [];

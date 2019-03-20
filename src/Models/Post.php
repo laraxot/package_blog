@@ -67,6 +67,7 @@ class Post extends Model
 	 *
 	 * @var string
 	 */
+	protected $connection = 'mysql'; // this will use the specified database conneciton
 	protected $table = 'blog_posts';
 
 	/**
