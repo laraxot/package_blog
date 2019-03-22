@@ -39,7 +39,7 @@
 		<changefreq>weekly</changefreq>
    </url>
 {{--
-@foreach($row->archive as $son)   
+@foreach($row->archive()->get() as $son)   
 	<url>
 	  <loc>{{ $son->url }}</loc>
 	  @foreach (config('laravellocalization.supportedLocales') as $k=>$lang)
