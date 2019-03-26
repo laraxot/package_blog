@@ -120,10 +120,10 @@ class BlogServiceProvider extends ServiceProvider
                     $types = camel_case($types);
                     //ddd($types.'  '.$value);
                     
-                    $rows= $item_prev->$types()->where('guid', $value);
-                    
+                    $rows= $item_prev->$types()->where('blog_posts.guid', $value);
+                    //ddd($item_prev->$types);
                     //ddd($rows->first());
-                    //try{
+                    //try{ 
                     //ddd($rows->toSql());
                         $row=$rows->first();
                     //}catch(\Exception $e){
@@ -133,6 +133,7 @@ class BlogServiceProvider extends ServiceProvider
                     //    echo '<h3>'.$item_prev->type.' - '.$types.'</h3>';
                     //    $row=null;
                     //}
+                        //ddd($item_prev->$types);
                     if (!is_object($row)) {
                         echo '<h3>['.__LINE__.']['.$container_prev->type.']['.$item_name_prev.']['.$item_prev->type.']['.$lang.']['.$container_curr->type.']['.$value.']</h3>';
                         $tmps=Post::where('type',$container_curr->type)->where('guid',$value)->where('lang','!=',$lang)->get();
