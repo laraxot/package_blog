@@ -92,4 +92,9 @@ class HomeController extends Controller
                 ->with($roots);
     }
     */
+
+    public function redirect(Request $request){
+        return redirect($request->url);
+    }
+
 }
