@@ -20,7 +20,7 @@
 
 	<atom:link rel="hub" href="https://pubsubhubbub.appspot.com"/>
 	<atom:link rel="hub" href="https://pubsubhubbub.superfeedr.com"/>	
-	@foreach($rows->data as $row)
+	@foreach($rows as $row)
 	<item>
 		<title>{{ $row->title}}</title>
 		<link>{{ $row->url }}</link>

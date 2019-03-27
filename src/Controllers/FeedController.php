@@ -22,15 +22,21 @@ class FeedController extends Controller
         $view = 'blog::feed.index';
         $lang = \App::getLocale();
         $cache_key='feed-'.$request->page;
-        $rows = Cache::remember($cache_key, 60*60*12, function () use ($lang){
+        $rows = Cache::remember($cache_key, 1, function () use ($lang){
         //$locale=config('laravellocalization.supportedLocales.'.$lang);
             $rows = Post::where('lang', $lang)
                 ->orderByDesc('updated_at')
                 ->limit(50)
                 ->paginate(10)
-                ->toArray();
+                ->map(function ($item){
+                    $ris=$item->toArray();
+                    $ris['url']=$item->url;
+                    return json_decode(json_encode($ris), FALSE);
+                });
+                
             return $rows;
         });
+        
         //-- populating
         /*
         $type = 'feed';
@@ -40,7 +46,7 @@ class FeedController extends Controller
             $m = Post::firstOrCreate(['lang' => $lang, 'type' => $type, 'guid' => $k], ['title' => $k]);
         }
         */
-        $rows = json_decode(json_encode($rows), FALSE);
+        //$rows = json_decode(json_encode($rows), FALSE);
         //ddd($rows);
         //----
         $feed = (string) view($view)
