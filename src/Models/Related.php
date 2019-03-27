@@ -1,19 +1,16 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //use Laralum\Users\Models\User;
 
-use Laravel\Scout\Searchable;
+//use Laravel\Scout\Searchable;
 //--- Models ---//
 //use XRA\Blog\Models\Post\PostTrait;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
-use XRA\Extend\Traits\FilterTrait;
-use XRA\Extend\Traits\Updater;
+//use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Extend\Traits\FilterTrait;
+//use XRA\Extend\Traits\Updater;
 use XRA\LU\Models\User;
 
 //https://developers.google.com/search/docs/data-types/articles
@@ -27,13 +24,13 @@ use XRA\LU\Models\User;
  * @property \XRA\LU\Models\User                                                     $user
  * @mixin \Eloquent
  */
-class Related extends Model
+class Related extends BaseModel
 {
-    use FilterTrait;
+    //use FilterTrait;
     // use Searchable; //ne update quando aggiungo un array mi da errore
-    use Updater;
+    //use Updater;
     //use PostTrait;
-    use LinkedTrait;
+    //use LinkedTrait;
 
     protected $dates = [
         'created_at',

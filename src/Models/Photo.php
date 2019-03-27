@@ -4,10 +4,10 @@ namespace XRA\Blog\Models;
 use Carbon\Carbon;
 //use Laravel\Scout\Searchable;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
-use XRA\Extend\Traits\Updater;
+//use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Extend\Traits\Updater;
 //--- services
 //--- models ---
 
@@ -17,11 +17,11 @@ use XRA\Extend\Traits\Updater;
  *
  * @mixin \Eloquent
  */
-class Photo extends Model
+class Photo extends BaseModel
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
-    use Updater;
-    use LinkedTrait;
+    //use Updater;
+    //use LinkedTrait;
     protected $table = 'blog_post_photos';
     /**
      * The attributes that are mass assignable.

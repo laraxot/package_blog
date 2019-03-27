@@ -23,7 +23,7 @@ trait LinkedTrait
     {
         //update blog_posts set linkable_type=type
         return $this->morphOne(Post::class,'post',null,'post_id')->where('lang',$this->lang);
-        //return $this->hasOne(Post::class,'post_id','post_id')->where('type',$this->type)->where('lang',$this->lang); 
+        //return $this->hasOne(Post::class,'post_id','post_id')->where('type',$this->post_type)->where('lang',$this->lang); 
     }
 
     public function morphRelated($related,$inverse=false){
@@ -115,7 +115,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
     public function relatedType($type)
     {
         if (false === \mb_strpos($type, '_x_')) {
-            $type = $this->type.'_x_'.$type;
+            $type = $this->post_type.'_x_'.$type;
         }
 
         return $this->related()->wherePivot('type', $type);
@@ -207,8 +207,8 @@ public function morphRelatedRev($related/*,$inverse=false*/){
 
 
     public function getTabsAttribute($value){
-        //if($this->post->guid!=$this->post->type){
-            //ddd($this->post->guid.'  '.$this->post->type);
+        //if($this->post->guid!=$this->post->post_type){
+            //ddd($this->post->guid.'  '.$this->post->post_type);
             //ddd('['.$this->attributes['guid'].']  ['.$this->attributes['type'].']');
         //    return ['cuisine','photo','article','contact','map'];
         //}

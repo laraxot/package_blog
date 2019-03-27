@@ -23,9 +23,9 @@ class Item1Controller extends Controller
         $model = config('xra.model.'.$params['container']);
         if ('' == $model) {
             $row = Post::where('lang', \App::getLocale())->where('guid', $params['container'])->first();
-            $model = config('xra.model.'.$row->type);
+            $model = config('xra.model.'.$row->post_type);
             if ('' == $model) {
-                die('<hr/>settare modello['.$row->type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
+                die('<hr/>settare modello['.$row->post_type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
             }
         }
         $controller = \str_replace('\\Models\\', '\\Controllers\\', $model).'Controller';
@@ -58,7 +58,7 @@ class Item1Controller extends Controller
         $row1 = Post::with([])->where('lang', $lang)->where('guid', $item1)->where('type', $container1)->first();
 
         $rows = $row->linked->postRestaurants()->whereHas('related', function ($query) use ($row1) {
-            $query->where('blog_post_related.related_id', $row1->post_id)->where('blog_post_related.type', 'restaurant_x_'.$row1->type);
+            $query->where('blog_post_related.related_id', $row1->post_id)->where('blog_post_related.type', 'restaurant_x_'.$row1->post_type);
         });
 
         $view = CrudTrait::getView($params);
@@ -71,12 +71,12 @@ class Item1Controller extends Controller
                         ;
         //dd($rows->get());
         //$ristos=Post::ofType('restaurant');
-        //$ristos->type='restaurant';
+        //$ristos->post_type='restaurant';
         /*
         foreach($ristos->get() as $risto){
             echo '<hr/>';
             echo $risto->post_id.'<br/>';
-            echo $risto->type.'<br/>';
+            echo $risto->post_type.'<br/>';
             echo $risto->title.'<br/>';
         }
 

@@ -76,7 +76,7 @@ class PostRelated extends Model
         return $row->field($fieldname);
         /*
         if(in_array($fieldname,Post::fields()->all())) return $row->$fieldname;
-        $model=config('xra.model.'.$row->type);
+        $model=config('xra.model.'.$row->post_type);
         $linked=$model::where('post_id',$row->post_id)->first();
         return $linked->$fieldname;
         */
@@ -105,7 +105,7 @@ class PostRelated extends Model
         foreach ($duplicateRecords->get() as $row) {
             self::where('post_id', $row->post_id)
                 ->where('related_id', $row->related_id)
-                ->where('type', $row->type)
+                ->where('type', $row->post_type)
                 ->limit($row->occurences - 1)
                 ->delete();
         }

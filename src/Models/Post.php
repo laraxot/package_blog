@@ -2,23 +2,23 @@
 namespace XRA\Blog\Models;
 
 use Cache;
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //--- Models ---
 use Intervention\Image\Facades\Image;
-use Laravel\Scout\Searchable;
+//use Laravel\Scout\Searchable;
 //--- services
 use XRA\Extend\Services\ImageService;
 use XRA\Extend\Services\ImportService;
 use XRA\Extend\Services\ThemeService;
 //------- Traits --------
-use XRA\Extend\Traits\FilterTrait;
+//use XRA\Extend\Traits\FilterTrait;
 //use XRA\Extend\Traits\ImportTrait;
 //use XRA\Blog\Models\Post\PostTrait;
 
 //use Laralang;
 
 //https://developers.google.com/search/docs/data-types/articles
-use XRA\Extend\Traits\Updater;
+//use XRA\Extend\Traits\Updater;
 use XRA\LU\Models\User;
 
 /**
@@ -30,11 +30,11 @@ use XRA\LU\Models\User;
  * @property \XRA\LU\Models\User                                                     $user
  * @mixin \Eloquent
  */
-class Post extends Model
+class Post extends BaseModel
 {
-	use FilterTrait;
-	use Searchable; //ne update quando aggiungo un array mi da errore
-	use Updater;
+	//use FilterTrait;
+	//use Searchable; //ne update quando aggiungo un array mi da errore
+	//use Updater;
 	//use ImportTrait;
 	//use PostTrait;
 
@@ -129,7 +129,7 @@ class Post extends Model
 
 	public function getLinkedModel(){
 		
-		$model=config('xra.model.'.$this->type);
+		$model=config('xra.model.'.$this->post_type);
 		return new $model;
 	}
 
@@ -148,28 +148,28 @@ class Post extends Model
 
 	public function postCats()
 	{
-		$type = 'postCat_x_'.$this->type;  //c'e' il rev
+		$type = 'postCat_x_'.$this->post_type;  //c'e' il rev
 		return $this->relatedrev()->wherePivot('type', $type);
 	}
 
 	public function posts()
 	{
-		$type = $this->type.'_x_post';
+		$type = $this->post_type.'_x_post';
 
 		return $this->related()->wherePivot('type', $type);
 	}
 
 	public function homes()
 	{
-		$type = 'home_x_'.$this->type;  //c'e' il rev
+		$type = 'home_x_'.$this->post_type;  //c'e' il rev
 		return $this->relatedrev()->wherePivot('type', $type);
 	}
 
 	public function sons($type = 'parent')
 	{
-		if ($this->type == $this->guid) {
+		if ($this->post_type == $this->guid) {
 			if (1 == \Request::input('force')) {
-				$rows = self::ofType($this->type)->get();
+				$rows = self::ofType($this->post_type)->get();
 				foreach ($rows as $row) {
 					$row->parent_id = $this->post_id;
 					$row->save();
@@ -191,7 +191,7 @@ class Post extends Model
 	{
 		$rows = $this->hasMany(self::class, 'type', 'type')
 				->where('lang', $this->lang)
-				->where('guid', '!=', $this->type)
+				->where('guid', '!=', $this->post_type)
 				->with(['relatedrev', 'related']);
 		//*
 		if (\Request::has('lat') && \Request::has('lng') && !\Request::has('mapWestLng') && !\Request::has('mapSouthLat')) {
@@ -205,23 +205,23 @@ class Post extends Model
 			if(\Request::has('mapWestLng') && \Request::has('mapEastLng') ){
 				$lng_d=abs(\Request::input('mapWestLng') - \Request::input('mapEastLng'));
 				if($distance<$lng_d*111) $distance=$lng_d*111;
-				$rows=$rows->ofLongitudeBetween($this->type,[\Request::input('mapWestLng'),\Request::input('mapEastLng')]);
+				$rows=$rows->ofLongitudeBetween($this->post_type,[\Request::input('mapWestLng'),\Request::input('mapEastLng')]);
 				//dd($lng_d*111);
 			}
 			if(\Request::has('mapSouthLat') && \Request::has('mapNorthLat') ){
 				   $lat_d=abs(\Request::input('mapSouthLat') - \Request::input('mapNorthLat'));
 				   if($distance<$lat_d*111) $distance=$lat_d*111;
-				   $rows=$rows->ofLatitudeBetween($this->type,[\Request::input('mapSouthLat'),\Request::input('mapNorthLat')]);
+				   $rows=$rows->ofLatitudeBetween($this->post_type,[\Request::input('mapSouthLat'),\Request::input('mapNorthLat')]);
 			   }
 			   */
-			$rows = $rows->findNearest($this->type, $currentLocation, $distance, 1000);
+			$rows = $rows->findNearest($this->post_type, $currentLocation, $distance, 1000);
 		}
 		//*
 		if (\Request::has('mapWestLng') && \Request::has('mapEastLng')) { // da spostare in archive direttamente ?
-			   $rows = $rows->ofLongitudeBetween($this->type, [\Request::input('mapWestLng'), \Request::input('mapEastLng')]);
+			   $rows = $rows->ofLongitudeBetween($this->post_type, [\Request::input('mapWestLng'), \Request::input('mapEastLng')]);
 		}
 		if (\Request::has('mapSouthLat') && \Request::has('mapNorthLat')) {
-			$rows = $rows->ofLatitudeBetween($this->type, [\Request::input('mapSouthLat'), \Request::input('mapNorthLat')]);
+			$rows = $rows->ofLatitudeBetween($this->post_type, [\Request::input('mapSouthLat'), \Request::input('mapNorthLat')]);
 		}
 		if (\Request::has('q')) {
 			$query = \Request::input('q');
@@ -237,7 +237,7 @@ class Post extends Model
 
 	function archive(){
 		$lang=$this->lang;
-		$type=$this->type;
+		$type=$this->post_type;
 		$obj=$this->getLinkedModel();
 		$table=$obj->getTable();
 
@@ -271,7 +271,7 @@ class Post extends Model
 
 	public function scopeFindNearest($query, $type, $currentLocation, $distance, $limit)
 	{
-		$this->type = $type;
+		$this->post_type = $type;
 
 		return  $query->whereHas('linked', function ($q) use ($currentLocation, $distance,$limit) {
 			$q->findNearest($currentLocation, $distance, $limit);
@@ -306,7 +306,7 @@ class Post extends Model
 		if (1 == \Request::input('force')) {
 			$conn = $this->getConnection();
 			$sql = 'insert into blog_post_count(post_id,relationship,type,q) (select post_id,"related","'.$type.'",0 from blog_posts
-				where lang="it" and guid!=type and type="'.$this->type.'" and NOT EXISTS (
+				where lang="it" and guid!=type and type="'.$this->post_type.'" and NOT EXISTS (
 					SELECT post_id,relationship,type FROM blog_post_count WHERE post_id = blog_posts.post_id and relationship="related" and type="'.$type.'"
 				)) ';
 			$res = $conn->statement($sql);
@@ -316,7 +316,7 @@ class Post extends Model
 				$res = $conn->statement($sql);
 			} else {
 				$sql = "update blog_post_count as A set q= (select count(*) from blog_post_related as B
-				where A.post_id=B.post_id and type='".$this->type.'_x_'.$type."') where relationship='related' and type='".$type."'";
+				where A.post_id=B.post_id and type='".$this->post_type.'_x_'.$type."') where relationship='related' and type='".$type."'";
 				$res = $conn->statement($sql);
 			}
 		}
@@ -402,7 +402,7 @@ class Post extends Model
 
 	public function relatedObj($obj)
 	{
-		$relationship = $this->type.'_x_'.$obj->type;
+		$relationship = $this->post_type.'_x_'.$obj->post_type;
 		$related_id = $obj->post_id;
 
 		return $this->related->where('pivot.type', $relationship)->where('pivot.related_id', $related_id);
@@ -422,7 +422,7 @@ class Post extends Model
 		$parz = [];
 		$parz['post_id'] = $this->post_id;
 		$parz['related_id'] = $obj->post_id;
-		$parz['type'] = $this->type.'_x_'.$obj->type;
+		$parz['type'] = $this->post_type.'_x_'.$obj->post_type;
 		$pivot = PostRelated::firstOrCreate($parz);
 
 		return $pivot;
@@ -430,7 +430,7 @@ class Post extends Model
 
 	public function relatedOrAttach($obj)
 	{  //si usa con le collection da splittare in 2 funzioni
-		$relationship = $this->type.'_x_'.$obj->type;
+		$relationship = $this->post_type.'_x_'.$obj->post_type;
 		$related_id = $obj->post_id;
 		if (!isset($this->$relationship)) {
 			//$this->$relationship=$this->related->where('pivot.type',$relationship); // to TEST
@@ -466,7 +466,7 @@ class Post extends Model
 
 	public function relatedObjType($type)
 	{
-		$relationship = $this->type.'_x_'.$type;
+		$relationship = $this->post_type.'_x_'.$type;
 
 		return $this->related->where('pivot.type', $relationship);
 	}
@@ -474,7 +474,7 @@ class Post extends Model
 	public function relatedCount($type)
 	{
 		if (false === \mb_strpos($type, '_x_')) {
-			$type = $this->type.'_x_'.$type;
+			$type = $this->post_type.'_x_'.$type;
 		}
 		$related = $this->relatedType($type);
 
@@ -484,7 +484,7 @@ class Post extends Model
 	public function relatedType($type)
 	{
 		if (false === \mb_strpos($type, '_x_')) {
-			$type = $this->type.'_x_'.$type;
+			$type = $this->post_type.'_x_'.$type;
 		}
 
 		return $this->related()->wherePivot('type', $type); //->where('lang',\App::getLocale());
@@ -494,7 +494,7 @@ class Post extends Model
 	public function relatedrevType($type)
 	{
 		if (false === \mb_strpos($type, '_x_')) {
-			$type = $type.'_x_'.$this->type;
+			$type = $type.'_x_'.$this->post_type;
 		}
 
 		return $this->relatedrev()->wherePivot('type', $type); //->where('lang',\App::getLocale());
@@ -506,12 +506,12 @@ class Post extends Model
 
 	public function linked()
 	{
-		return $this->linkedType($this->type);
+		return $this->linkedType($this->post_type);
 	}
 
 	public function linkedOrCreate()
 	{
-		return $this->linkedTypeOrCreate($this->type);
+		return $this->linkedTypeOrCreate($this->post_type);
 	}
 
 	public function linkedRestaurant()
@@ -596,7 +596,7 @@ class Post extends Model
 	public function linkedModel($type = null)
 	{
 		if (null == $type) {
-			$type = $this->type;
+			$type = $this->post_type;
 		}
 		$model = config('xra.model.'.$type);
 
@@ -643,7 +643,7 @@ class Post extends Model
 
 	public function scopeOfLocality($query, $locality)
 	{
-		$this->type = 'restaurant';
+		$this->post_type = 'restaurant';
 		$rows = $query->whereHas('linked', function ($q) use ($locality) {
 			$q->where('locality', $locality);
 		});
@@ -660,7 +660,7 @@ class Post extends Model
 
 	public function scopeOfLongitudeBetween($query, $type, $longitude_arr)
 	{
-		$this->type = $type;
+		$this->post_type = $type;
 
 		return  $query->whereHas('linked', function ($q) use ($longitude_arr) {
 			$q->whereBetween('longitude', $longitude_arr);
@@ -669,7 +669,7 @@ class Post extends Model
 
 	public function scopeOfLatitudeBetween($query, $type, $latitude_arr)
 	{
-		$this->type = $type;
+		$this->post_type = $type;
 
 		return  $query->whereHas('linked', function ($q) use ($latitude_arr) {
 			$q->whereBetween('latitude', $latitude_arr);
@@ -889,7 +889,7 @@ class Post extends Model
 
 	public function generateRowLang($lang){
 		if($lang==$this->lang) return $this;
-		$post=Post::where('post_id',$this->post_id)->where('type',$this->type)->where('lang',$lang)->first();
+		$post=Post::where('post_id',$this->post_id)->where('type',$this->post_type)->where('lang',$lang)->first();
 		if($post!=null) return $post;
 		$rowlang = $this->replicate();
 		$rowlang->lang = $lang;
@@ -975,7 +975,7 @@ class Post extends Model
 
 	public function linkedFormFields()
 	{
-		$model = config('xra.model.'.$this->type);
+		$model = config('xra.model.'.$this->post_type);
 		//echo('<h3>['.__LINE__.']['.__FILE__.']</h3>');dd($model);
 		if (null != $this->post_id) {
 			$row = $model::firstOrCreate(['post_id' => $this->post_id]);  //crea un vero record
@@ -1085,7 +1085,7 @@ class Post extends Model
 	public function getMetaDescriptionAttribute($value)
 	{
 		if (\mb_strlen($value) < 5) {
-			$meta_description = \strip_tags(\ucfirst($this->type).' '.$this->title.' '.$this->subtitle.' '.$this->txt.' '.$value);
+			$meta_description = \strip_tags(\ucfirst($this->post_type).' '.$this->title.' '.$this->subtitle.' '.$this->txt.' '.$value);
 			$meta_description = \str_replace('&nbsp;', ' ', $meta_description);
 			$meta_description = \htmlspecialchars_decode($meta_description);
 			$meta_description = \trim($meta_description);
@@ -1155,10 +1155,10 @@ class Post extends Model
 			$parentPost = $this->related->where('pivot.type', 'parent')->first();
 			if (null != $parentPost) {
 				$value = $this->lang.'/'.$parentPost->guid.'/'.$this->guid;
-			} elseif ($this->guid == $this->type) {
+			} elseif ($this->guid == $this->post_type) {
 				$value = $this->lang.'/'.$this->guid;
 			} else {
-				$value = $this->lang.'/'.$this->type.'/'.$this->guid;
+				$value = $this->lang.'/'.$this->post_type.'/'.$this->guid;
 			}
 		}
 		$this->attributes['url'] = '/'.$value;
@@ -1169,10 +1169,10 @@ class Post extends Model
 		if($params==null){
 			$params = \Route::current()->parameters();
 		}
-		$params['container'.$n] = $this->type;
+		$params['container'.$n] = $this->post_type;
 		$params['item'.$n] = $this->guid;
 		//$params['lang'] = $this->lang;
-		//$params['container'.($n + 1)] = $this->related->type;
+		//$params['container'.($n + 1)] = $this->related->post_type;
 		//$params['item'.($n + 1)] = $this->related->guid;
 		$r = '';
 		for ($i = 0; $i <= ($n ); ++$i) {
@@ -1200,7 +1200,7 @@ class Post extends Model
 		
 		$i=null; // quando trovo la collection giusta la sostituisco
 		foreach($containers as $k=>$container){
-			if($container->type == $this->type){
+			if($container->post_type == $this->post_type){
 				$i=$k; break;
 			}
 		}
@@ -1208,7 +1208,7 @@ class Post extends Model
 		//ddd('item');
 		$j=null; // quando trovo la collection giusta la sostituisco
 		foreach($items as $k=>$item){
-			if(is_object($item) && $item->type == $this->type && $item->guid == $this->guid){
+			if(is_object($item) && $item->post_type == $this->post_type && $item->guid == $this->guid){
 				$j=$k; break;
 			}
 		}
@@ -1218,12 +1218,12 @@ class Post extends Model
 			$roots=[];
 		}
 
-		if(strtolower($this->type)!=strtolower($this->guid) && in_array($this->type,$roots)){
+		if(strtolower($this->post_type)!=strtolower($this->guid) && in_array($this->post_type,$roots)){
 			return $this->getRouteN(0, 'show');//.'#2['.$i.']['.$j.']';
 		}
 
 		
-		if(strtolower($this->type)==strtolower($this->guid)){
+		if(strtolower($this->post_type)==strtolower($this->guid)){
 			return $this->getRouteN($i, 'index');//.'#1['.$i.']['.$j.']';
 		}
 		if($i===null){
@@ -1239,7 +1239,7 @@ class Post extends Model
         	return $this->getRouteN($i, 'index').'#3['.$i.']['.$j.']';
         }
         return $this->getRouteN($j, 'show').'#4['.$i.']['.$j.']';
-        		//ddd('['.$i.']['.$j.']'.$this->type.' '.$this->guid);
+        		//ddd('['.$i.']['.$j.']'.$this->post_type.' '.$this->guid);
 		//ddd($i);
 		*/
 
@@ -1514,10 +1514,10 @@ class Post extends Model
 			$parentPost=$this->related->where('pivot.type','parent')->first();
 			if ($parentPost!=null) {
 				$url=$this->lang.'/'.$parentPost->guid.'/'.$this->guid;
-			}elseif ($this->guid==$this->type) {
+			}elseif ($this->guid==$this->post_type) {
 				$url=$this->lang.'/'.$this->guid;
 			}else{
-				$url=$this->lang.'/'.$this->type.'/'.$this->guid;
+				$url=$this->lang.'/'.$this->post_type.'/'.$this->guid;
 			}
 			$value[$this->lang]=$url;
 			//$this->url=$value;
@@ -1575,7 +1575,7 @@ class Post extends Model
 	public function getTagsAttribute($value)
 	{
 		//rating fro 0 to 5
-		$rows = $this->relatedType($this->type.'_x_tag')->get();
+		$rows = $this->relatedType($this->post_type.'_x_tag')->get();
 
 		return $rows->implode('title', ','); //pluck('title');
 	}
@@ -1601,7 +1601,7 @@ class Post extends Model
 				$obj->post_id = $obj->id;
 				$obj->save();
 			}
-			$rel = $this->type.'_x_tag';
+			$rel = $this->post_type.'_x_tag';
 			$this->related()->attach($obj->post_id, ['type' => $rel]);
 		}
 		foreach ($sub_tags->all() as $tag) {
@@ -1610,7 +1610,7 @@ class Post extends Model
 				$obj->post_id = $obj->id;
 				$obj->save();
 			}
-			$rel = $this->type.'_x_tag';
+			$rel = $this->post_type.'_x_tag';
 			$this->related()->detach($obj->post_id, ['type' => $rel]);
 		}
 	}
@@ -1621,13 +1621,13 @@ class Post extends Model
 	{
 		$ris = [];
 		//*
-		if (0 == $this->parent_id && $this->type != $this->guid) {
+		if (0 == $this->parent_id && $this->post_type != $this->guid) {
 			$container = self::firstOrCreate([
 				'lang' => \App::getLocale(),
-				'guid' => $this->type,
-				'type' => $this->type,
+				'guid' => $this->post_type,
+				'type' => $this->post_type,
 			], [
-				'title' => $this->type,
+				'title' => $this->post_type,
 			]);
 			if (null == $container0->post_id) {
 				$container0->post_id = $container0->id;

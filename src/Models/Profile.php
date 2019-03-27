@@ -1,14 +1,14 @@
 <?php
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
 
 //--------- models --------
 use XRA\LU\Models\User;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
-use XRA\Extend\Traits\Updater;
+//use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Extend\Traits\Updater;
 //--- services
 use XRA\Extend\Services\ThemeService;
 
@@ -18,11 +18,11 @@ use XRA\Extend\Services\ThemeService;
  *
  * @mixin \Eloquent
  */
-class Profile extends Model
+class Profile extends BaseModel
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
-    use Updater;
-    use LinkedTrait;
+    //use Updater;
+    //use LinkedTrait;
     protected $connection = 'mysql'; // this will use the specified database conneciton
     protected $table = 'blog_post_profiles';
     protected $fillable = ['post_id', 'bio'];

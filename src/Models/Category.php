@@ -1,16 +1,13 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
+//use Illuminate\Database\Eloquent\Model;
+//use Laravel\Scout\Searchable;
 use XRA\Extend\Services\ThemeService;
 //--- services
-use XRA\Extend\Traits\Updater;
+//use XRA\Extend\Traits\Updater;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Blog\Models\Traits\LinkedTrait;
 
 
 /**
@@ -20,11 +17,11 @@ use XRA\Blog\Models\Traits\LinkedTrait;
  * @property \Illuminate\Database\Eloquent\Collection|\XRA\Blog\Models\Post[]    $posts
  * @mixin \Eloquent
  */
-class Category extends Model
+class Category extends BaseModel
 {
-    use Searchable;
-    use Updater;
-    use LinkedTrait;
+    //use Searchable;
+    //use Updater;
+    //use LinkedTrait;
     /**
      * The table associated with the model.
      *

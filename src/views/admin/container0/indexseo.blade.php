@@ -1,5 +1,5 @@
 @extends('adm_theme::layouts.app')
-@section('page_heading',''.$container0->type.'] '.$container0->title)
+@section('page_heading',''.$container0->post_type.'] '.$container0->title)
 @include('backend::includes.components')
 @section('content')
 @include('backend::includes.flash')
@@ -45,7 +45,7 @@
 	{{ $row->title }}<hr/>
 	{{ $row->subtitle }}
 	</td>
-	<td>{{ $row->type }}</td>
+	<td>{{ $row->post_type }}</td>
 	<td>
 		{{--
 		{!! Form::bsBtnEdit(['item'=>$row]) !!}

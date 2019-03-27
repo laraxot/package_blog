@@ -1,5 +1,5 @@
 @extends('adm_theme::layouts.app')
-@section('page_heading',''.$container0->type.'] '.$container0->title.'  Related')
+@section('page_heading',''.$container0->post_type.'] '.$container0->title.'  Related')
 @include('backend::includes.components')
 @section('content')
 @include('backend::includes.flash')
@@ -30,12 +30,12 @@
 	<td>[{{ $row->id }}][{{ $row->post_id }}]</td>
 	<td>{{ $row->parent_id }}</td>
 	<td>{{ $row->pivot->pos}}</td>
-	<td>{{ $row->pivot->type}}</td>
+	<td>{{ $row->pivot->post_type}}</td>
 	<td>
 	{{ $row->title }}
 	{{--  <small>{{ $row->guid }}</small> --}}
 	</td>
-	<td>{{ $row->type }}</td>
+	<td>{{ $row->post_type }}</td>
 	<td>{{-- $row->image() --}}</td>
 	<td>
 		
@@ -47,7 +47,7 @@
 		@endphp
 
 		<a class="btn btn-warning" href="{{ $url }}" data-toggle="tooltip" title="Scollega"><i class="fa fa-unlink fa-fw" aria-hidden="true"></i></a>
-		<a class="btn btn-default" href="{{ $row->type }}">test</a>
+		<a class="btn btn-default" href="{{ $row->post_type }}">test</a>
 		
 	</td>
 </tr>

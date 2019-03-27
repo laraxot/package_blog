@@ -61,7 +61,7 @@ class RelatedRevController extends Controller
         foreach ($duplicateRecords->get() as $row) {
             PostRelated::where('post_id', $row->post_id)
                 ->where('related_id', $row->related_id)
-                ->where('type', $row->type)
+                ->where('type', $row->post_type)
                 ->limit($row->occurences - 1)
                 ->delete();
         }
@@ -108,7 +108,7 @@ class RelatedRevController extends Controller
         //dd($request->all());
         if ('PUT' == $request->_method) {
             //dd('aa');
-            $row->related()->attach($request->post_id, ['type' => $request->type]);
+            $row->related()->attach($request->post_id, ['type' => $request->post_type]);
 
             return redirect()->route('blog.post.related.index', $params); //response()->back();
         }

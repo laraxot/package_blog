@@ -62,7 +62,7 @@ class SitemapController extends Controller
         $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
         PostRelated::whereRaw('post_id=related_id')->delete();
         $lang = \App::getLocale();
-        $type=is_object($item0)?$item0->type:$item0;
+        $type=is_object($item0)?$item0->post_type:$item0;
         //$type='article';
         $model=collect(array_flip(config('xra.model')))->search($type);
         if($model==false){

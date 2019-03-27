@@ -1,14 +1,14 @@
 <?php
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
 
 //--- services
 use XRA\Extend\Services\ThemeService;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
-use XRA\Extend\Traits\Updater;
+//use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Extend\Traits\Updater;
 
 /**
  * { item_description }
@@ -16,11 +16,11 @@ use XRA\Extend\Traits\Updater;
  *
  * @mixin \Eloquent
  */
-class Feed extends Model
+class Feed extends BaseModel
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
-    use Updater;
-    use LinkedTrait;
+    //use Updater;
+    //use LinkedTrait;
     protected $table = 'blog_feeds';
     protected $fillable = ['post_id'];
     //public $incrementing = true;

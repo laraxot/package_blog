@@ -1,12 +1,12 @@
 <?php
 namespace Xot\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Blog\Models\Traits\LinkedTrait;
 
-class Tag extends Model
+class Tag extends BaseModel
 {
-	use LinkedTrait;
+	//use LinkedTrait;
     protected $table = 'mp_tags';
 }

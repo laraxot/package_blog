@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Traits;
 
 use App\Http\Controllers\Controller;
@@ -9,6 +6,9 @@ use Illuminate\Http\Request;
 //----- repository ----
 //http://lyften.com/projects/laravel-repository/doc/usage.html
 use XRA\Blog\Repositories\PostRepository;
+//---- models --
+use XRA\Blog\Models\Post;
+
 
 trait ContainerTrait
 {
@@ -22,13 +22,15 @@ trait ContainerTrait
         //return new Post;
         $params = \Route::current()->parameters();
         \extract($params);
-        $type = \is_object($container0) ? $container0->type : $container0;
-        $model = config('xra.model.'.$type);
+
+        $post_type = \is_object($container0) ? $container0->post_type : $container0;
+        //echo '<h3>['.$post_type.']</h3>';
+        $model = config('xra.model.'.$post_type);
         if ('' == $model) {
-            $row = Post::where('lang', \App::getLocale())->where('guid', $type)->first();
-            $model = config('xra.model.'.$row->type);
+            $row = Post::where('lang', \App::getLocale())->where('guid', $post_type)->first();
+            $model = config('xra.model.'.$row->post_type);
             if ('' == $model) {
-                die('<hr/>settare modello['.$row->type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
+                die('<hr/>settare modello['.$row->post_type.'] in config/xra<hr/>'.'['.__LINE__.']['.__FILE__.']');
             }
         }
 
@@ -54,7 +56,7 @@ trait ContainerTrait
             $cont_name = 'container'.$i;
             if (isset($$cont_name)) {
                 $cont = $$cont_name;
-                $type = \is_object($cont) ? $cont->type : $cont;
+                $type = \is_object($cont) ? $cont->post_type : $cont;
                 $controller .= '\\'.studly_case($type);
             }
         }

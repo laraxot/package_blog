@@ -1,7 +1,7 @@
 <?php
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 
 //use Laravel\Scout\Searchable;
 
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
-class PostCount extends Model
+class PostCount extends BaseModel
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
 

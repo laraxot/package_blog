@@ -48,7 +48,7 @@ class PostController extends Controller
             app(PostContentController::class)->store($request);
         }	*/
 
-        \Session::flash('status', 'Aggiunto ! '.$row->type.' '.$row->id);
+        \Session::flash('status', 'Aggiunto ! '.$row->post_type.' '.$row->id);
 
         return redirect()->back();
     }
@@ -124,7 +124,7 @@ class PostController extends Controller
             app(PostContentController::class)->store($request);
         }
 
-        \Session::flash('status', 'Aggiunto ! '.$row->type.' '. $row->id);
+        \Session::flash('status', 'Aggiunto ! '.$row->post_type.' '. $row->id);
         return redirect()->back();
     }
     */

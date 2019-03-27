@@ -14,7 +14,7 @@
 	{{ $row->title }}
 	{{--  <small>{{ $row->guid }}</small> --}}
 	</td>
-	<td>{{ $row->type }}</td>
+	<td>{{ $row->post_type }}</td>
 	<td>{{-- $row->image() --}}</td>
 	<td>
 		{!! Form::bsBtnEdit(['id_post'=>$row->id]) !!}

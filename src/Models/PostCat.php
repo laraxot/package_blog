@@ -1,19 +1,19 @@
 <?php
 namespace XRA\Blog\Models;
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
+//use Illuminate\Database\Eloquent\Model;
+//use Laravel\Scout\Searchable;
 //--- services
 use XRA\Extend\Services\ThemeService;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
-use XRA\Extend\Traits\Updater;
+//use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Extend\Traits\Updater;
 //--------- models --------
 
-class PostCat extends Model
+class PostCat extends BaseModel
 {
-    use Updater;
-    use Searchable;
-    use LinkedTrait;
+    //use Updater;
+    //use Searchable;
+    //use LinkedTrait;
     //use PostTrait; //vecchio
 
     protected $table = 'blog_post_cats';
@@ -34,7 +34,7 @@ class PostCat extends Model
     //-------- relationship ------
     public function posts()
     {
-        $type = $this->type.'_x_post';
+        $type = $this->post_type.'_x_post';
 
         return $this->related()->wherePivot('type', $type);
     }

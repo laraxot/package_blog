@@ -21,14 +21,14 @@ class Container0Controller extends Controller
         \extract($params);
         // ARCHIVIO o FIGLI ????? DILEMMA DILEMMOSO
         if ($request->has('syncSons')) {
-            $items = Post::where('lang', $lang)->where('type', $container0->type)->where('guid', '!=', $container0->type)->get();
+            $items = Post::where('lang', $lang)->where('type', $container0->post_type)->where('guid', '!=', $container0->post_type)->get();
             foreach ($items as $k => $item) {
                 PostRelated::firstOrCreate(['post_id' => $item->post_id, 'related_id' => $container0->post_id, 'type' => 'parent']);
             }
             echo '<h3> location linked '.$container0->sons->count().'</h3>';
         }
         if ($request->has('syncGuids')) {
-            $items = Post::where('lang', $lang)->where('type', $container0->type)->where('guid', '!=', $container0->type)->get();
+            $items = Post::where('lang', $lang)->where('type', $container0->post_type)->where('guid', '!=', $container0->post_type)->get();
             foreach ($items as $k => $item) {
                 $item->guid = str_slug($item->title);
                 $item->save();

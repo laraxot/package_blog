@@ -1,11 +1,11 @@
 <?php
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
 
-use XRA\Blog\Models\Traits\LinkedTrait;
-use XRA\Extend\Traits\Updater;
+//use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Extend\Traits\Updater;
 
 //------services---------
 use XRA\Extend\Services\ThemeService;
@@ -19,7 +19,7 @@ use XRA\Blog\Models\Article;
  *
  * @mixin \Eloquent
  */
-class ArticleCat extends Model
+class ArticleCat extends BaseModel
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
     use Updater;
@@ -34,7 +34,7 @@ class ArticleCat extends Model
     public function postArticles()
     {
         /*
-        $type=$this->type.'_x_articles';
+        $type=$this->post_type.'_x_articles';
         return $this->related()->wherePivot('type',$type);
         */
         return $this->relatedType('article');
@@ -43,7 +43,7 @@ class ArticleCat extends Model
     public function articles()
     {
         /*
-        $type=$this->type.'_x_articles';
+        $type=$this->post_type.'_x_articles';
         return $this->related()->wherePivot('type',$type);
         */
         $related=Article::class;

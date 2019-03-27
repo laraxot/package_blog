@@ -19,7 +19,7 @@ trait PostTrait
     {
         $row = $this->hasOne(Post::class, 'post_id', 'post_id')
                 ->where('lang', \App::getLocale())
-                ->where('type', $this->type)
+                ->where('type', $this->post_type)
                 ->withDefault()
                 ;
 
@@ -30,7 +30,7 @@ trait PostTrait
     {
         $post = $this->post;
         if (null == $post) {
-            $post = Post::firstOrCreate(['guid' => $this->guid, 'type' => $this->type, 'lang' => \App::getLocale()], ['title' => $this->title]);
+            $post = Post::firstOrCreate(['guid' => $this->guid, 'type' => $this->post_type, 'lang' => \App::getLocale()], ['title' => $this->title]);
             self::where('post_id', $post->post_id)->delete();
             $this->post_id = $post->post_id;
             $this->save();
@@ -44,7 +44,7 @@ trait PostTrait
     {
         //return $this->belongsToMany(PostRev::class, 'blog_post_related', 'post_id', 'related_id')
         //belongsToMany($related, $table, $foreignPivotKey, $relatedPivotKey,$parentKey, $relatedKey, $relation)
-        //echo '<br/>'.$this->type;
+        //echo '<br/>'.$this->post_type;
         $pivot_fields = ['type', 'pos', 'price', 'price_currency', 'id'];
         $rows = $this->belongsToMany(Post::class, 'blog_post_related', 'post_id', 'related_id', 'post_id', 'post_id')
                 ->withPivot($pivot_fields)
@@ -71,7 +71,7 @@ trait PostTrait
     public function relatedType($type)
     {
         if (false === \mb_strpos($type, '_x_')) {
-            $type = $this->type.'_x_'.$type;
+            $type = $this->post_type.'_x_'.$type;
         }
 
         return $this->related()->wherePivot('type', $type); //->where('lang',\App::getLocale());

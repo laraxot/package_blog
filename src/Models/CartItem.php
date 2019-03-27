@@ -1,14 +1,14 @@
 <?php
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
 
 use XRA\Extend\Services\ThemeService;
 //--- services
-use XRA\Extend\Traits\Updater;
+//use XRA\Extend\Traits\Updater;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Blog\Models\Traits\LinkedTrait;
 
 /**
  * { item_description }
@@ -16,11 +16,12 @@ use XRA\Blog\Models\Traits\LinkedTrait;
  *
  * @mixin \Eloquent
  */
-class CartItem extends Model
+class CartItem extends BaseModel
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
-    use Updater;
-    use LinkedTrait;
+    //use Updater;
+    //use LinkedTrait;
+
     protected $table = 'blog_post_shop_items';
     protected $fillable = ['id', 'post_id', 'post_cat_id', 'post_var_cat_id', 'post_id_adds', 'post_id_subs'];
     protected $appends = [];

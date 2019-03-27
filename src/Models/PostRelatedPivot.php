@@ -29,7 +29,7 @@ class PostRelatedPivot extends Pivot
     public function post()
     {
         $rel = $this->hasOne(Post::class, 'post_id', 'post_id')->where('lang', \App::getLocale());
-        $tmp = \explode('_x_', $this->type);
+        $tmp = \explode('_x_', $this->post_type);
         if (2 == \count($tmp)) {
             $rel = $rel->where('type', $tmp[0]);
         } else {
@@ -42,7 +42,7 @@ class PostRelatedPivot extends Pivot
     public function related()
     {
         $rel = $this->hasOne(Post::class, 'post_id', 'related_id')->where('lang', \App::getLocale());
-        $tmp = \explode('_x_', $this->type);
+        $tmp = \explode('_x_', $this->post_type);
         if (2 == \count($tmp)) {
             $rel = $rel->where('type', $tmp[1]);
         } else {
@@ -77,9 +77,9 @@ class PostRelatedPivot extends Pivot
     public function getRouteN($n, $act)
     {
         $params = \Route::current()->parameters();
-        $params['container'.$n] = $this->post->type;
+        $params['container'.$n] = $this->post->post_type;
         $params['item'.$n] = $this->post->guid;
-        $params['container'.($n + 1)] = $this->related->type;
+        $params['container'.($n + 1)] = $this->related->post_type;
         $params['item'.($n + 1)] = $this->related->guid;
         $r = '';
         for ($i = 0; $i <= ($n + 1); ++$i) {
@@ -103,28 +103,28 @@ class PostRelatedPivot extends Pivot
         list($containers,$items)=$this->params2ContainerItem($params);
         $n_containers=count($containers);
         $n_items=count($items);
-        //ddd($this->type); //restaurant_x_cuisine
-        //ddd($container[0]->type); // restaurant
-        //ddd($container[1]->type); // menu
-        //ddd($this->post->type); //restaurant
-        //ddd($this->related->type); //cuisine
-        //$i=collect($container)->where('type',$this->post->type)->first();
+        //ddd($this->post_type); //restaurant_x_cuisine
+        //ddd($container[0]->post_type); // restaurant
+        //ddd($container[1]->post_type); // menu
+        //ddd($this->post->post_type); //restaurant
+        //ddd($this->related->post_type); //cuisine
+        //$i=collect($container)->where('type',$this->post->post_type)->first();
         $post=$this->post;
         $related=$this->related;
         /*
         $i=collect($container)->each(function($item,$key) use($post){
-            if($item->type==$post->type) return $key;
+            if($item->post_type==$post->post_type) return $key;
         });
         */
         $i=null; // quando trovo la collection giusta la sostituisco
         foreach($containers as $k=>$container){
-            if($container->type == $post->type){
+            if($container->post_type == $post->post_type){
                 $i=$k; break;
             }
         }
         $j=null;
         foreach($containers as $k=>$container){
-            if($container->type == $related->type){
+            if($container->post_type == $related->post_type){
                 $j=$k; break;
             }
         }
@@ -136,7 +136,7 @@ class PostRelatedPivot extends Pivot
         }
         /*
         ddd($this->related);
-        if(strtolower($this->related->type)!=strtolower($this->related->guid) && in_array($this->related->type,$roots)){
+        if(strtolower($this->related->post_type)!=strtolower($this->related->guid) && in_array($this->related->post_type,$roots)){
             return $this->getRouteN(0, $act);//.'#2['.$i.']['.$j.']';
         }
         */
@@ -155,7 +155,7 @@ class PostRelatedPivot extends Pivot
             return $this->getRouteN($n_items, $act);//.'#3'; 
         }
 
-        ddd('<h3>['.$post->type.']['.$i.']['.$related->type.']['.$j.']['.$routename.']</h3>');
+        ddd('<h3>['.$post->post_type.']['.$i.']['.$related->post_type.']['.$j.']['.$routename.']</h3>');
         //ddd($params);
         //ddd($j);
     }
@@ -208,17 +208,17 @@ class PostRelatedPivot extends Pivot
                 $this->delete();
                 ddd($this);
             }
-            if ($second_last_obj->type == $this->post->type && $last_obj->type == $this->related->type) {
+            if ($second_last_obj->post_type == $this->post->post_type && $last_obj->post_type == $this->related->post_type) {
                 return $this->getRouteN($n - 1, $act); //.'#1['.$n.']';
             }
         }
 
-        if ($second_last_obj->type == $this->related->type) {
+        if ($second_last_obj->post_type == $this->related->post_type) {
             return $this->getRouteN($n, $act); // forse -1
         }
 
-        if ($last_obj->type != $this->post->type) {
-            return $this->getRouteN($n + 1, $act); //.'#2['.$n.']['.$second_last_obj->type.']['.$this->post->type.']';
+        if ($last_obj->post_type != $this->post->post_type) {
+            return $this->getRouteN($n + 1, $act); //.'#2['.$n.']['.$second_last_obj->post_type.']['.$this->post->post_type.']';
         }
 
         return $this->getRouteN($n, $act); //.'#3['.$n.']';
@@ -228,8 +228,8 @@ class PostRelatedPivot extends Pivot
     {
         return $this->getUrlAct('show');
         /*
-        $post_url=$this->post->type.'/'.$this->post->guid;
-        $related_url=$this->related->type.'/'.$this->related->guid;
+        $post_url=$this->post->post_type.'/'.$this->post->guid;
+        $related_url=$this->related->post_type.'/'.$this->related->guid;
         $url=\Request::getPathInfo();
         if(ends_with($url,'/'.$post_url)){   //non mi convince ma per ora funziona
             return url($url.'/'.$related_url);

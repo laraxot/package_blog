@@ -28,7 +28,7 @@ class PostRelatedMorphPivot extends MorphPivot
     {
         ///*
         $rel = $this->hasOne(Post::class, 'post_id', 'post_id')->where('lang', \App::getLocale());
-        $tmp = \explode('_x_', $this->type);
+        $tmp = \explode('_x_', $this->post_type);
         if (2 == \count($tmp)) {
             $rel = $rel->where('post_type', $tmp[0]);
         } else {
@@ -44,7 +44,7 @@ class PostRelatedMorphPivot extends MorphPivot
     {
         ///*
         $rel = $this->hasOne(Post::class, 'post_id', 'related_id')->where('lang', \App::getLocale());
-        $tmp = \explode('_x_', $this->type);
+        $tmp = \explode('_x_', $this->post_type);
         if (2 == \count($tmp)) {
             $rel = $rel->where('post_type', $tmp[1]);
         } else {
@@ -107,23 +107,23 @@ class PostRelatedMorphPivot extends MorphPivot
         list($containers,$items)=$this->params2ContainerItem($params);
         $n_containers=count($containers);
         $n_items=count($items);
-        //ddd($this->type); //restaurant_x_cuisine
-        //ddd($container[0]->type); // restaurant
-        //ddd($container[1]->type); // menu
-        //ddd($this->post->type); //restaurant
-        //ddd($this->related->type); //cuisine
-        //$i=collect($container)->where('type',$this->post->type)->first();
+        //ddd($this->post_type); //restaurant_x_cuisine
+        //ddd($container[0]->post_type); // restaurant
+        //ddd($container[1]->post_type); // menu
+        //ddd($this->post->post_type); //restaurant
+        //ddd($this->related->post_type); //cuisine
+        //$i=collect($container)->where('type',$this->post->post_type)->first();
         //ddd($this);
         //$post=$this->post;
         //$related=$this->related;
         /*
         $i=collect($container)->each(function($item,$key) use($post){
-            if($item->type==$post->type) return $key;
+            if($item->post_type==$post->post_type) return $key;
         });
         */
         $i=null; // quando trovo la collection giusta la sostituisco
         foreach($containers as $k=>$container){
-            if($container->type == $this->post_type){
+            if($container->post_type == $this->post_type){
                 $i=$k; break;
             }
         }
@@ -133,7 +133,7 @@ class PostRelatedMorphPivot extends MorphPivot
                 ddd($container);
             }
             
-            if($container->type == $this->related_type){
+            if($container->post_type == $this->related_type){
                 $j=$k; break;
             }
         }
@@ -145,7 +145,7 @@ class PostRelatedMorphPivot extends MorphPivot
         }
         /*
         ddd($this->related);
-        if(strtolower($this->related->type)!=strtolower($this->related->guid) && in_array($this->related->type,$roots)){
+        if(strtolower($this->related->post_type)!=strtolower($this->related->guid) && in_array($this->related->post_type,$roots)){
             return $this->getRouteN(0, $act);//.'#2['.$i.']['.$j.']';
         }
         */
@@ -164,7 +164,7 @@ class PostRelatedMorphPivot extends MorphPivot
             return $this->getRouteN($n_items, $act);//.'#3'; 
         }
 
-        ddd('<h3>['.$post->type.']['.$i.']['.$related->type.']['.$j.']['.$routename.']</h3>');
+        ddd('<h3>['.$post->post_type.']['.$i.']['.$related->post_type.']['.$j.']['.$routename.']</h3>');
         //ddd($params);
         //ddd($j);
     }
@@ -217,17 +217,17 @@ class PostRelatedMorphPivot extends MorphPivot
                 $this->delete();
                 ddd($this);
             }
-            if ($second_last_obj->type == $this->post->type && $last_obj->type == $this->related->type) {
+            if ($second_last_obj->post_type == $this->post->post_type && $last_obj->post_type == $this->related->post_type) {
                 return $this->getRouteN($n - 1, $act); //.'#1['.$n.']';
             }
         }
 
-        if ($second_last_obj->type == $this->related->type) {
+        if ($second_last_obj->post_type == $this->related->post_type) {
             return $this->getRouteN($n, $act); // forse -1
         }
 
-        if ($last_obj->type != $this->post->type) {
-            return $this->getRouteN($n + 1, $act); //.'#2['.$n.']['.$second_last_obj->type.']['.$this->post->type.']';
+        if ($last_obj->post_type != $this->post->post_type) {
+            return $this->getRouteN($n + 1, $act); //.'#2['.$n.']['.$second_last_obj->post_type.']['.$this->post->post_type.']';
         }
 
         return $this->getRouteN($n, $act); //.'#3['.$n.']';
@@ -237,8 +237,8 @@ class PostRelatedMorphPivot extends MorphPivot
     {
         return $this->getUrlAct('show');
         /*
-        $post_url=$this->post->type.'/'.$this->post->guid;
-        $related_url=$this->related->type.'/'.$this->related->guid;
+        $post_url=$this->post->post_type.'/'.$this->post->guid;
+        $related_url=$this->related->post_type.'/'.$this->related->guid;
         $url=\Request::getPathInfo();
         if(ends_with($url,'/'.$post_url)){   //non mi convince ma per ora funziona
             return url($url.'/'.$related_url);

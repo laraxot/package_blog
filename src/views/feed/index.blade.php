@@ -29,7 +29,7 @@
 		<pubDate>{{ $row->updated_at  }}</pubDate>
 		@endif
 		{{-- <dc:creator><![CDATA[Andrea Izzo]]></dc:creator> --}}
-		<category><![CDATA[{{ $row->type }}]]></category>
+		<category><![CDATA[{{ $row->post_type }}]]></category>
 		<guid isPermaLink="false">{{ $row->url }}</guid>
 		<description><![CDATA[{{ $row->meta_description }}]]></description>
 	</item>

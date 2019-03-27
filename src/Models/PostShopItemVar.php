@@ -1,11 +1,11 @@
 <?php
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
-use XRA\Extend\Traits\Updater;
+//use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Extend\Traits\Updater;
 
 /**
  * { item_description }
@@ -13,9 +13,9 @@ use XRA\Extend\Traits\Updater;
  *
  * @mixin \Eloquent
  */
-class PostShopItemVar extends Model
+class PostShopItemVar extends BaseModel
 {
-    use Updater;
+    //use Updater;
     protected $table = 'blog_post_shop_item_vars';
     protected $fillable = ['post_id', 'post_cat_id'];
     protected $appends = [];

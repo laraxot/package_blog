@@ -3,11 +3,11 @@ namespace XRA\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Blog\Models\Traits\LinkedTrait;
 
-class Blog extends Model
+class Blog extends BaseModel
 {
-    use LinkedTrait;
+    //use LinkedTrait;
     protected $table = 'blog_posts';
 
     //--- relationship --
@@ -15,7 +15,7 @@ class Blog extends Model
     {
         $rows = $this->hasMany(Post::class, 'type', 'type')
                 ->where('lang', $this->lang)
-                ->where('guid', '!=', $this->type)
+                ->where('guid', '!=', $this->post_type)
                 ->with(['relatedrev', 'related']);
         if (\Request::has('lat') && \Request::has('lng')) {
             $currentLocation = [
@@ -24,7 +24,7 @@ class Blog extends Model
             ];
 
             $distance = 30; //km
-            $rows = $rows->findNearest($this->type, $currentLocation, $distance, 1000);
+            $rows = $rows->findNearest($this->post_type, $currentLocation, $distance, 1000);
         }
 
         return $rows;

@@ -1,22 +1,22 @@
 <?php
 namespace XRA\Blog\Models;
-
+/*
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 //--- TRAITS ---
 use XRA\Blog\Models\Traits\LinkedTrait;
 use XRA\Extend\Traits\Updater;
-
+*/
 /**
  * XRA\Blog\Models\Settings.
  *
  * @mixin \Eloquent
  */
-class Settings extends Model
+class Settings extends BaseModel
 {
-    use Searchable;
-    use Updater;
-    use LinkedTrait;
+    //use Searchable;
+    //use Updater;
+    //use LinkedTrait;
     /**
      * The table associated with the model.
      *

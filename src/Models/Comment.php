@@ -1,17 +1,14 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
-use XRA\Extend\Traits\Updater;
+//use Illuminate\Database\Eloquent\Model;
+//use Laravel\Scout\Searchable;
+//use XRA\Extend\Traits\Updater;
 //--- Models ---//
 //use Laralum\Users\Models\User;
 use XRA\LU\Models\User;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Blog\Models\Traits\LinkedTrait;
 
 
 /**
@@ -21,7 +18,7 @@ use XRA\Blog\Models\Traits\LinkedTrait;
  * @property \XRA\LU\Models\User   $user
  * @mixin \Eloquent
  */
-class Comment extends Model
+class Comment extends BaseModel
 {
     use Searchable;
     use Updater;

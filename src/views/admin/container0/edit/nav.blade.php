@@ -31,7 +31,7 @@
 	</li>
 	@php
 		$related=array_keys(config('xra.model'));
-		$tmp=config('xra.related.'.$row->type);
+		$tmp=config('xra.related.'.$row->post_type);
 		if(is_array($tmp)){
 			$related=$tmp;
 		}

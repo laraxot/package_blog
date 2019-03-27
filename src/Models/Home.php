@@ -1,18 +1,15 @@
 <?php
-
-
-
 namespace XRA\Blog\Models;
 
 use Carbon\Carbon;
 //use Laravel\Scout\Searchable;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //------services---------
 use XRA\Extend\Services\ThemeService;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
-use XRA\Extend\Traits\Updater;
+//use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Extend\Traits\Updater;
 
 /**
  * { item_description }
@@ -20,11 +17,11 @@ use XRA\Extend\Traits\Updater;
  *
  * @mixin \Eloquent
  */
-class Home extends Model
+class Home extends BaseModel
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
-    use Updater;
-    use LinkedTrait;
+    //use Updater;
+    //use LinkedTrait;
     protected $table = 'blog_post_pages';
     /**
      * The attributes that are mass assignable.

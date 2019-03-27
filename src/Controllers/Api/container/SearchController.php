@@ -26,7 +26,7 @@ class SearchController extends Controller
         $params = \array_merge($params, $request->all());
         \extract($params);
         if (\is_object($container)) {
-            $container_type = $container0->type;
+            $container_type = $container0->post_type;
         } else {
             $container_type = $container;
         }

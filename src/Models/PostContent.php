@@ -1,9 +1,9 @@
 <?php
 namespace XRA\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
 //--- TRAITS ---
-use XRA\Blog\Models\Traits\LinkedTrait;
+//use XRA\Blog\Models\Traits\LinkedTrait;
 
 /**
  * XRA\Blog\Models\PostContent.
@@ -11,9 +11,9 @@ use XRA\Blog\Models\Traits\LinkedTrait;
  * @property \XRA\Blog\Models\Post $Post
  * @mixin \Eloquent
  */
-class PostContent extends Model
+class PostContent extends BaseModel
 {
-	use LinkedTrait;
+	//use LinkedTrait;
     protected $table = 'blog_post_contents';
     public $incrementing = true;
 

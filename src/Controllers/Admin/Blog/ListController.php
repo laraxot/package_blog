@@ -27,7 +27,7 @@ class ListController extends Controller
         \extract($params);
         //dd($params);
         $row = Post::find($id_post);
-        //dd($row->type);
+        //dd($row->post_type);
         return $this->editTrait($request);
     }
 
@@ -54,7 +54,7 @@ class ListController extends Controller
             app(PostContentController::class)->store($request);
         }	*/
 
-        \Session::flash('status', 'Aggiunto ! '.$row->type.' '.$row->id);
+        \Session::flash('status', 'Aggiunto ! '.$row->post_type.' '.$row->id);
 
         return redirect()->back();
     }
@@ -129,7 +129,7 @@ class ListController extends Controller
             app(PostContentController::class)->store($request);
         }
 
-        \Session::flash('status', 'Aggiunto ! '.$row->type.' '. $row->id);
+        \Session::flash('status', 'Aggiunto ! '.$row->post_type.' '. $row->id);
         return redirect()->back();
     }
     */

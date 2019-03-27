@@ -39,7 +39,7 @@ class TreeController extends Controller
         $pivot= new PostParent;
         $pivot->post_id=$row->post_id;
         $pivot->parent_id=$request->parent_id;
-        $pivot->type='parent';
+        $pivot->post_type='parent';
         $pivot->save();
         */
         try {
