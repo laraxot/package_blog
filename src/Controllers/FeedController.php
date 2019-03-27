@@ -1,11 +1,10 @@
 <?php
-
-
-
 namespace XRA\Blog\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+
 use XRA\Blog\Models\Post;
 //use XRA\Extend\Traits\FrontTrait as FrontTrait;
 //use XRA\Extend\Traits\ArtisanTrait;
@@ -18,27 +17,38 @@ class FeedController extends Controller
 
     public function index(Request $request)
     {
-        $params = \Route::current()->parameters();
+        //$params = \Route::current()->parameters();
         //$view=CrudTrait::getView($params);
         $view = 'blog::feed.index';
         $lang = \App::getLocale();
+        $cache_key='feed-'.$request->page;
+        $rows = Cache::remember($cache_key, 60*60*12, function () use ($lang){
         //$locale=config('laravellocalization.supportedLocales.'.$lang);
-        $rows = Post::where('lang', $lang)
-                ->orderBy('updated_at')->paginate(10);
+            $rows = Post::where('lang', $lang)
+                ->orderByDesc('updated_at')
+                ->limit(50)
+                ->paginate(10)
+                ->toArray();
+            return $rows;
+        });
         //-- populating
+        /*
         $type = 'feed';
         $row = Post::firstOrCreate(['lang' => $lang, 'type' => $type, 'guid' => $type], ['title' => $type]);
         $models = config('xra.model');
         foreach ($models as $k => $v) {
             $m = Post::firstOrCreate(['lang' => $lang, 'type' => $type, 'guid' => $k], ['title' => $k]);
         }
+        */
+        $rows = json_decode(json_encode($rows), FALSE);
+        //ddd($rows);
         //----
         $feed = (string) view($view)
                 ->with('lang', $lang)
                 //->with('locale',$locale)
                 ->with('rows', $rows)
-                ->with('params', $params)
-                ->with($params)
+                //->with('params', $params)
+                //->with($params)
                 ;
         $feed = '<?xml version="1.0" encoding="UTF-8"?>'.$feed;
 

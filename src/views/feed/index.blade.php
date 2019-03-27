@@ -20,12 +20,13 @@
 
 	<atom:link rel="hub" href="https://pubsubhubbub.appspot.com"/>
 	<atom:link rel="hub" href="https://pubsubhubbub.superfeedr.com"/>	
-	@foreach($rows as $row)
+	@foreach($rows->data as $row)
 	<item>
 		<title>{{ $row->title}}</title>
 		<link>{{ $row->url }}</link>
 		@if($row->updated_at)
-		<pubDate>{{ $row->updated_at->format('D, d M Y H:i:s T') }}</pubDate>
+		{{-- ->format('D, d M Y H:i:s T') --}}
+		<pubDate>{{ $row->updated_at  }}</pubDate>
 		@endif
 		{{-- <dc:creator><![CDATA[Andrea Izzo]]></dc:creator> --}}
 		<category><![CDATA[{{ $row->type }}]]></category>
