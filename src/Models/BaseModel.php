@@ -11,7 +11,7 @@ use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 abstract class BaseModel extends Model
 {
-    use Cachable;
+    use Cachable; //mi da un errore 
     use Updater;
     use Searchable;
     use LinkedTrait;

@@ -765,10 +765,10 @@ class Post extends BaseModel
 			//con related = 48 senza =  47
 			return self::with([])->where('lang', $lang)
 					->whereIn('guid',array_keys($all)) //la query durava 1.2 sec ora 1/10 
-					->whereRaw('guid = type ')
+					->whereRaw('guid = post_type ')
 					->get();
 		});
-		$roots = $roots->keyBy('type')->all();
+		$roots = $roots->keyBy('post_type')->all();
 		$add = collect(\array_keys($all))->diff(\array_keys($roots));
 		foreach ($add as $k => $v) {
 			$roots[$v] = self::firstOrCreate(['lang' => $lang, 'guid' => $v, 'type' => $v], ['title' => $v.' '.$lang]);
