@@ -2,7 +2,8 @@
 namespace XRA\Blog\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 //--- traits ---
 use XRA\Extend\Traits\Updater;
 //---- services --
@@ -127,9 +128,193 @@ class Post extends Model //NO BaseModel
             return $second_last->tabs;
         }
     }
-	//-------- functions --------- 
-	public function getLinkedModel(){
+    
+    public function getUrlAttribute($value){
+		if (isset($this->pivot)) {
+			return $this->pivot->url;//.'#PIVOT';
+		}
+		$value=$this->getUrl();
+		if ('' == $value) {
+			$this->setUrlAttribute($value);
+			$value = $this->attributes['url'];
+		}
+		return url($value);//.'#NO-PIVOT';
+	}
+
+    public function getEditUrlAttribute($value)     {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getMoveupUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getMovedownUrlAttribute($value) {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getIndexUrlAttribute($value)    {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getShowUrlAttribute($value)     {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getIndexEditUrlAttribute($value){return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getCreateUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getUpdateUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getDestroyUrlAttribute($value)  {return $this->urlActFunc(__FUNCTION__,$value);}
+    public function getDetachUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
+
+	//-------- functions ---------
+	public function getRouteN($n, $act,$params=null){
+		if($params==null){
+			$params = \Route::current()->parameters();
+		}
+		$params['container'.$n] = $this->post_type;
+		$params['item'.$n] = $this->guid;
+		//$params['lang'] = $this->lang;
+		//$params['container'.($n + 1)] = $this->related->post_type;
+		//$params['item'.($n + 1)] = $this->related->guid;
+		$r = '';
+		for ($i = 0; $i <= ($n ); ++$i) {
+			$r .= 'container'.$i.'.'; 
+		}
+		$route = $r.$act;
 		
+		if (in_admin()) {
+			$route = 'blog.'.$route;
+		}
+
+		$url= route($route, $params,false);  //con il false mi da il relativo 
+		$url_arr=explode('/',$url);
+		if(isset($url_arr[1]) && strlen($url_arr[1])==2){
+			$url_arr[1]=$this->lang;
+		}
+		$url=implode('/',$url_arr);
+		return $url;
+		//return $route;
+	}
+
+	public function getUrl(){
+		$params = \Route::current()->parameters();
+		list($containers,$items)=$this->params2ContainerItem($params);
+		
+		$i=null; // quando trovo la collection giusta la sostituisco
+		foreach($containers as $k=>$container){
+			if($container->post_type == $this->post_type){
+				$i=$k; break;
+			}
+		}
+		
+		//ddd('item');
+		$j=null; // quando trovo la collection giusta la sostituisco
+		foreach($items as $k=>$item){
+			if(is_object($item) && $item->post_type == $this->post_type && $item->guid == $this->guid){
+				$j=$k; break;
+			}
+		}
+
+		$roots=config('xra.roots');
+		if(!is_array($roots)){
+			$roots=[];
+		}
+
+		if(strtolower($this->post_type)!=strtolower($this->guid) && in_array($this->post_type,$roots)){
+			return $this->getRouteN(0, 'show');//.'#2['.$i.']['.$j.']';
+		}
+
+		
+		if(strtolower($this->post_type)==strtolower($this->guid)){
+			return $this->getRouteN($i, 'index');//.'#1['.$i.']['.$j.']';
+		}
+		if($i===null){
+			return $this->getRouteN(0, 'show');//.'#2['.$i.']['.$j.']';
+		}
+        if($j===null){
+        	return $this->getRouteN($i, 'show');//.'#3['.$i.']['.$j.']';
+        }
+        return $this->getRouteN($j, 'show');//.'#4['.$i.']['.$j.']';
+		/*
+        return $this->getRouteN(0, 'show').'#5['.$i.']['.$j.']';
+        if($j==null){
+        	return $this->getRouteN($i, 'index').'#3['.$i.']['.$j.']';
+        }
+        return $this->getRouteN($j, 'show').'#4['.$i.']['.$j.']';
+        		//ddd('['.$i.']['.$j.']'.$this->post_type.' '.$this->guid);
+		//ddd($i);
+		*/
+	} 
+     public function urlActFunc($func,$value){
+        $str0='get';
+        $str1='Attribute';
+        $name=substr($func, strlen($str0),-strlen($str1));
+        $name=Str::snake($name);
+        if(class_basename($this)=='Post'){
+            //ddd($name);//create_url
+        }
+        if (isset($this->pivot)) {
+            return $this->pivot->$name;//.'#PIVOT';
+        }
+        $str2='_url';
+        $name=substr($name, 0,-strlen($str2));
+        return $this->getUrlAct($name);//.'#NO-PIVOT';
+    }
+
+    public function getUrlAct($act){
+		$params = \Route::current()->parameters();
+		list($containers,$items)=$this->params2ContainerItem($params);
+		$routename = \Request::route()->getName();
+		$ris = null;
+		$routename_arr =[];
+		if($routename!==null){
+			$routename_arr = \explode('.', $routename);
+			foreach ($params as $k => $v) {
+				if (\is_object($v) && $v->is($this)) {
+					$ris = $k;
+					break;
+				}
+			}
+		}
+
+		$ris_tmp = \str_replace('item', 'container', $ris);
+		$k = \array_search($ris_tmp, $routename_arr, true);
+		/*
+		if($k<1){
+			echo '[['.$k.']]';
+			ddd($ris);
+		}
+		*/
+		//ddd($k);
+		if ($ris_tmp == $ris && 'edit' == $act && $ris!=null) {
+			$n = \str_replace('container', '', $ris);
+			$params['item'.$n] = $params['container'.$n];
+		}
+		if ($ris_tmp != $ris && 'index' == $act) {
+			$act = 'show';
+		}
+		$routename_act = \implode('.', \array_slice($routename_arr, 0, $k + 1)).'.'.$act;
+		if (starts_with($routename_act, '.')) { // caso da homepage
+			$routename_act = 'container0'.$routename_act;
+			$params['container0'] = $this->guid;
+		}
+		/*
+		if(\Route::exists($routename_act)){
+			return route($routename_act, $params);
+		}else{
+			return '#'.$routename_act;
+		}
+		*/
+		try{
+			return route($routename_act, $params);
+		}catch(\Exception $e){
+			return '#'.$routename_act;	
+		}
+	}
+
+	public function params2ContainerItem($params){
+		$container=[];
+		$item=[];
+		foreach($params as $k=>$v){
+			$pattern='/(container|item)([0-9]+)/';
+			preg_match($pattern, $k,$matches);
+			if(isset($matches[1]) && isset($matches[2]) ){
+				$sk=$matches[1];
+				$sv=$matches[2];
+				$$sk[$sv]=$v;
+			};
+		}
+		return [$container,$item];
+	}
+
+
+	public function getLinkedModel(){
 		$model=config('xra.model.'.$this->post_type);
 		return new $model;
 	}

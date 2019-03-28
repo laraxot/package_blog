@@ -5,6 +5,7 @@ use Cache;
 //use Illuminate\Database\Eloquent\Model;
 //--- Models ---
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 //use Laravel\Scout\Searchable;
 //--- services
 use XRA\Extend\Services\ImageService;
