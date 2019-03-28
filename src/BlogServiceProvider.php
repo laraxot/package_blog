@@ -123,20 +123,21 @@ class BlogServiceProvider extends ServiceProvider
                     $rows= $item_prev->$types()->where('blog_posts.guid', $value);
                     //ddd($item_prev->$types);
                     //ddd($rows->first());
-                    //try{ 
+                    try{ 
                     //ddd($rows->toSql());
                         $row=$rows->first();
-                    //}catch(\Exception $e){
+                    }catch(\Exception $e){
+                        $row=$value; //caso della cancellazione di orario
                         //ddd($item_prev); //location
                         //ddd($types); //restaurants
                     //    ddd($e);
                     //    echo '<h3>'.$item_prev->post_type.' - '.$types.'</h3>';
                     //    $row=null;
-                    //}
+                    }
                         //ddd($item_prev->$types);
                     if (!is_object($row)) {
                         echo '<h3>['.__LINE__.']['.$container_prev->post_type.']['.$item_name_prev.']['.$item_prev->post_type.']['.$lang.']['.$container_curr->post_type.']['.$value.']</h3>';
-                        $tmps=Post::where('type',$container_curr->post_type)->where('guid',$value)->where('lang','!=',$lang)->get();
+                        $tmps=Post::where('post_type',$container_curr->post_type)->where('guid',$value)->where('lang','!=',$lang)->get();
                         //--- genero traduzioni ipotetiche mancanti
                         foreach($tmps as $tmp){
                             $tmp->generateRowLang($lang); //genero le traduzioni

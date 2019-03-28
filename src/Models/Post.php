@@ -151,7 +151,19 @@ class Post extends Model //NO BaseModel
     public function getUpdateUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
     public function getDestroyUrlAttribute($value)  {return $this->urlActFunc(__FUNCTION__,$value);}
     public function getDetachUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
-
+    //-------- scopes ------------
+    public function scopeOfSearch($query, $term){
+        /*
+        $columns = \implode(', ', \array_keys($this->toSearchableArray())); // da scout
+        if($columns==''){ // se vuoto cerco ovunque
+        	$columns=$this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+        	$columns=\implode(', ',$columns);
+        }
+        */
+        $columns='title, subtitle, txt';
+        $query->whereRaw("MATCH ({$columns}) AGAINST (? IN BOOLEAN MODE)" , fullTextWildcards($term));
+        return $query;
+    }
 	//-------- functions ---------
 	public function getRouteN($n, $act,$params=null){
 		if($params==null){
