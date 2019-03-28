@@ -160,6 +160,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
 
     public function getSubtitleAttribute($value)
     {
+        if(class_basename($this)=='Post') return($value);
         if($value!=null) return($value);
         if (isset($this->post)) {
             $value = $this->post->subtitle;
@@ -191,6 +192,9 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         $str1='Attribute';
         $name=substr($func, strlen($str0),-strlen($str1));
         $name=Str::snake($name);
+        if(class_basename($this)=='Post'){
+            //ddd($name);//create_url
+        }
         if (isset($this->pivot)) {
             return $this->pivot->$name;//.'#PIVOT';
         }
