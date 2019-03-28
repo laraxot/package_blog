@@ -22,8 +22,8 @@ use XRA\Blog\Models\Article;
 class ArticleCat extends BaseModel
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
-    use Updater;
-    use LinkedTrait;
+    //use Updater;
+    //use LinkedTrait;
     protected $table = 'blog_post_article_cats';
     protected $fillable = ['post_id'];
     protected $dates = ['created_at', 'updated_at'];
