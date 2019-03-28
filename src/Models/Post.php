@@ -117,7 +117,16 @@ class Post extends Model //NO BaseModel
                     ;
         return $rows;
 	}//end function
-
+	//-------- mutators ---------
+	public function getParentTabsAttribute($value){
+        $params = \Route::current()->parameters();
+        //$second_last = collect(\array_slice($params, -2))->first(); //penultimo
+        $n_params=count($params);
+        $second_last=collect($params)->take(-2)->first();        
+        if(is_object($second_last) && $n_params>1){
+            return $second_last->tabs;
+        }
+    }
 	//-------- functions --------- 
 	public function getLinkedModel(){
 		
