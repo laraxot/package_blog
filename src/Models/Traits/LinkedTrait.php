@@ -128,6 +128,12 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         return camel_case(class_basename($this));
     }
 
+    public function getPostTypeAttribute($value)
+    {
+        if($value!='') return $value;
+        return camel_case(class_basename($this));
+    }
+
     public function getLangAttribute($value){
         $lang=\App::getLocale();
         return $lang;

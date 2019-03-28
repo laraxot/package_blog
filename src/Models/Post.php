@@ -81,7 +81,8 @@ class Post extends BaseModel
 		'title',
 		'subtitle',
 		'guid',
-		'type',
+		//'type',
+		'post_type', //da type a post_type per il morph
 		'txt',
 		'image_src', 'image_alt', 'image_title',
 		'meta_description',
@@ -771,7 +772,7 @@ class Post extends BaseModel
 		$roots = $roots->keyBy('post_type')->all();
 		$add = collect(\array_keys($all))->diff(\array_keys($roots));
 		foreach ($add as $k => $v) {
-			$roots[$v] = self::firstOrCreate(['lang' => $lang, 'guid' => $v, 'type' => $v], ['title' => $v.' '.$lang]);
+			$roots[$v] = self::firstOrCreate(['lang' => $lang, 'guid' => $v, 'post_type' => $v], ['title' => $v.' '.$lang]);
 		}
 		/// ??? togliere quelli che non ci sono ?
 		return $roots;
