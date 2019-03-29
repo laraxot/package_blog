@@ -125,7 +125,10 @@ $areas_prgs = [
 ];
 //,'middleware' => ['web','auth']
 if ('admin' != \Request::segment(1)) { //dal backend si creano i link per il frontend ..
-    $prefix = App::getLocale();
+    //$prefix = App::getLocale();
+    //$prefix=\Request::segment(1);
+    $prefix= LaravelLocalization::setLocale();
+    //$middleware= [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ];
     //$prefix='{lang}';
     
     Route::group(

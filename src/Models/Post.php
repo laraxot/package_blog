@@ -102,6 +102,9 @@ class Post extends Model //NO BaseModel
 	}
 
 	//-------- relationship ------
+	public function linkable(){
+		return $this->morphTo('post');
+	}
 	public function archive(){  
 		$lang=$this->lang;
 		$type=$this->post_type;
@@ -439,7 +442,7 @@ class Post extends Model //NO BaseModel
 
 	public function generateRowLang($lang){
 		if($lang==$this->lang) return $this;
-		$post=Post::where('post_id',$this->post_id)->where('type',$this->post_type)->where('lang',$lang)->first();
+		$post=Post::where('post_id',$this->post_id)->where('post_type',$this->post_type)->where('lang',$lang)->first();
 		if($post!=null) return $post;
 		$rowlang = $this->replicate();
 		$rowlang->lang = $lang;

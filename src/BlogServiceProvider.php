@@ -83,14 +83,17 @@ class BlogServiceProvider extends ServiceProvider
                     }
                     //ddd($rows->get());
                     $row=$rows->first();
+
                     if (!is_object($row) && !in_array($container_curr->post_type,['feed','sitemap'])) {
                         $tmp=Post::where('post_type',$container_curr->post_type)->where('guid',$value)->first();
+                        //ddd($tmp);
                         if(is_object($tmp)){
                             $tmp_lang=$tmp->generateRowLang($lang);
                             return $tmp_lang->linkable; /// boh da valutare 
                         }
-                        //ddd($tmp);
                     }
+
+                    
                 } else {
                     $container_curr = request()->$container_name;
                     $item_name_prev = 'item'.($i - 1);
@@ -134,6 +137,7 @@ class BlogServiceProvider extends ServiceProvider
                     //    echo '<h3>'.$item_prev->post_type.' - '.$types.'</h3>';
                     //    $row=null;
                     }
+
                         //ddd($item_prev->$types);
                     if (!is_object($row)) {
                         echo '<h3>['.__LINE__.']['.$container_prev->post_type.']['.$item_name_prev.']['.$item_prev->post_type.']['.$lang.']['.$container_curr->post_type.']['.$value.']</h3>';
