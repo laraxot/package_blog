@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -17,6 +14,7 @@ class ArticlePolicy
         if (isset($user->perm) && $user->perm->perm_type >= 5) {  //superadmin
             return true;
         }
+        
     }
 
     /*
@@ -26,7 +24,7 @@ class ArticlePolicy
     }
     */
 
-    public function create(User $user)
+    public function create(User $user, Post $post)
     {
         return true;
     }
