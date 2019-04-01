@@ -139,53 +139,30 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         return $lang;
     }
 
-    public function getTitleAttribute($value)
-    {
-        if($value!=null) return($value);
-        if (isset($this->post)) {
-            $value = $this->post->title;
+    public function postAttribute($func,$value){
+        $str0='get';
+        $str1='Attribute';
+        $name=substr($func, strlen($str0),-strlen($str1));
+        $name=Str::snake($name);
+        if(class_basename($this)=='Post'){
+            //ddd($name);//create_url
         }
-
-        return $value;
-    }
-    public function getGuidAttribute($value)
-    {
-        if($value!=null) return($value); 
-        if (isset($this->post)) {
-            $value = $this->post->guid;
+        if (isset($this->pivot)) {
+            //return $this->pivot->$name;//.'#PIVOT';
         }
-
-        return $value;
-    }
-
-    public function getSubtitleAttribute($value)
-    {
-        if(class_basename($this)=='Post') return($value);
-        if($value!=null) return($value);
         if (isset($this->post)) {
-            $value = $this->post->subtitle;
-        }
-
-        return $value;
-    }
-
-    public function getTxtAttribute($value)
-    {
-        if($value!=null) return($value);
-        if (isset($this->post)) {
-            $value = $this->post->txt;
-        }
-
-        return $value;
-    }
-
-    public function getUrlAttribute($value)
-    {
-        if (isset($this->post)) {
-            $value = $this->post->url;
+            return $this->post->$name;
         }
         return $value;
     }
+    //---- da mettere i mancanti --- 
+    public function getTitleAttribute($value)       {return $this->postAttribute(__FUNCTION__,$value);}
+    public function getSubtitleAttribute($value)    {return $this->postAttribute(__FUNCTION__,$value);}
+    public function getGuidAttribute($value)        {return $this->postAttribute(__FUNCTION__,$value);}
+    public function getImageSrcAttribute($value)    {return $this->postAttribute(__FUNCTION__,$value);}
+    public function getTxtAttribute($value)         {return $this->postAttribute(__FUNCTION__,$value);}
+    public function getUrlAttribute($value)         {return $this->postAttribute(__FUNCTION__,$value);}
+    
 
     public function urlActFunc($func,$value){
         $str0='get';
