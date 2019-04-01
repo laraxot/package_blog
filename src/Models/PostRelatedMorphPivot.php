@@ -26,15 +26,14 @@ class PostRelatedMorphPivot extends MorphPivot
     */
     public function post()
     {
-        ///*
-        $rel = $this->hasOne(Post::class, 'post_id', 'post_id')->where('lang', \App::getLocale());
-        $tmp = \explode('_x_', $this->post_type);
-        if (2 == \count($tmp)) {
-            $rel = $rel->where('post_type', $tmp[0]);
-        } else {
-            ddd($this);
-        }
-
+        /*
+        $rel = $this->hasOne(Post::class, 'post_id', 'post_id')
+            ->where('post_type', $this->post_type)
+            ->where('lang', \App::getLocale());
+        //*/
+        $rel=$this->morphTo('post'); // con questa vado a cuisine
+             //->where('lang', \App::getLocale());;
+               
         return $rel;
         //*/
         //return $this->morphOne(Post::class,'post',null,'post_id')->where('lang',$this->lang);
@@ -42,18 +41,16 @@ class PostRelatedMorphPivot extends MorphPivot
 
     public function related()
     {
-        ///*
-        $rel = $this->hasOne(Post::class, 'post_id', 'related_id')->where('lang', \App::getLocale());
-        $tmp = \explode('_x_', $this->post_type);
-        if (2 == \count($tmp)) {
-            $rel = $rel->where('post_type', $tmp[1]);
-        } else {
-            ddd($this);
-        }
-
+        /*
+        $rel = $this->hasOne(Post::class, 'post_id', 'related_id')
+            ->where('post_type', $this->related_type)
+            ->where('lang', \App::getLocale());
+        //*/
+        $rel=$this->morphTo('related');
+        //ddd($rel->toSql());
         return $rel;
         ///*/
-        return $this->morphOne(Post::class,'post',null,'related_id')->where('lang',$this->lang);
+        //return $this->morphOne(Post::class,'post',null,'related_id')->where('lang',$this->lang);
     }
 
     //------------- MUTUATORS -----------
@@ -81,6 +78,7 @@ class PostRelatedMorphPivot extends MorphPivot
     public function getRouteN($n, $act)
     {
         $params = \Route::current()->parameters();
+        //ddd($this);//->related()->toSql());
         $params['container'.$n] = $this->post_type;
         $params['item'.$n] = $this->post->guid;
         $params['container'.($n + 1)] = $this->related_type;
