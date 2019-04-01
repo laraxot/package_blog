@@ -1,17 +1,22 @@
 <?php
-namespace XRA\Blog\Policies;
+namespace XRA\Blog\Models\Policies;
 
+/*
+use App\User;
+use App\Post;
+*/
 use Illuminate\Auth\Access\HandlesAuthorization;
-use XRA\Food\Models\Photo as Post;
+use XRA\Blog\Models\Page as Post;
+//use XRA\Food\Models\Post;
 use XRA\LU\Models\User;
 
-class PhotoPolicy
+class PagePolicy
 {
     use HandlesAuthorization;
 
     public function before($user, $ability)
     {
-        if ($user->perm->perm_type >= 5) {  //superadmin
+        if (isset($user->perm) && $user->perm->perm_type >= 5) {  //superadmin
             return true;
         }
     }
@@ -25,7 +30,7 @@ class PhotoPolicy
 
     public function create(User $user)
     {
-        return true;  //se e' loggato puo' creare ristorante non proprietario ristorante
+        return true;
     }
 
     public function edit(User $user, Post $post)
@@ -50,9 +55,6 @@ class PhotoPolicy
         return false;
     }
 
-    public function delete(User $user, Post $post){
-        return true;
-    }
     public function indexEdit(User $user, Post $post){
         return true;
     }

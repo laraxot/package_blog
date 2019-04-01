@@ -1,11 +1,16 @@
 <?php
-namespace XRA\Blog\Policies;
-use Illuminate\Auth\Access\HandlesAuthorization;
+namespace XRA\Blog\Models\Policies;
 
-use XRA\Blog\Models\Post as Post;
+/*
+use App\User;
+use App\Post;
+*/
+use Illuminate\Auth\Access\HandlesAuthorization;
+use XRA\Blog\Models\Page as Post;
+//use XRA\Food\Models\Post;
 use XRA\LU\Models\User;
 
-class PostPolicy
+class PostCatPolicy
 {
     use HandlesAuthorization;
 
@@ -44,17 +49,11 @@ class PostPolicy
 
         return false;
     }
-    
-    public function index(User $user, Post $post)
-    {
-        return true;
-    }
 
     public function show(User $user, Post $post)
     {
-        return true;
+        return false;
     }
-
     public function indexEdit(User $user, Post $post){
         return true;
     }

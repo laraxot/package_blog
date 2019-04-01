@@ -1,14 +1,11 @@
 <?php
-
-
-
-namespace XRA\Blog\Policies;
-
+namespace XRA\Blog\Models\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use XRA\Blog\Models\Article as Post;
+
+use XRA\Blog\Models\Post as Post;
 use XRA\LU\Models\User;
 
-class ArticleCatPolicy
+class PostPolicy
 {
     use HandlesAuthorization;
 
@@ -47,10 +44,15 @@ class ArticleCatPolicy
 
         return false;
     }
+    
+    public function index(User $user, Post $post)
+    {
+        return true;
+    }
 
     public function show(User $user, Post $post)
     {
-        return false;
+        return true;
     }
 
     public function indexEdit(User $user, Post $post){

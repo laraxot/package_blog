@@ -1,19 +1,11 @@
 <?php
+namespace XRA\Blog\Models\Policies;
 
-
-
-namespace XRA\Blog\Policies;
-
-/*
-use App\User;
-use App\Post;
-*/
 use Illuminate\Auth\Access\HandlesAuthorization;
-use XRA\Blog\Models\Page as Post;
-//use XRA\Food\Models\Post;
+use XRA\Blog\Models\Article as Post;
 use XRA\LU\Models\User;
 
-class PostCatPolicy
+class ArticlePolicy
 {
     use HandlesAuthorization;
 
@@ -22,6 +14,7 @@ class PostCatPolicy
         if (isset($user->perm) && $user->perm->perm_type >= 5) {  //superadmin
             return true;
         }
+        
     }
 
     /*
@@ -31,7 +24,7 @@ class PostCatPolicy
     }
     */
 
-    public function create(User $user)
+    public function create(User $user, Post $post)
     {
         return true;
     }
@@ -56,6 +49,10 @@ class PostCatPolicy
     public function show(User $user, Post $post)
     {
         return false;
+    }
+
+    public function delete(User $user, Post $post){
+        return true;
     }
     public function indexEdit(User $user, Post $post){
         return true;

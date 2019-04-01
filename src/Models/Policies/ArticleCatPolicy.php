@@ -1,19 +1,11 @@
 <?php
+namespace XRA\Blog\Models\Policies;
 
-
-
-namespace XRA\Blog\Policies;
-
-/*
-use App\User;
-use App\Post;
-*/
 use Illuminate\Auth\Access\HandlesAuthorization;
-use XRA\Blog\Models\Page as Post;
-//use XRA\Food\Models\Post;
+use XRA\Blog\Models\Article as Post;
 use XRA\LU\Models\User;
 
-class PagePolicy
+class ArticleCatPolicy
 {
     use HandlesAuthorization;
 

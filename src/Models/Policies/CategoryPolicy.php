@@ -1,8 +1,5 @@
 <?php
-
-
-
-namespace XRA\Blog\Policies;
+namespace XRA\Blog\Models\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use XRA\Blog\Models\Category;

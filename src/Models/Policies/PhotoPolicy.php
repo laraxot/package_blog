@@ -1,20 +1,19 @@
 <?php
-namespace XRA\Blog\Policies;
+namespace XRA\Blog\Models\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use XRA\Blog\Models\Article as Post;
+use XRA\Food\Models\Photo as Post;
 use XRA\LU\Models\User;
 
-class ArticlePolicy
+class PhotoPolicy
 {
     use HandlesAuthorization;
 
     public function before($user, $ability)
     {
-        if (isset($user->perm) && $user->perm->perm_type >= 5) {  //superadmin
+        if ($user->perm->perm_type >= 5) {  //superadmin
             return true;
         }
-        
     }
 
     /*
@@ -24,9 +23,9 @@ class ArticlePolicy
     }
     */
 
-    public function create(User $user, Post $post)
+    public function create(User $user)
     {
-        return true;
+        return true;  //se e' loggato puo' creare ristorante non proprietario ristorante
     }
 
     public function edit(User $user, Post $post)
