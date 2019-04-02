@@ -50,7 +50,7 @@
 					<p class="text-center">
 						<strong>Things</strong>
 					</p>
-					@foreach($row->post_types()->get() as $type)
+					@foreach($row->types()->get() as $type)
 					<div class="col-lg-3">
 						<div class="panel panel-default"> 
 							<div class="panel-heading">
