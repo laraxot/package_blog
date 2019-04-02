@@ -121,6 +121,17 @@ class Post extends Model //NO BaseModel
                     ;
         return $rows;
 	}//end function
+
+	public function archiveRand($n){
+		$cache_key=$this->post_id.'_'.$n;
+	   // $obj=$this;
+		$rows = Cache::store('file')->get($cache_key,  function () use($n){
+			return $this->archive()->inRandomOrder()->limit($n)->get();
+		});
+		return $rows;
+	}
+
+	
 	//-------- mutators ---------
 	public function getParentTabsAttribute($value){
         $params = \Route::current()->parameters();
