@@ -345,7 +345,7 @@ class Post extends Model //NO BaseModel
 
 	public function getLinkedModel(){
 		$model=config('xra.model.'.$this->post_type);
-		if (class_exists($model)) {
+		if (class_exists($model)) { 
 			return new $model;
 		}else{
 			ddd('class not exists ['.$model.']');
