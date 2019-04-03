@@ -34,15 +34,7 @@ class RelatedRevController extends Controller
         if (isset($lang)) {
             \App::setlocale($lang);
         } //?
-        //echo '<pre>';print_r($params);echo '</pre>';
-        //Post::where('post_id',0)->update(['post_id'=>'id']);
-        //Post::statement();
-        /*
-        $rows1=Post::where('lang',$lang)->ofRelatedType('topbar');
-        echo '<pre>';print_r($rows1->toSql()); echo '</pre>';
-        echo '<pre>';print_r($rows1->get()->toArray()); echo '</pre>';
-        dd('['.__LINE__.']['.__FILE__.']');
-        */
+        
 
         \DB::update('update blog_posts set post_id=id where post_id=0');
         /*

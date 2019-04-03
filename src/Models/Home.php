@@ -108,16 +108,7 @@ class Home extends BaseModel
 
     //*/
 
-    public function setCategoryIdAttribute($value)
-    {
-        //die('</hr>['.__LINE__.']['.__FILE__.']');
-        $post = $this->post;
-        if (null == $post) {
-            dd('['.__LINE__.']['.__FILE.']');
-        }
-        $post->related()->wherePivot('type', 'article_x_category')->detach();
-        $post->related()->attach($value, ['type' => 'article_x_category']);
-    }
+   
 
     //--------- functions -----------
 

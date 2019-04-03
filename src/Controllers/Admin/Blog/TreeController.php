@@ -45,10 +45,7 @@ class TreeController extends Controller
         try {
             $row->related()->attach($parent_id, ['type' => 'parent']);
         } catch (QueryException $e) {
-            echo '<pre>';
-            \print_r($e->getMessage());
-            echo '</pre>';
-            dd('['.__LINE__.']['.__FILE__.']');
+            ddd($e);
         }
         $msg = 'Risorsa salvata! '.$row->id;
         //return $this->saveandexit(['status'=>'success','msg'=>$msg]);

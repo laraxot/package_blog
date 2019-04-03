@@ -256,7 +256,7 @@ class Post extends Model //NO BaseModel
         	return $this->getRouteN($i, 'index').'#3['.$i.']['.$j.']';
         }
         return $this->getRouteN($j, 'show').'#4['.$i.']['.$j.']';
-        		//ddd('['.$i.']['.$j.']'.$this->post_type.' '.$this->guid);
+        		//ddd('-['.$i.']['.$j.']'.$this->post_type.' '.$this->guid);
 		//ddd($i);
 		*/
 	} 

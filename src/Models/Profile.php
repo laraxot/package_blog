@@ -66,7 +66,7 @@ class Profile extends BaseModel
             //echo '<br/>'.$user->handle;
             $row = Post::firstOrCreate(['guid' => $user->handle, 'lang' => $lang, 'type' => 'profile'], ['title' => 'profile of '.$user->handle]);
         }
-        //dd('['.__LINE__.']['.__FILE__.']');
+        
         return; //'aaa';
     }
 }//end model

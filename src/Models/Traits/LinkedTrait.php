@@ -196,7 +196,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
     public function getTabsAttribute($value){
         //if($this->post->guid!=$this->post->post_type){
             //ddd($this->post->guid.'  '.$this->post->post_type);
-            //ddd('['.$this->attributes['guid'].']  ['.$this->attributes['type'].']');
+            //ddd('-['.$this->attributes['guid'].']  ['.$this->attributes['type'].']');
         //    return ['cuisine','photo','article','contact','map'];
         //}
     }
