@@ -12,6 +12,9 @@ use XRA\Extend\Traits\ServiceProviderTrait;
 
 class BlogServiceProvider extends ServiceProvider
 {
+
+    protected $defer = true;
+    
     use ServiceProviderTrait{
         boot as protected bootTrait;
     }
