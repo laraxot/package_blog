@@ -39,10 +39,10 @@ trait LinkedTrait
         //ddd(is_object($related));
         if($related_type==''){
             //var_dump(debug_backtrace());
-            echo '<h3>['.$related_class.']</h3>';
-            var_dump(config('xra.model'));
-            var_dump(debug_backtrace());
-            ddd($related);
+            echo '<h3>Line:['.__LINE__.']<br/>File:['.__FILE__.']['.$related_class.'] da mettere in xra.model</h3>';
+            echo '<pre>';print_r(var_dump(config('xra.model')));echo '</pre>';
+            //var_dump(debug_backtrace());
+            ddd('fix');
 
         }
         //ddd($related);

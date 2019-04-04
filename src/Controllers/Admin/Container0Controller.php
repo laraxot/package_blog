@@ -34,7 +34,7 @@ class Container0Controller extends Controller
                 $item->save();
             }
         }
-        //echo '['.__LINE__.']['.__FILE__.']';
+        
         /*
         $conn=(new Post)->getConnection();
         $sql="update blog_posts set guid=REGEXP_REPLACE(lower(trim(title)),'[^a-z09]','-') where guid is null";
