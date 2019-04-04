@@ -1,6 +1,6 @@
 <?php
 namespace XRA\Blog;
-
+use XRA\Extend\BaseServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use XRA\Blog\Models\Post;
@@ -10,7 +10,7 @@ use XRA\Blog\Models\PostRelated;
 use XRA\Blog\Models\PostShopItem;
 use XRA\Extend\Traits\ServiceProviderTrait;
 
-class BlogServiceProvider extends ServiceProvider
+class BlogServiceProvider extends BaseServiceProvider
 {
 
     protected $defer = true;

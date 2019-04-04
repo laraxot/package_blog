@@ -2,7 +2,7 @@
 namespace XRA\Blog\Models\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use XRA\Food\Models\Photo as Post;
+use XRA\Blog\Models\Photo as Post;
 use XRA\LU\Models\User;
 
 class PhotoPolicy
