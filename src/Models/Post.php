@@ -357,8 +357,8 @@ class Post extends Model //NO BaseModel
 	{
 		$lang = \App::getLocale();
 		$all = config('xra.model');
-
-		$roots = Cache::get('roots', function () use($lang,$all){
+		$seconds=60*60*24;
+		$roots = Cache::remember('roots', $seconds,function () use($lang,$all){
 			//mettendo with archive mi da errore
 			//con related = 48 senza =  47
 			return self::with([])->where('lang', $lang)
