@@ -127,6 +127,7 @@ class BlogServiceProvider extends BaseServiceProvider
                     //ddd($types.'  '.$value);
                     
                     $rows= $item_prev->$types()->where('blog_posts.guid', $value);
+                    //ddd($rows->first());
                     //ddd($item_prev->$types);
                     //ddd($rows->first());
                     try{ 
