@@ -175,7 +175,7 @@ class Post extends Model //NO BaseModel
         }
         */
         $columns='title, subtitle, txt';
-        $query->whereRaw("MATCH ({$columns}) AGAINST (? IN BOOLEAN MODE)" , fullTextWildcards($term));
+        $query->whereRaw("MATCH ({$columns}) AGAINST (? IN BOOLEAN MODE)" , \fullTextWildcards($term));
         /*
 		$ris=$conn->statement('ALTER TABLE '.$table.' ADD FULLTEXT fulltext_index ('.$columns.')');
         */
