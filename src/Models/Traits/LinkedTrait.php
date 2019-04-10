@@ -51,14 +51,23 @@ trait LinkedTrait
         //}
         //$related_type=($alias[$related]); 
         $name='post';//'related';//'relatable'; 
-        $table ='blog_post_related'; 
+        $pivot_table ='blog_post_related';
+        /*
+        $pivot_class=$related_class.'Pivot';
+        $pivot_obj=new $pivot_class;
+        */
+        //ddd($pivot_obj->getFillable()); //peril withpivot
+        //ddd($pivot_obj->getTable()); //per passare al morph il nome tabella
+        
+        //ddd($related_class.'Pivot');// con questo avrei i fillable, e il getTable
+        //$pivot_table=$related_table.'_pivot';  
         $foreignPivotKey = 'post_id'; 
         $relatedPivotKey = 'related_id'; 
         $parentKey = 'post_id';
         $relatedKey = 'post_id'; 
         //$inverse = false; //passato da parametro
         $pivot_fields = [ 'pos', 'price', 'price_currency', 'id','post_type','related_type']; //'type', tolto
-        return $this->morphToMany($related, $name,$table, $foreignPivotKey,
+        return $this->morphToMany($related, $name,$pivot_table, $foreignPivotKey,
                                 $relatedPivotKey, $parentKey,
                                 $relatedKey, $inverse)
                     ->withPivot($pivot_fields)
@@ -69,7 +78,7 @@ trait LinkedTrait
                     ->where('blog_posts.post_type',$related_type)
                     ->where('blog_posts.lang',$this->lang)
                     //--------------------------------
-                    ->orderBy('blog_post_related.pos', 'asc')
+                    ->orderBy($pivot_table.'.pos', 'asc')
                     ->with(['post'])
                     ; 
     }
