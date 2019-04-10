@@ -107,13 +107,13 @@ class Post extends Model //NO BaseModel
 	}
 	public function archive(){  
 		$lang=$this->lang;
-		$type=$this->post_type;
+		$post_type=$this->post_type;
 		$obj=$this->getLinkedModel();
 		$table=$obj->getTable();
 
 		$rows=$obj->join('blog_posts','blog_posts.post_id',$table.'.post_id')
                     ->where('lang',$lang)
-                    ->where('post_type',$type)
+                    ->where('post_type',$post_type)
                     ->orderBy($table.'.updated_at','desc')
                     //->paginate(200)
                     ->with('post')
@@ -460,6 +460,12 @@ class Post extends Model //NO BaseModel
 		$post=Post::where('post_id',$this->post_id)->where('post_type',$this->post_type)->where('lang',$lang)->first();
 		if($post!=null) return $post;
 		$rowlang = $this->replicate();
+		if(isset($rowlang->attributes['type'])){
+			unset($rowlang->attributes['type']);
+		}
+		if(isset($rowlang->attributes['linkable_type'])){
+			unset($rowlang->attributes['linkable_type']);
+		}
 		$rowlang->lang = $lang;
 		$fields = ['title', 'subtitle', 'txt', 'image_alt', 'image_title'];//campi da tradurre
 		foreach ($fields as $field) {
