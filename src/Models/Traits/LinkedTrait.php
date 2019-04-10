@@ -57,7 +57,7 @@ trait LinkedTrait
         $parentKey = 'post_id';
         $relatedKey = 'post_id'; 
         //$inverse = false; //passato da parametro
-        $pivot_fields = ['type', 'pos', 'price', 'price_currency', 'id','post_type','related_type'];
+        $pivot_fields = [ 'pos', 'price', 'price_currency', 'id','post_type','related_type']; //'type', tolto
         return $this->morphToMany($related, $name,$table, $foreignPivotKey,
                                 $relatedPivotKey, $parentKey,
                                 $relatedKey, $inverse)
@@ -131,7 +131,11 @@ public function morphRelatedRev($related/*,$inverse=false*/){
     public function getPostTypeAttribute($value)
     {
         if($value!='') return $value;
-        return camel_case(class_basename($this));
+        //ddd(snake_case(class_basename($this)));
+        //no camel_case ma snake_case
+        //da controllare prima questo
+        //$related_type=collect(config('xra.model'))->search(get_class($row));
+        return snake_case(class_basename($this));
     }
 
     public function getLangAttribute($value){
