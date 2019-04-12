@@ -112,6 +112,11 @@ $item2=[     //questo per avere /it/restaurant/ristotest/photo/edit
                     'name'=>'Edit',
                     'act'=>'indexEdit',
                 ],//end act_n
+                [
+                    'name'=>'Order',
+                    'act'=>'indexOrder',
+                ],//end act_n
+
             ],//end acts
         ], //end sub_n
     ],//end subs
