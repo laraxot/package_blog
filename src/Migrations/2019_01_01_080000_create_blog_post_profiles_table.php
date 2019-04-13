@@ -19,7 +19,7 @@ class CreateBlogPostProfilesTable extends Migration
     {
         if (!Schema::hasTable($this->getTable())) {
             Schema::create($this->getTable(), function (Blueprint $table) {
-                $table->increments('post_id')->primary();
+                $table->increments('post_id');//->primary();
                 //$table->string('article_type',50)->nullable();
                 //$table->datetime('published_at')->nullable();
                 $table->text('bio')->nullable();

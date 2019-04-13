@@ -1,19 +1,20 @@
 <?php
-
-
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+//--- models --
+use XRA\Blog\Models\Post as MyModel;
+
 class CreateBlogPostsTable extends Migration
 {
-    protected $table = 'blog_posts';
+    public function getTable(){
+        return with(new MyModel())->getTable();
+    }
 
-    public function up()
-    {
-        if (!Schema::hasTable($this->table)) {
-            Schema::create($this->table, function (Blueprint $table) {
+    public function up(){
+        if (!Schema::hasTable($this->getTable())) {
+            Schema::create($this->getTable(), function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('post_id')->nullable();
                 $table->string('lang', 2)->nullable();
@@ -31,9 +32,16 @@ class CreateBlogPostsTable extends Migration
                 $table->timestamps();
             });
         }
-        Schema::table($this->table, function (Blueprint $table) {
-            if (!Schema::hasColumn($this->table, 'post_type')) {
+        Schema::table($this->getTable(), function (Blueprint $table) {
+            if (!Schema::hasColumn($this->getTable(), 'post_type')) {
                 $table->string('post_type', 40)->after('type')->index()->nullable();
+            }
+            $schema_builder = Schema::getConnection()
+                ->getDoctrineSchemaManager()
+                ->listTableDetails($table->getTable());
+
+            if (!$schema_builder->hasIndex($this->getTable().'_'.'guid'.'_index')) {
+                $table->string('guid',100)->index()->change();
             }
         });
     }
@@ -42,7 +50,7 @@ class CreateBlogPostsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists($this->table);
+        Schema::dropIfExists($this->getTable());
     }
 
     //end down

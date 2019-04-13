@@ -371,6 +371,9 @@ class Post extends Model //NO BaseModel
 		foreach ($add as $k => $v) {
 			$roots[$v] = self::firstOrCreate(['lang' => $lang, 'guid' => $v, 'post_type' => $v], ['title' => $v.' '.$lang]);
 		}
+		if($add->count()>0){
+			Cache::pull('roots'); //vado a rigenerarlo
+		}
 		//ddd($roots['home']);
 		/// ??? togliere quelli che non ci sono ?
 		return $roots;
