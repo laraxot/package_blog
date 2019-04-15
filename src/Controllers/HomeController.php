@@ -8,6 +8,8 @@ use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
 use XRA\Extend\Traits\ArtisanTrait;
 //-------services--------
 use XRA\Extend\Services\ThemeService;
+use XRA\Extend\Services\TranslatorService;
+
 //-------models----------
 use XRA\Blog\Models\Post;
 
@@ -97,4 +99,14 @@ class HomeController extends Controller
         return redirect($request->url);
     }
 
+
+    public function store(Request $request){
+        $data=$request->all();
+        $trans=$data['trans'];
+        foreach($trans as $k=>$v){
+            TranslatorService::set($k, $v);
+        }
+        return redirect()->back();
+        
+    }
 }
