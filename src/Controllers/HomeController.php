@@ -26,6 +26,9 @@ class HomeController extends Controller
         if ($request->act=='routelist') {
             return ArtisanTrait::exe('route:list');
         }
+        if ($request->act=='translate') {
+            return ThemeService::view('extend::translate');
+        }
         $roots = Post::getRoots();
 
         //var_dump(debug_backtrace());ddd('u');
@@ -105,6 +108,16 @@ class HomeController extends Controller
         $trans=$data['trans'];
         foreach($trans as $k=>$v){
             TranslatorService::set($k, $v);
+        }
+         if (\Request::ajax()) {
+                $response = [
+                    'success' => true,
+                    //'data'    => $result,
+                    'message' => 'OK',
+                ];
+                $response = \array_merge($data, $response);
+
+                return response()->json($response, 200);
         }
         return redirect()->back();
         

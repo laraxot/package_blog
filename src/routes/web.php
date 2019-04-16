@@ -31,8 +31,8 @@ Route::get('redirect', function () {
 $acts = [
     ['name' => 'attach'], //end act_n
     ['name' => 'detach', 'method' => ['DELETE', 'GET']], //end act_n
-    ['name' => 'moveUp', 'method' => ['PUT', 'GET']],
-    ['name' => 'moveDown', 'method' => ['PUT', 'GET']],
+    //['name' => 'moveUp', 'method' => ['PUT', 'GET']],   // se uso "order" questi non mi servono
+    //['name' => 'moveDown', 'method' => ['PUT', 'GET']],
 ]; //end acts
 
 $item0 = [
@@ -87,27 +87,7 @@ $item1 = [
     ],
 ];
 
-$item2=[     //questo per avere /it/restaurant/ristotest/photo/edit
-    'name' => '{container0}',
-    'param_name' => 'item0',
-    'subs' => [
-        [
-            'name' => '{container1}',
-            'param_name' => '',
-            'as'=>'container1.index_', 
-            //'prefix'=>'ddd',
-            //'prefix'=>'index_edit',
-            /*
-            'subs' => [
-                [
-                    'name'=>'Edit',
-                //    'as'=>'index_edit',
-                //    'prefix'=>'index_edit',
-                    'only' => ['index'],
-                ]
-            ],//end subs
-            */
-            'acts'=>[
+$cont_acts=[
                 [
                     'name'=>'Edit',
                     'act'=>'indexEdit',
@@ -117,15 +97,72 @@ $item2=[     //questo per avere /it/restaurant/ristotest/photo/edit
                     'act'=>'indexOrder',
                 ],//end act_n
 
-            ],//end acts
+            ];
+
+$item2=[     //questo per avere /it/restaurant/ristotest/photo/edit
+    'name' => '{container0}',
+    'param_name' => 'item0',
+    'subs' => [
+        [
+            'name' => '{container1}',
+            'param_name' => '',
+            'as'=>'container1.index_', 
+            'acts'=>$cont_acts,//end acts
         ], //end sub_n
     ],//end subs
 ];//end item2
 
+$item3 = [
+    'name' => '{container0}',
+    'param_name' => 'item0',
+    'subs' => [
+        [
+            'name' => '{container1}',
+            'param_name' => 'item1',
+            'subs' => [
+                [
+                    'name' => '{container2}',
+                    'param_name' => '',
+                    'as'=>'container1.container2.index_', 
+                    'acts' => $cont_acts,
+                ], //end sub_n
+            ], //end subs
+        ],
+    ], //ens_subs
+];
+
+$item4 = [
+    'name' => '{container0}',
+    'param_name' => 'item0',
+    'subs' => [
+        [
+            'name' => '{container1}',
+            'param_name' => 'item1',
+            'subs' => [
+                [
+                    'name' => '{container2}',
+                    'param_name' => 'item2',
+                    'subs' => [
+                        [
+                            'name' => '{container3}',
+                            'param_name' => '',
+                            'as'=>'container1.container2.container3.index_', 
+                            'acts' => $cont_acts,
+                        ], //end sub_n
+                    ], //end subs
+                ], //end sub_n
+            ], //end subs
+        ],
+    ], //ens_subs
+];
+
+
 
 $areas_prgs = [
     $item2,
-    $item1,
+    $item3,
+    $item4,
+//    $item1,
     $item0,
 ];
 //,'middleware' => ['web','auth']
