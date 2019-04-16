@@ -13,7 +13,7 @@ class Blog extends BaseModel
     //--- relationship --
     public function archive()
     {
-        $rows = $this->hasMany(Post::class, 'type', 'type')
+        $rows = $this->hasMany(Post::class, 'post_type', 'post_type')
                 ->where('lang', $this->lang)
                 ->where('guid', '!=', $this->post_type)
                 ->with(['relatedrev', 'related']);
@@ -32,7 +32,7 @@ class Blog extends BaseModel
 
     public function types()
     {
-        return self::where('lang', \App::getLocale())->whereRaw('type=guid');
+        return self::where('lang', \App::getLocale())->whereRaw('post_type=guid');
     }
 
     public function firstItem()
