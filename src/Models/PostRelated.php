@@ -21,7 +21,7 @@ class PostRelated extends Model
     protected $fillable = [
                                 'post_id',
                                 'related_id',
-                                'type',
+                                'type',  //da togliere, teniamo per retrocompatibilita'
                                 'post_type',
                                 'related_type',
                                 'price',

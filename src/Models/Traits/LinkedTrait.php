@@ -15,8 +15,9 @@ trait LinkedTrait
 
     public function getRouteKeyName()
     {
-        return 'guid';
+        //return 'guid';
         //return \Request::segment(1) === 'admin' ? 'post_id' : 'guid';
+        return \inAdmin() ? 'post_id' : 'guid';
     }
     //------- relationships ------------
     public function post()

@@ -131,6 +131,19 @@ class Post extends Model //NO BaseModel
 		return $rows;
 	}
 
+	public function relatedPivot($obj)
+	{
+		$parz = [];
+		$parz['post_id'] = 		$this->post_id;
+		$parz['related_id'] = 	$obj->post_id;
+		//$parz['type'] = $this->post_type.'_x_'.$obj->post_type;
+		$parz['post_type'] = 	$this->post_type;
+		$parz['related_type'] = $obj->post_type;
+		$pivot = PostRelated::firstOrCreate($parz);
+
+		return $pivot;
+	}
+
 	
 	//-------- mutators ---------
 	public function getParentTabsAttribute($value){
@@ -198,10 +211,13 @@ class Post extends Model //NO BaseModel
 		$route = $r.$act;
 		
 		if (in_admin()) {
-			$route = 'blog.'.$route;
+			//$route = 'blog.'.$route;
 		}
-
-		$url= route($route, $params,false);  //con il false mi da il relativo 
+		try{
+			$url= route($route, $params,false);  //con il false mi da il relativo 
+		}catch(\Exception $e){
+			$url='#fix['.$route.']['.__LINE__.']['.__FILE__.']';
+		}
 		$url_arr=explode('/',$url);
 		if(isset($url_arr[1]) && strlen($url_arr[1])==2){
 			$url_arr[1]=$this->lang;

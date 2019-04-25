@@ -166,7 +166,7 @@ $areas_prgs = [
     $item0,
 ];
 //,'middleware' => ['web','auth']
-if ('admin' != \Request::segment(1)) { //dal backend si creano i link per il frontend ..
+if ('adm3333in' != \Request::segment(1)) { //dal backend si creano i link per il frontend ..
     $prefix = App::getLocale();
     //$prefix=\Request::segment(1);
     //$prefix= LaravelLocalization::setLocale();  //da valutare
