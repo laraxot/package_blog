@@ -374,21 +374,30 @@ class Post extends Model //NO BaseModel
 		$lang = \App::getLocale();
 		$all = config('xra.model');
 		$seconds=60*60*24;
-		$roots = Cache::remember('roots', $seconds,function () use($lang,$all){
+		$cache_key=$_SERVER['SERVER_NAME'].'_roots';
+		try{
+		    $roots = Cache::store('file')->remember($cache_key, $seconds,function () use($lang,$all){
 			//mettendo with archive mi da errore
 			//con related = 48 senza =  47
 			return self::with([])->where('lang', $lang)
 					->whereIn('guid',array_keys($all)) //la query durava 1.2 sec ora 1/10 
 					->whereRaw('guid = post_type ')
 					->get();
-		});
+		    });
+		}catch(\Exception $e){
+		   //Cache::pull($cache_key); //vado a rigenerarlo 
+		   $roots=self::with([])->where('lang', $lang)
+					->whereIn('guid',array_keys($all)) //la query durava 1.2 sec ora 1/10 
+					->whereRaw('guid = post_type ')
+					->get();
+		}
 		$roots = $roots->keyBy('post_type')->all();
 		$add = collect(\array_keys($all))->diff(\array_keys($roots));
 		foreach ($add as $k => $v) {
 			$roots[$v] = self::firstOrCreate(['lang' => $lang, 'guid' => $v, 'post_type' => $v], ['title' => $v.' '.$lang]);
 		}
 		if($add->count()>0){
-			Cache::pull('roots'); //vado a rigenerarlo
+			Cache::store('file')->pull($cache_key); //vado a rigenerarlo
 		}
 		//ddd($roots['home']);
 		/// ??? togliere quelli che non ci sono ?
