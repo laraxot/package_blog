@@ -5,10 +5,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 //------traits -----
 use XRA\Extend\Traits\CrudContainerItemTrait as CrudTrait;
-use XRA\Extend\Traits\ArtisanTrait;
+//use XRA\Extend\Traits\ArtisanTrait;
 //-------services--------
 use XRA\Extend\Services\ThemeService;
 use XRA\Extend\Services\TranslatorService;
+use XRA\Extend\Services\ArtisanService;
 
 //-------models----------
 use XRA\Blog\Models\Post;
@@ -20,13 +21,17 @@ class HomeController extends Controller
     //use CrudTrait;
     public function index(Request $request)
     {
+        $out=ArtisanService::act($request->act);
+        if($out!='') return $out;
+        /*
         if ($request->act=='migrate') {
             return ArtisanTrait::exe('migrate');
         }
         if ($request->act=='routelist') {
             return ArtisanTrait::exe('route:list');
         }
-        if ($request->act=='translate') {
+        */
+        if ($request->act=='translate') { //retrocomp, fra poco cancellare
             return ThemeService::view('extend::translate');
         }
         $roots = Post::getRoots();
