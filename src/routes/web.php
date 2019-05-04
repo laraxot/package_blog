@@ -102,29 +102,69 @@ $cont_acts=[
 $item2=[     //questo per avere /it/restaurant/ristotest/photo/edit
     'name' => '{container0}',
     'param_name' => 'item0',
+    //'only'=>[],
     'subs' => [
         [
             'name' => '{container1}',
             'param_name' => '',
             'as'=>'container1.index_', 
             'acts'=>$cont_acts,//end acts
+            'only'=>[],
         ], //end sub_n
-    ],//end subs
-];//end item2
-
-$item3 = [
-    'name' => '{container0}',
-    'param_name' => 'item0',
-    'subs' => [
         [
             'name' => '{container1}',
             'param_name' => 'item1',
+            'acts' => $acts,
+            //'only'=>[],
             'subs' => [
                 [
                     'name' => '{container2}',
                     'param_name' => '',
-                    'as'=>'container1.container2.index_', 
+                    'as'=>'container2.index_', 
                     'acts' => $cont_acts,
+                    'only'=>[],
+                ], //end sub_n
+                [
+                    'name' => '{container2}',
+                    'param_name' => 'item2',
+                    'acts' => $acts,
+                    //'only'=>[],
+                    'subs' => [
+                        [
+                            'name' => '{container3}',
+                            'param_name' => '',
+                            'as'=>'container3.index_', 
+                            'acts' => $cont_acts,
+                            'only'=>[],
+                        ], //end sub_n
+                        [
+                            'name' => '{container3}',
+                            'param_name' => 'item3',
+                            'acts' => $acts,
+                        ], //end sub_n
+                    ], //end subs
+                ], //end sub_n
+            ], //end subs
+        ],
+    ],//end subs
+];//end item2
+/*
+$item3 = [
+    'name' => '{container0}',
+    'param_name' => 'item0',
+    'only'=>[],
+    'subs' => [
+        [
+            'name' => '{container1}',
+            'param_name' => 'item1',
+            'only'=>[],
+            'subs' => [
+                [
+                    'name' => '{container2}',
+                    'param_name' => '',
+                    'as'=>'container2.index_', 
+                    'acts' => $cont_acts,
+                    'only'=>[],
                 ], //end sub_n
             ], //end subs
         ],
@@ -134,20 +174,24 @@ $item3 = [
 $item4 = [
     'name' => '{container0}',
     'param_name' => 'item0',
+    'only'=>[],
     'subs' => [
         [
             'name' => '{container1}',
             'param_name' => 'item1',
+            'only'=>[],
             'subs' => [
                 [
                     'name' => '{container2}',
                     'param_name' => 'item2',
+                    'only'=>[],
                     'subs' => [
                         [
                             'name' => '{container3}',
                             'param_name' => '',
-                            'as'=>'container1.container2.container3.index_', 
+                            'as'=>'container3.index_', 
                             'acts' => $cont_acts,
+                            'only'=>[],
                         ], //end sub_n
                     ], //end subs
                 ], //end sub_n
@@ -155,15 +199,15 @@ $item4 = [
         ],
     ], //ens_subs
 ];
-
+*/
 
 
 $areas_prgs = [
     $item2,
-    $item3,
-    $item4,
-//    $item1,
-    $item0,
+   // $item3,
+   // $item4,
+//    $item1, //search
+   // $item0,
 ];
 //,'middleware' => ['web','auth']
 if ('adm3333in' != \Request::segment(1)) { //dal backend si creano i link per il frontend ..
