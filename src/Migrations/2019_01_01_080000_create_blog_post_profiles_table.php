@@ -4,8 +4,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 //----- models-------
-use XRA\Food\Models\Profile as MyModel;  //blog o food ?
-use XRA\Food\Models\Location;
+use XRA\Blog\Models\Profile as MyModel;  //blog o food ?
+use XRA\Blog\Models\Location;
 
 class CreateBlogPostProfilesTable extends Migration
 {

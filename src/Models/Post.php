@@ -373,6 +373,10 @@ class Post extends Model //NO BaseModel
 	{
 		$lang = \App::getLocale();
 		$all = config('xra.model');
+		if($all==null){
+			$all=[];
+			//ddd('miss config xra.model');
+		}
 		$seconds=60*60*24;
 		$cache_key=$_SERVER['SERVER_NAME'].'_roots';
 		try{

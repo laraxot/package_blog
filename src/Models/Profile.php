@@ -25,7 +25,7 @@ class Profile extends BaseModel
     //use LinkedTrait;
     protected $connection = 'mysql'; // this will use the specified database conneciton
     protected $table = 'blog_post_profiles';
-    protected $fillable = ['post_id', 'bio'];
+    protected $fillable = ['post_id'];
     protected $appends = [];
     protected $dates = ['created_at', 'updated_at'];
     protected $primaryKey = 'post_id';
