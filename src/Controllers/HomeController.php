@@ -57,7 +57,7 @@ class HomeController extends Controller
             $cache_key.='_'.\Auth::user()->handle;
         }
         $cache_key.='_'.$lang.'_2'; //force refresh
-        $view = \Cache::store('file')->remember($cache_key,$this->cache,function () use($request){
+        $view = \Cache::remember($cache_key,$this->cache,function () use($request){
             //return $this->showTrait($request)->render();
             $roots = Post::getRoots();
             $row = $roots['home'];

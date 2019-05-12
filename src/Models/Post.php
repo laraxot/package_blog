@@ -125,7 +125,7 @@ class Post extends Model //NO BaseModel
 	public function archiveRand($n){
 		$cache_key=$this->post_id.'_'.$n;
 	   // $obj=$this;
-		$rows = Cache::store('file')->get($cache_key,  function () use($n){
+		$rows = Cache::get($cache_key,  function () use($n){
 			return $this->archive()->inRandomOrder()->limit($n)->get();
 		});
 		return $rows;
@@ -380,7 +380,7 @@ class Post extends Model //NO BaseModel
 		$seconds=60*60*24;
 		$cache_key=$_SERVER['SERVER_NAME'].'_roots';
 		try{
-		    $roots = Cache::store('file')->remember($cache_key, $seconds,function () use($lang,$all){
+		    $roots = Cache::remember($cache_key, $seconds,function () use($lang,$all){
 			//mettendo with archive mi da errore
 			//con related = 48 senza =  47
 			return self::with([])->where('lang', $lang)
@@ -401,7 +401,7 @@ class Post extends Model //NO BaseModel
 			$roots[$v] = self::firstOrCreate(['lang' => $lang, 'guid' => $v, 'post_type' => $v], ['title' => $v.' '.$lang]);
 		}
 		if($add->count()>0){
-			Cache::store('file')->pull($cache_key); //vado a rigenerarlo
+			Cache::pull($cache_key); //vado a rigenerarlo
 		}
 		//ddd($roots['home']);
 		/// ??? togliere quelli che non ci sono ?
