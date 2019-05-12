@@ -86,7 +86,14 @@ trait LinkedTrait
 public function morphRelatedRev($related/*,$inverse=false*/){
         //-- name post perche' dopo va a cercare il proprio oggetto dentro $name .'_type';
         // percio' post_type=restaurant
-        $related_table=with(new $related)->getTable(); 
+        $related_table=with(new $related)->getTable();
+        $related_class=$related;
+        if(is_object($related_class)){
+            $related_class=get_class($related_class);
+            //ddd($related_class);
+        }
+        $related_type=collect(config('xra.model'))->search($related_class);
+
         $name='post';//'related';//'relatable'; 
         $table ='blog_post_related'; 
         $foreignPivotKey = 'related_id';         //where `blog_post_related`.`post_id_1` = 220792
@@ -94,16 +101,19 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         $parentKey = 'post_id';                 //chiave che gli passo
         $relatedKey = 'post_id';              //chiave di blog_post_restaurants`.`post_id_4`
         $inverse = true; //passato da parametro
-        $pivot_fields = ['type', 'pos', 'price', 'price_currency', 'id','post_type','related_type'];
+        $pivot_fields = ['pos', 'price', 'price_currency', 'id','post_type','related_type'];
         return $this->morphToMany($related, $name,$table, $foreignPivotKey,
                                 $relatedPivotKey, $parentKey,
                                 $relatedKey, $inverse)
                     ->withPivot($pivot_fields)
                     ->using(PostRelatedMorphPivot::class) /// Call to undefined method  setMorphType() ??
+                    //----------------------------------------------------------------------
+                    ->join('blog_posts','blog_posts.post_id','=',$related_table.'.post_id')
+                    ->where('blog_posts.post_type',$related_type) // da testare, verificare 
+                    ->where('blog_posts.lang',$this->lang)
+                    //----------------------------------------------------------------------
                     ->orderBy('blog_post_related.pos', 'asc')
                     ->with(['post'])
-                    ->join('blog_posts','blog_posts.post_id','=',$related_table.'.post_id')
-                    ->where('blog_posts.lang',$this->lang)
                     ; 
     }
 
