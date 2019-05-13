@@ -48,7 +48,8 @@ class PostRelated extends Model
 
     public function post($fieldname = null)
     {
-        $rows = $this->belongsTo(Post::class, 'post_id', 'post_id');
+        //$rows = $this->belongsTo(Post::class, 'post_id', 'post_id');
+        $rows = $this->morphTo('post'); // mi da l'oggetto giusto non post
         //return $rows;
         if (null == $fieldname) {
             return $rows;
@@ -64,7 +65,11 @@ class PostRelated extends Model
 
     public function related($fieldname = null)
     {
-        $rows = $this->belongsTo(Post::class, 'related_id', 'post_id'); // Post_id
+        //$rows = $this->belongsTo(Post::class, 'related_id', 'post_id')->where('post_type',$this->related_type)->where('lang',$this->lang); // Post_id
+        $rows = $this->morphTo('related'); // mi da l'oggetto giusto
+        //ddd($rows->first()->title);
+        //$rows = $this->morphOne(Post::class,'related',null,'post_id')->where('lang',$this->lang);
+
         if (null == $fieldname) {
             return $rows;
         }
@@ -80,6 +85,11 @@ class PostRelated extends Model
         $linked=$model::where('post_id',$row->post_id)->first();
         return $linked->$fieldname;
         */
+    }
+    //----- mutators -----
+    public function getLangAttribute($value){
+        $lang=\App::getLocale();
+        return $lang;
     }
 
     public function getSonsCountAttribute($value)
