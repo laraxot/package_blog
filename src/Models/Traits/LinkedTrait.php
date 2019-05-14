@@ -150,12 +150,16 @@ public function morphRelatedRev($related/*,$inverse=false*/){
 
     public function getPostTypeAttribute($value)
     {
-        if($value!='') return $value;
+        //if($value!='') return $value; ??????????????????????????????????????????
+        //return 'aa';
         //ddd(snake_case(class_basename($this)));
         //no camel_case ma snake_case
         //da controllare prima questo
-        //$related_type=collect(config('xra.model'))->search(get_class($row));
-        return snake_case(class_basename($this));
+        $post_type=collect(config('xra.model'))->search(get_class($this).'aa');
+        if($post_type===false){
+            $post_type=snake_case(class_basename($this));
+        }
+        return $post_type;
     }
 
     public function getLangAttribute($value){
