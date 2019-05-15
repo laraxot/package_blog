@@ -190,7 +190,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
     public function getImageSrcAttribute($value)    {return $this->postAttribute(__FUNCTION__,$value);}
     public function getTxtAttribute($value)         {return $this->postAttribute(__FUNCTION__,$value);}
     public function getUrlAttribute($value)         {return $this->postAttribute(__FUNCTION__,$value);}
-    public function getRoutenameAttribute($value)         {return $this->postAttribute(__FUNCTION__,$value);}
+    public function getRoutenameAttribute($value)   {return $this->postAttribute(__FUNCTION__,$value);}
     
 
     public function urlActFunc($func,$value){
