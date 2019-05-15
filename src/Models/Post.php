@@ -155,6 +155,11 @@ class Post extends Model //NO BaseModel
             return $second_last->tabs;
         }
     }
+
+    public function getRoutenameAttribute($value){
+    	$value=$this->getRoutename();
+    	return $value;
+    }
     
     public function getUrlAttribute($value){
 		if (isset($this->pivot)) {
@@ -201,6 +206,8 @@ class Post extends Model //NO BaseModel
 		}
 		$params['container'.$n] = $this->post_type;
 		$params['item'.$n] = $this->guid;
+		$route=$this->getRoutenameN($n, $act);
+		/*
 		//$params['lang'] = $this->lang;
 		//$params['container'.($n + 1)] = $this->related->post_type;
 		//$params['item'.($n + 1)] = $this->related->guid;
@@ -209,7 +216,7 @@ class Post extends Model //NO BaseModel
 			$r .= 'container'.$i.'.'; 
 		}
 		$route = $r.$act;
-		
+		*/
 		if (in_admin()) {
 			//$route = 'blog.'.$route;
 		}
@@ -225,6 +232,57 @@ class Post extends Model //NO BaseModel
 		$url=implode('/',$url_arr);
 		return $url;
 		//return $route;
+	}
+
+	public function getRoutenameN($n, $act){
+		$r = '';
+		for ($i = 0; $i <= ($n ); ++$i) {
+			$r .= 'container'.$i.'.'; 
+		}
+		$routename = $r.$act;
+		return $routename;
+	}
+
+	public function getRoutename(){
+		$params = \Route::current()->parameters();
+		list($containers,$items)=$this->params2ContainerItem($params);
+		
+		$i=null; // quando trovo la collection giusta la sostituisco
+		foreach($containers as $k=>$container){
+			if($container->post_type == $this->post_type){
+				$i=$k; break;
+			}
+		}
+		
+		//ddd('item');
+		$j=null; // quando trovo la collection giusta la sostituisco
+		foreach($items as $k=>$item){
+			if(is_object($item) && $item->post_type == $this->post_type && $item->guid == $this->guid){
+				$j=$k; break;
+			}
+		}
+
+		$roots=config('xra.roots');
+		if(!is_array($roots)){
+			$roots=[];
+		}
+
+		if(strtolower($this->post_type)!=strtolower($this->guid) && in_array($this->post_type,$roots)){
+			return $this->getRoutenameN(0, 'show');//.'#2['.$i.']['.$j.']';
+		}
+
+		
+		if(strtolower($this->post_type)==strtolower($this->guid)){
+			return $this->getRoutenameN($i, 'index');//.'#1['.$i.']['.$j.']';
+		}
+		if($i===null){
+			return $this->getRoutenameN(0, 'show');//.'#2['.$i.']['.$j.']';
+		}
+        if($j===null){
+        	return $this->getRoutenameN($i, 'show');//.'#3['.$i.']['.$j.']';
+        }
+        return $this->getRoutenameN($j, 'show');//.'#4['.$i.']['.$j.']';
+		
 	}
 
 	public function getUrl(){
