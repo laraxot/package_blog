@@ -272,5 +272,15 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         return view($view)->with('row', $this->post)->with($roots);
     }
 
+    //------------------------------------
+    public function item($guid){
+        $rows=$this->join('blog_posts','blog_posts.post_id','=',$this->getTable().'.post_id')
+                                ->where('lang',$this->lang)
+                                ->where('guid',$guid)
+                                ->where('post_type',$this->post_type)
+                                ;
+        return $rows->first();
+    }
+    //---------------------------------
 
 }

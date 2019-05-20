@@ -75,18 +75,23 @@ class BlogServiceProvider extends BaseServiceProvider
                 if ($i == 0) {
                     $container_curr = request()->$container_name;
                     $model=$container_curr->getLinkedModel();
+                    /*
                     $tbl=$model->getTable();
                     if($tbl!='blog_posts'){
                         $rows=$model->join('blog_posts','blog_posts.post_id','=',$tbl.'.post_id')
                                 ->where('lang',$lang)
-                                ->where('guid',$value);
+                                ->where('guid',$value)
+                                ->where('post_type',$model->post_type)
+                                ;
                     }else{
                         $rows=$model->where('lang',$lang)
-                                ->where('guid',$value);
+                                ->where('guid',$value)
+                                ->where('post_type',$model->post_type)
+                                ;
                     }
-                    //ddd($rows->get());
                     $row=$rows->first();
-
+                    */
+                    $row=$model->item($value);
                     if (!is_object($row) && !in_array($container_curr->post_type,['feed','sitemap'])) {
                         $tmp=Post::where('post_type',$container_curr->post_type)->where('guid',$value)->first();
                         //ddd($tmp);

@@ -589,6 +589,14 @@ class Post extends Model //NO BaseModel
 		//ddd($row->attributes['url']);
 		return $url;
 	}
+	//------------------------------------
+    public function item($guid){
+    	$rows=$model->where('lang',$this->lang)
+                    ->where('guid',$guid)
+                    ->where('post_type',$this->post_type)
+                    ;
+        return $rows->first();
+    }
 
 
 }//end class
