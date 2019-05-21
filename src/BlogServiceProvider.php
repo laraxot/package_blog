@@ -131,7 +131,8 @@ class BlogServiceProvider extends BaseServiceProvider
                     $types = camel_case($types);
                     //ddd($types.'  '.$value);
                     
-                    $rows= $item_prev->$types()->where('blog_posts.guid', $value);
+                    $rows= $item_prev->$types()->where('blog_posts.guid', $value);  //where con il join o whereHas togliendo il join ?
+
                     //ddd($rows->first());
                     //ddd($item_prev->$types);
                     //ddd($rows->first());
@@ -160,7 +161,7 @@ class BlogServiceProvider extends BaseServiceProvider
                 }
                 
                 if (is_object($row)) {
-                    if($row->post_type=='restaurant'){
+                    if($row->post_type=='restaurant'){ ///--- usare getWith 
                         //ddd('si'); //sempre 33 queries..
                         $row->load('cuisines','cuisineCats');
                     }
