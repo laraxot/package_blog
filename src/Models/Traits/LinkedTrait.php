@@ -279,6 +279,11 @@ public function morphRelatedRev($related/*,$inverse=false*/){
                                 ->where('guid',$guid)
                                 ->where('post_type',$this->post_type)
                                 ;
+        /* -- testare i tempi
+        $rows=$this->whereHas('post',function($query) use($guid){
+            $query->where('guid',$guid);
+        });
+        */                                
         return $rows->first();
     }
     //---------------------------------
