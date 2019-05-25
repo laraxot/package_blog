@@ -28,7 +28,10 @@ class HomeController extends Controller
         if ($request->act=='translate') { //retrocomp, fra poco cancellare
             return ThemeService::view('extend::translate');
         }
-        $cache_key=str_slug(url()->current()).\Auth::check()?\Auth::user()->handle:''.'_3';
+        $cache_key=str_slug(url()->current());
+        if(\Auth::check()){
+            $cache_key.='_'.\Auth::user()->handle;
+        }
         $out = \Cache::remember($cache_key,$this->cache_time,function () use($request){
             $roots = Post::getRoots();
             $out= ThemeService::view()->with($roots)->render();
