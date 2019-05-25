@@ -18,6 +18,7 @@ class HomeController extends Controller
 {
 
     public $cache = 0;
+    public $cache_time = 60*26*24;
     //use CrudTrait;
     public function index(Request $request)
     {
@@ -27,9 +28,12 @@ class HomeController extends Controller
         if ($request->act=='translate') { //retrocomp, fra poco cancellare
             return ThemeService::view('extend::translate');
         }
-
-        $roots = Post::getRoots();
-        $out= ThemeService::view()->with($roots);
+        $cache_key=str_slug(url()->current()).\Auth::check()?\Auth::user()->handle:''.'_3';
+        $out = \Cache::remember($cache_key,$this->cache_time,function () use($request){
+            $roots = Post::getRoots();
+            $out= ThemeService::view()->with($roots)->render();
+            return $out;
+        });
         return $out;
         //$out=(string)$out;
         //3.8
