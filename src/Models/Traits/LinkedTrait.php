@@ -222,6 +222,8 @@ public function morphRelatedRev($related/*,$inverse=false*/){
     public function getDetachUrlAttribute($value)   {return $this->urlActFunc(__FUNCTION__,$value);}
 
 
+    
+
     public function getTabsAttribute($value){
         //if($this->post->guid!=$this->post->post_type){
             //ddd($this->post->guid.'  '.$this->post->post_type);
