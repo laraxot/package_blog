@@ -23,23 +23,12 @@ class HomeController extends Controller
     {
         $out=ArtisanService::act($request->act);
         if($out!='') return $out;
-        /*
-        if ($request->act=='migrate') {
-            return ArtisanTrait::exe('migrate');
-        }
-        if ($request->act=='routelist') {
-            return ArtisanTrait::exe('route:list');
-        }
-        */
+        
         if ($request->act=='translate') { //retrocomp, fra poco cancellare
             return ThemeService::view('extend::translate');
         }
-        $roots = Post::getRoots();
 
-        //var_dump(debug_backtrace());ddd('u');
-        //ddd(microtime(true)-LARAVEL_START); //1,5
-        //ddd(xdebug_time_index());
-        //1.4
+        $roots = Post::getRoots();
         $out= ThemeService::view()->with($roots);
         return $out;
         //$out=(string)$out;
