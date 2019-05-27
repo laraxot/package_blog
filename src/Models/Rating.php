@@ -21,12 +21,12 @@ class Rating extends BaseModel
     //use Searchable; //se non si crea prima indice da un sacco di errori
     //use Updater;
     //use LinkedTrait;
-    /*
-    protected $table = 'blog_post_events';
-    protected $fillable = ['post_id','date_start','date_end'];
+    //*
+    //protected $table = 'blog_post_events';
+    protected $fillable = ['id','post_id','post_type','rating','note'];
     protected $appends = [];
-    protected $dates = ['date_start','date_end','created_at', 'updated_at'];
-    protected $primaryKey = 'post_id';
+    protected $dates = ['created_at', 'updated_at'];
+    protected $primaryKey = 'id';
     public $incrementing = true;
-    */
+    
 }
