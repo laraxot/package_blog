@@ -8,7 +8,7 @@ use Carbon\Carbon;
 //------services---------
 use XRA\Extend\Services\ThemeService;
 //--- TRAITS ---
-//use XRA\Blog\Models\Traits\LinkedTrait;
+use XRA\Blog\Models\Traits\LinkedTrait;
 //use XRA\Extend\Traits\Updater;
 
 /**
@@ -21,17 +21,19 @@ class Home extends BaseModel
 {
     //use Searchable; //se non si crea prima indice da un sacco di errori
     //use Updater;
-    //use LinkedTrait;
+    use LinkedTrait;
     protected $table = 'blog_post_pages';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['post_id', 'article_type', 'published_at', 'category_id'];
-    protected $appends = ['category_id'];
+    protected $fillable = ['post_id', 'article_type', 'published_at'/*, 'category_id'*/];
+    protected $appends = [
+        //'category_id'
+    ];
     protected $casts = [
-        'category_id' => 'integer',
+        //'category_id' => 'integer',
     ];
     protected $dates = ['published_at'/* 'created_at', 'updated_at'*/];
     protected $primaryKey = 'post_id';
@@ -47,6 +49,7 @@ class Home extends BaseModel
     //end filter
 
     //--------- relationship ---------------
+    /*
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id', 'post_id');
@@ -62,6 +65,7 @@ class Home extends BaseModel
 
         return $post->related()->wherePivot('type', $type); //->where('lang',\App::getLocale());
     }
+    */
 
     //---------- mututars -----------
     /*
@@ -92,7 +96,7 @@ class Home extends BaseModel
         $this->attributes['article_type'] = $value;
     }
 
-    //*
+    /*
     public function getCategoryIdAttribute($value)
     {
         if (null == $this->relatedType('category')) {
