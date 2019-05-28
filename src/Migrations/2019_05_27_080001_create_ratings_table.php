@@ -22,15 +22,15 @@ class CreateRatingsTable extends Migration
         //----- create -----
         if (!Schema::hasTable($this->getTable())) {
             Schema::create($this->getTable(), function (Blueprint $table) {
-                //$table->increments('post_id');
+                $table->increments('post_id');
                 //$table->string('article_type',50)->nullable();
                 //$table->datetime('published_at')->nullable();
                 //$table->text('bio')->nullable();
-                $table->increments('id');
+                //$table->increments('id');
                 //$table->morphs('upvoteable'); // Adds unsigned INTEGER upvoteable_id and STRING upvoteable_type
-                $table->morphs('post');
-                $table->integer('rating');
-                $table->text('note');
+                //$table->morphs('post');
+                //$table->integer('rating');
+                //$table->text('note');
                 //`status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 = Block, 0 = Unblock'
                 $table->string('created_by')->nullable();
                 $table->string('updated_by')->nullable();
@@ -40,10 +40,10 @@ class CreateRatingsTable extends Migration
         }
         //----- update -----
         Schema::table($this->getTable(), function (Blueprint $table) {
+            /*
             if (!Schema::hasColumn($this->getTable(), 'post_id')) {
                 $table->morphs('post');
             };
-            /*
             if (!Schema::hasColumn($this->getTable(), 'date_start')) {
                 $table->dateTime('date_start')->nullable();
                 $table->dateTime('date_end')->nullable();
