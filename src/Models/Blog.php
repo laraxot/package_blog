@@ -31,8 +31,15 @@ class Blog extends BaseModel
     }
 
     public function types()
-    {
-        return self::where('lang', \App::getLocale())->whereRaw('post_type=guid');
+    {  //-- da modifidare che mostri solo gli elementi con archive > 0
+        return self::where('lang', \App::getLocale())->whereRaw('post_type=guid')
+                /*
+                ->whereHas('archive',function($query){
+                    $query->where('id','=',1);
+                })
+                */
+                ->has('archive','>',1)
+                ;
     }
 
     public function firstItem()

@@ -1,15 +1,18 @@
-@php
-	Theme::add('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js');
-	Theme::add('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js');
-	$row->createJsonFileChart();
-	Theme::add('theme/js/dash.js');
-@endphp
+{{-- Theme::add('theme/bc/chart.js/Chart.js') --}}
+{{ Theme::add('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js') }}
+{{ Theme::add('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js') }}
+{{ $row->createJsonFileChart() }}
+{{ Theme::add('theme/js/dash.js') }}
 <div class="col-md-12">
 @component('adm_theme::layouts.components.blade.widget')
 @slot('title')
-	<a href="{{$area->url}}">{{ $area->area_define_name }}</a>
+{{-- 
+<a href="{{$area->url}}">{{ $area->area_define_name }}</a>
+--}}
+
 @endslot
 @slot('body')
+{{--  
 <div class="row">
 	<div class="col-md-6">
 		<canvas id="myChart" style="height:400px;"></canvas>
@@ -34,8 +37,11 @@
 	</div>
 	<!-- /.col -->
 </div>
+--}}
 @endslot
 @slot('footer')
+sss
 @endslot
-@endcomponent
+
+	<!-- /.box -->
 </div>
