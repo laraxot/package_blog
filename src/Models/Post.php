@@ -15,7 +15,7 @@ use XRA\Extend\Services\ThemeService;
 //--- models ---
 use XRA\LU\Models\User;
 
-class Post extends Model //NO BaseModel 
+class Post extends Model //NO BaseModel
 {
 	//use FilterTrait;
 	//use Searchable; //ne update quando aggiungo un array mi da errore
@@ -105,7 +105,7 @@ class Post extends Model //NO BaseModel
 	public function linkable(){
 		return $this->morphTo('post');
 	}
-	public function archive(){  
+	public function archive(){
 		$lang=$this->lang;
 		$post_type=$this->post_type;
 		$obj=$this->getLinkedModel();
@@ -113,7 +113,7 @@ class Post extends Model //NO BaseModel
 
 		$rows=$obj->join('blog_posts','blog_posts.post_id',$table.'.post_id')
                     ->where('lang',$lang)
-                    ->where('post_type',$post_type)
+                    ->where('blog_posts.post_type',$post_type)
                     ->orderBy($table.'.updated_at','desc')
                     //->paginate(200)
                     ->with('post')
@@ -144,13 +144,13 @@ class Post extends Model //NO BaseModel
 		return $pivot;
 	}
 
-	
+
 	//-------- mutators ---------
 	public function getParentTabsAttribute($value){
         $params = \Route::current()->parameters();
         //$second_last = collect(\array_slice($params, -2))->first(); //penultimo
         $n_params=count($params);
-        $second_last=collect($params)->take(-2)->first();        
+        $second_last=collect($params)->take(-2)->first();
         if(is_object($second_last) && $n_params>1){
             return $second_last->tabs;
         }
@@ -160,7 +160,7 @@ class Post extends Model //NO BaseModel
     	$value=$this->getRoutename();
     	return $value;
     }
-    
+
     public function getUrlAttribute($value){
 		if (isset($this->pivot)) {
 			return $this->pivot->url;//.'#PIVOT';
@@ -213,7 +213,7 @@ class Post extends Model //NO BaseModel
 		//$params['item'.($n + 1)] = $this->related->guid;
 		$r = '';
 		for ($i = 0; $i <= ($n ); ++$i) {
-			$r .= 'container'.$i.'.'; 
+			$r .= 'container'.$i.'.';
 		}
 		$route = $r.$act;
 		*/
@@ -221,7 +221,7 @@ class Post extends Model //NO BaseModel
 			//$route = 'blog.'.$route;
 		}
 		try{
-			$url= route($route, $params,false);  //con il false mi da il relativo 
+			$url= route($route, $params,false);  //con il false mi da il relativo
 		}catch(\Exception $e){
 			$url='#fix['.$route.']['.__LINE__.']['.__FILE__.']';
 		}
@@ -237,7 +237,7 @@ class Post extends Model //NO BaseModel
 	public function getRoutenameN($n, $act){
 		$r = '';
 		for ($i = 0; $i <= ($n ); ++$i) {
-			$r .= 'container'.$i.'.'; 
+			$r .= 'container'.$i.'.';
 		}
 		$routename = $r.$act;
 		return $routename;
@@ -246,14 +246,14 @@ class Post extends Model //NO BaseModel
 	public function getRoutename(){
 		$params = \Route::current()->parameters();
 		list($containers,$items)=$this->params2ContainerItem($params);
-		
+
 		$i=null; // quando trovo la collection giusta la sostituisco
 		foreach($containers as $k=>$container){
 			if($container->post_type == $this->post_type){
 				$i=$k; break;
 			}
 		}
-		
+
 		//ddd('item');
 		$j=null; // quando trovo la collection giusta la sostituisco
 		foreach($items as $k=>$item){
@@ -271,7 +271,7 @@ class Post extends Model //NO BaseModel
 			return $this->getRoutenameN(0, 'show');//.'#2['.$i.']['.$j.']';
 		}
 
-		
+
 		if(strtolower($this->post_type)==strtolower($this->guid)){
 			return $this->getRoutenameN($i, 'index');//.'#1['.$i.']['.$j.']';
 		}
@@ -282,20 +282,20 @@ class Post extends Model //NO BaseModel
         	return $this->getRoutenameN($i, 'show');//.'#3['.$i.']['.$j.']';
         }
         return $this->getRoutenameN($j, 'show');//.'#4['.$i.']['.$j.']';
-		
+
 	}
 
 	public function getUrl(){
 		$params = \Route::current()->parameters();
 		list($containers,$items)=$this->params2ContainerItem($params);
-		
+
 		$i=null; // quando trovo la collection giusta la sostituisco
 		foreach($containers as $k=>$container){
 			if($container->post_type == $this->post_type){
 				$i=$k; break;
 			}
 		}
-		
+
 		//ddd('item');
 		$j=null; // quando trovo la collection giusta la sostituisco
 		foreach($items as $k=>$item){
@@ -313,7 +313,7 @@ class Post extends Model //NO BaseModel
 			return $this->getRouteN(0, 'show');//.'#2['.$i.']['.$j.']';
 		}
 
-		
+
 		if(strtolower($this->post_type)==strtolower($this->guid)){
 			return $this->getRouteN($i, 'index');//.'#1['.$i.']['.$j.']';
 		}
@@ -333,7 +333,7 @@ class Post extends Model //NO BaseModel
         		//ddd('-['.$i.']['.$j.']'.$this->post_type.' '.$this->guid);
 		//ddd($i);
 		*/
-	} 
+	}
      public function urlActFunc($func,$value){
         $str0='get';
         $str1='Attribute';
@@ -397,7 +397,7 @@ class Post extends Model //NO BaseModel
 		try{
 			return route($routename_act, $params);
 		}catch(\Exception $e){
-			return '#'.$routename_act;	
+			return '#'.$routename_act;
 		}
 	}
 
@@ -419,7 +419,7 @@ class Post extends Model //NO BaseModel
 
 	public function getLinkedModel(){
 		$model=config('xra.model.'.$this->post_type);
-		if (class_exists($model)) { 
+		if (class_exists($model)) {
 			return new $model;
 		}else{
 			ddd('class not exists ['.$model.']');
@@ -442,14 +442,14 @@ class Post extends Model //NO BaseModel
 			//mettendo with archive mi da errore
 			//con related = 48 senza =  47
 			return self::with([])->where('lang', $lang)
-					->whereIn('guid',array_keys($all)) //la query durava 1.2 sec ora 1/10 
+					->whereIn('guid',array_keys($all)) //la query durava 1.2 sec ora 1/10
 					->whereRaw('guid = post_type ')
 					->get();
 		    });
 		}catch(\Exception $e){
-		   //Cache::pull($cache_key); //vado a rigenerarlo 
+		   //Cache::pull($cache_key); //vado a rigenerarlo
 		   $roots=self::with([])->where('lang', $lang)
-					->whereIn('guid',array_keys($all)) //la query durava 1.2 sec ora 1/10 
+					->whereIn('guid',array_keys($all)) //la query durava 1.2 sec ora 1/10
 					->whereRaw('guid = post_type ')
 					->get();
 		}
@@ -525,7 +525,7 @@ class Post extends Model //NO BaseModel
 
 	public function urlLang($lang)
 	{
-		
+
 		$url = $this->url_lang;
 		//$url=[]; //forzo rigenerazione x debug
 
@@ -539,10 +539,10 @@ class Post extends Model //NO BaseModel
 		$act=last($route_arr);
 		//ddd($act);
 		if($act!='index' && $act!='show'){
-			return url($url[$lang].'/'.$act);   
+			return url($url[$lang].'/'.$act);
 		}
 		return url($url[$lang]);
-		
+
 	}
 
 	public function generateRowLang($lang){
@@ -580,7 +580,7 @@ class Post extends Model //NO BaseModel
 		}
 		//--- prendo la riga di traduzione
 		$row = self::where('post_id', $this->post_id)->where('lang', $lang)->first();
-	    
+
 		if (null == $row) { //se non esiste la genero
 			$row=$this->generateRowLang($lang);
 		}
