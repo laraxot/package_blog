@@ -29,4 +29,9 @@ class Rating extends BaseModel
     protected $primaryKey = 'post_id';
     public $incrementing = true;
     
+
+
+    public function morph($model){
+        
+    }
 }
