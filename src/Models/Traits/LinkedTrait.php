@@ -278,8 +278,8 @@ public function morphRelatedRev($related/*,$inverse=false*/){
     public function item($guid){
         $rows=$this->join('blog_posts','blog_posts.post_id','=',$this->getTable().'.post_id')
                                 ->where('lang',$this->lang)
-                                ->where('guid',$guid)
-                                ->where('post_type',$this->post_type)
+                                ->where('blog_posts.guid',$guid)
+                                ->where('blog_posts.post_type',$this->post_type)
                                 ;
         /* -- testare i tempi
         $rows=$this->whereHas('post',function($query) use($guid){

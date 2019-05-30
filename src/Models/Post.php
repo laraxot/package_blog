@@ -550,12 +550,7 @@ class Post extends Model //NO BaseModel
 		$post=Post::where('post_id',$this->post_id)->where('post_type',$this->post_type)->where('lang',$lang)->first();
 		if($post!=null) return $post;
 		$rowlang = $this->replicate();
-		if(isset($rowlang->attributes['type'])){
-			unset($rowlang->attributes['type']);
-		}
-		if(isset($rowlang->attributes['linkable_type'])){
-			unset($rowlang->attributes['linkable_type']);
-		}
+		
 		$rowlang->lang = $lang;
 		$fields = ['title', 'subtitle', 'txt', 'image_alt', 'image_title'];//campi da tradurre
 		foreach ($fields as $field) {
@@ -565,6 +560,13 @@ class Post extends Model //NO BaseModel
 			}
 		}
 		$rowlang->url = null; //forzo rigenerazione
+		if(in_array('type',array_keys($rowlang->attributes))) {
+			unset($rowlang->attributes['type']);
+		}
+		if(in_array('linkable_type',array_keys($rowlang->attributes) )) {
+			unset($rowlang->attributes['linkable_type']);
+		}
+		
 		$rowlang->save();
 		return $rowlang;
 	}
