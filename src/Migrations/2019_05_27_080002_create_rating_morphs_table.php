@@ -56,6 +56,7 @@ class CreateRatingMorphsTable extends Migration
                 $table->string('deleted_by')->nullable();
             };
             */
+            $table->integer('auth_user_id');
         });
     }
 
