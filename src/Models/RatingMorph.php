@@ -23,7 +23,7 @@ class RatingMorph extends BaseModel
     //use LinkedTrait;
     //*
     //protected $table = 'blog_post_events';
-    protected $fillable = ['id','post_id','post_type','related_id','related_type','rating'];
+    protected $fillable = ['id','post_id','post_type','related_id','related_type','rating','auth_user_id'];
     protected $appends = [];
     protected $dates = ['created_at', 'updated_at'];
     protected $primaryKey = 'id';
