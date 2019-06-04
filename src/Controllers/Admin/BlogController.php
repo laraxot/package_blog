@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace XRA\Blog\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -24,7 +21,7 @@ class BlogController extends Controller
         \extract($params);
         //--- creazione contenitori se non esistono
         foreach (config('xra.model') as $k => $v) {
-            Post::firstOrCreate(['lang' => $lang, 'type' => $k, 'guid' => $k], ['title' => $k]);
+            Post::firstOrCreate(['lang' => $lang, 'post_type' => $k, 'guid' => $k], ['title' => $k]);
         }
 
         return $this->indexTrait($request);
