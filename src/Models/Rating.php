@@ -35,10 +35,11 @@ class Rating extends BaseModel
         
     }
 
-
+    
     public function getMyRatingAttribute($value){
-        ddd($value);
+        return ($value);
     }
+    
 
     public function setMyRatingAttribute($value){
         $params = \Route::current()->parameters();
