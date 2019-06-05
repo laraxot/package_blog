@@ -1,4 +1,7 @@
 @extends('adm_theme::layouts.app')
+@php
+	//ddd($params);
+@endphp
 @section('page_heading',''.$container0->post_type.'] '.$container0->title)
 @include('backend::includes.components')
 @section('content')

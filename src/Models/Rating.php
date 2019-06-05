@@ -23,7 +23,7 @@ class Rating extends BaseModel
     //use LinkedTrait;
     //*
     //protected $table = 'blog_post_events';
-    protected $fillable = ['post_id','my_rating'];
+    protected $fillable = ['post_id','my_rating','related_type'];
     protected $appends = ['my_rating'];
     protected $dates = ['created_at', 'updated_at'];
     protected $primaryKey = 'post_id';
