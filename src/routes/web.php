@@ -248,6 +248,7 @@ Route::group([
 ///---- without this route / go to 404
 Route::group(['prefix' => null, 'middleware' => $middleware, 'namespace' => $namespace], function () {
     Route::get('/', 'HomeController@index');
+    Route::get('/home', 'HomeController@index'); //togliere o tenere ?
     Route::get('/redirect', 'HomeController@redirect');
     Route::get('/test01', 'HomeController@test01');
 });
