@@ -1,9 +1,9 @@
+{{--
 <br style="clear:both" /><br style="clear:both" /><br style="clear:both" />
 <fieldset>
 	<legend>Article info</legend>
 	{!! Form::bsText('linked[article_type]') !!}
 	{!! Form::bsDateTimeLocal('linked[published_at]') !!}
-	{{-- ddd($articleCat->archive()->pluck('title','post_id')) --}}
 	@php
 		$val=$row->relatedrevType('articleCat')->first();
 		if($val!=null){
@@ -14,6 +14,6 @@
 
 	{!! Form::bsSelect('relatedrev[articleCat]',$val,$articleCat->options()) !!}
 </fieldset>
-{{--
 http://hellofrancesco.com/articoli/laravel-cafe-1-eloquent-relazioni-ed-eventi
 --}}
+

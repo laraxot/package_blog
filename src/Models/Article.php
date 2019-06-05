@@ -32,7 +32,7 @@ class Article extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['post_id', 'article_type', 'published_at'];
+    protected $fillable = ['post_id', 'article_type', 'published_at','guid'];
     //protected $appends=['category_id'];
     protected $casts = [
         'category_id' => 'integer',

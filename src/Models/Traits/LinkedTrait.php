@@ -167,6 +167,14 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         return $lang;
     }
 
+    public function setGuidAttribute($value){
+        if($value==''){
+            $this->post->guid=Str::slug($this->attributes['title'].' '.$this->attributes['subtitle']);
+            $res=$this->post->save();
+        }
+    }
+
+
     public function postAttribute($func,$value){
         $str0='get';
         $str1='Attribute';
@@ -177,7 +185,7 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         }
         if (isset($this->pivot)) {
             //return $this->pivot->$name;//.'#PIVOT';
-        }
+        } 
         if (isset($this->post)) {
             return $this->post->$name;
         }
@@ -276,11 +284,19 @@ public function morphRelatedRev($related/*,$inverse=false*/){
 
     //------------------------------------
     public function item($guid){
-        $rows=$this->join('blog_posts','blog_posts.post_id','=',$this->getTable().'.post_id')
+        if(in_admin()){
+            $rows=$this->join('blog_posts','blog_posts.post_id','=',$this->getTable().'.post_id')
+                                ->where('lang',$this->lang)
+                                ->where('blog_posts.post_id',$guid)
+                                ->where('blog_posts.post_type',$this->post_type)
+                                ;    
+        }else{
+            $rows=$this->join('blog_posts','blog_posts.post_id','=',$this->getTable().'.post_id')
                                 ->where('lang',$this->lang)
                                 ->where('blog_posts.guid',$guid)
                                 ->where('blog_posts.post_type',$this->post_type)
                                 ;
+        }
         /* -- testare i tempi
         $rows=$this->whereHas('post',function($query) use($guid){
             $query->where('guid',$guid);

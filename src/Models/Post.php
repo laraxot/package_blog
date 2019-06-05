@@ -156,6 +156,14 @@ class Post extends Model //NO BaseModel
         }
     }
 
+    public function getGuidAttribute($value){
+    	if($value!='') return $value;
+    	$value=Str::slug($this->attributes['title'].' ');
+    	$this->guid=$value;
+    	$this->save();
+    	return $value;
+    }
+
     public function getRoutenameAttribute($value){
     	$value=$this->getRoutename();
     	return $value;
@@ -352,7 +360,7 @@ class Post extends Model //NO BaseModel
 
     public function getUrlAct($act){
 		$params = \Route::current()->parameters();
-		list($containers,$items)=$this->params2ContainerItem($params);
+		list($containers,$items)=\params2ContainerItem($params);
 		$routename = \Request::route()->getName();
 		$ris = null;
 		$routename_arr =[];
@@ -368,6 +376,7 @@ class Post extends Model //NO BaseModel
 
 		$ris_tmp = \str_replace('item', 'container', $ris);
 		$k = \array_search($ris_tmp, $routename_arr, true);
+		//ddd($routename_arr);
 		/*
 		if($k<1){
 			echo '[['.$k.']]';
@@ -375,6 +384,9 @@ class Post extends Model //NO BaseModel
 		}
 		*/
 		//ddd($k);
+
+		
+
 		if ($ris_tmp == $ris && 'edit' == $act && $ris!=null) {
 			$n = \str_replace('container', '', $ris);
 			$params['item'.$n] = $params['container'.$n];
@@ -382,11 +394,22 @@ class Post extends Model //NO BaseModel
 		if ($ris_tmp != $ris && 'index' == $act) {
 			$act = 'show';
 		}
-		$routename_act = \implode('.', \array_slice($routename_arr, 0, $k + 1)).'.'.$act;
+
+
+		if($ris_tmp == $ris  && $ris=='' && $k==false){
+			$routename_act = \implode('.', \array_slice($routename_arr, 0, -1)).'.'.$act;
+			//ddd($routename_act);
+			//$routename_act = \implode('.', \array_slice($routename_arr, 0, $k + 1)).'.'.$act;
+			//ddd($routename_act); //blog.container0.update
+			//$routename_act='admin.'.$routename_act;
+		}else{
+			$routename_act = \implode('.', \array_slice($routename_arr, 0, $k + 1)).'.'.$act;
+		}
 		if (starts_with($routename_act, '.')) { // caso da homepage
 			$routename_act = 'container0'.$routename_act;
 			$params['container0'] = $this->guid;
 		}
+		
 		/*
 		if(\Route::exists($routename_act)){
 			return route($routename_act, $params);
@@ -397,6 +420,8 @@ class Post extends Model //NO BaseModel
 		try{
 			return route($routename_act, $params);
 		}catch(\Exception $e){
+			//ddd($routename.' '.$routename_act.' '.$act.' '.($k+1) );
+			//ddd(($ris_tmp == $ris). $k);
 			return '#'.$routename_act;
 		}
 	}

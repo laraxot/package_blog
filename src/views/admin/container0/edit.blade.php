@@ -1,8 +1,8 @@
 @extends('adm_theme::layouts.app')
 @section('page_heading','Update '.$container0->title.' - '.$item0->title)
-@include('backend::includes.components')
+@include('extend::includes.components')
 @section('content')
-@include('backend::includes.flash')
+@include('extend::includes.flash')
 <style>
 .panel-title .fa {
   transition: .3s transform ease-in-out;
@@ -16,6 +16,8 @@
 		<div class="nav-tabs-custom">
 			@include($view.'.nav')
 			<div class="tab-content">
+				[{{ get_class($row) }}]
+				[Up:{{ $row->update_url }}]
 				{!! Form::bsOpen($row,'update') !!}
 				
 				{{ Form::bsText('title') }}

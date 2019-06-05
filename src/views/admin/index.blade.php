@@ -11,8 +11,8 @@
 		$params['lang']=\App::getLocale();
 		$params['container']=$k;
 	@endphp
-	<li role="presentation">
-		<a href="{{route('blog.container0.index',$params)}}">{{$k}}</a>
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" href="{{route('blog.container0.index',$params)}}">{{$k}}</a>
 	</li>
 @endforeach
 </ul>

@@ -4,8 +4,8 @@
 		$params['lang']=\App::getLocale();
 		$params['container0']=$k;
 	@endphp
-	<li role="presentation" @if($container0->guid==$k) class="active" @endif>
-		<a href="{{route('blog.container0.index',$params)}}">{{$k}}</a>
+	<li class="nav-item {{ $container0->guid==$k?'active':'' }}" role="presentation" >
+		<a class="nav-link {{ $container0->guid==$k?'active':'' }}" href="{{route('blog.container0.index',$params)}}">{{$k}}</a>
 	</li>
 @endforeach
 @include('adm_theme::layouts.partials.lang')
