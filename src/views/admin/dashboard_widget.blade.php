@@ -1,7 +1,7 @@
 @php
 	Theme::add('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js');
 	Theme::add('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js');
-	$row->createJsonFileChart();
+	//$row->createJsonFileChart();
 	Theme::add('theme/js/dash.js');
 @endphp
 <div class="col-md-12">
@@ -19,6 +19,7 @@
 		<p class="text-center">
 			<strong>Things</strong>
 		</p>
+		{{-- get_class($row) --}}
 		@foreach($row->types()->get() as $type)
 		<div class="col-lg-3">
 			<div class="panel panel-default"> 
