@@ -30,7 +30,7 @@ class CreateRatingMorphsTable extends Migration
                 //$table->morphs('upvoteable'); // Adds unsigned INTEGER upvoteable_id and STRING upvoteable_type
                 $table->nullableMorphs('post');
                 $table->nullableMorphs('related');
-                $table->integer('rating');
+                $table->integer('rating')->nullable();
                 //$table->text('note');
                 //`status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 = Block, 0 = Unblock'
                 $table->string('created_by')->nullable();
@@ -56,6 +56,7 @@ class CreateRatingMorphsTable extends Migration
                 $table->string('deleted_by')->nullable();
             };
             */
+            $table->integer('rating')->nullable()->change();
             if (!Schema::hasColumn($this->getTable(), 'auth_user_id')) {
                 $table->integer('auth_user_id')->nullable()->index();
             }
