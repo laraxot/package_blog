@@ -363,14 +363,11 @@ class Post extends Model //NO BaseModel
 		list($containers,$items)=\params2ContainerItem($params);
 		$routename = \Request::route()->getName();
 		$ris = null;
-		$routename_arr =[];
-		if($routename!==null){
-			$routename_arr = \explode('.', $routename);
-			foreach ($params as $k => $v) {
-				if (\is_object($v) && $v->is($this)) {
-					$ris = $k;
-					break;
-				}
+		$routename_arr = \explode('.', $routename);
+		foreach ($params as $k => $v) {
+			if (\is_object($v) && ($v->is($this) || $v->is($this->linkable)) ) {
+				$ris = $k;
+				break;
 			}
 		}
 
@@ -420,9 +417,11 @@ class Post extends Model //NO BaseModel
 		try{
 			return route($routename_act, $params);
 		}catch(\Exception $e){
+			//ddd($params);
+			//ddd($routename_arr);
 			//ddd($routename.' '.$routename_act.' '.$act.' '.($k+1) );
 			//ddd(($ris_tmp == $ris). $k);
-			return '#'.$routename_act;
+			return '#[POST][424]'.$routename_act;
 		}
 	}
 
