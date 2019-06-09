@@ -7,7 +7,8 @@ use Illuminate\Support\Str;
 use XRA\Blog\Models\Post;
 use XRA\Blog\Models\PostRelatedPivot;
 use XRA\Blog\Models\PostRelatedMorphPivot;
-
+//----- services -----
+use XRA\Extend\Services\ThemeService;
 //------ traits ---
 
 trait LinkedTrait
@@ -305,5 +306,21 @@ public function morphRelatedRev($related/*,$inverse=false*/){
         return $rows->first();
     }
     //---------------------------------
+    public function listItemSchemaOrg($params){
+
+       
+        $tmp=explode('\\',get_class($this));
+        $ns=Str::snake($tmp[1]);
+        $pack=Str::snake($tmp[3]);
+        $view=$ns.'::schema_org.list_item.'.$pack;
+        if(!\View::exists($view)){
+            ddd('not exists ['.$view.']');
+        }
+        $row=$this;
+        foreach($params as $k=>$v){
+            $row->$k=$v;
+        }
+        return view($view)->with('row',$row);
+    }
 
 }

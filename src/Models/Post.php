@@ -110,8 +110,19 @@ class Post extends Model //NO BaseModel
 		$post_type=$this->post_type;
 		$obj=$this->getLinkedModel();
 		$table=$obj->getTable();
-
+		//*
 		$rows=$obj->join('blog_posts','blog_posts.post_id',$table.'.post_id')
+                    ->where('lang',$lang)
+                    ->where('blog_posts.post_type',$post_type)
+                    ->where('blog_posts.guid','!=',$post_type)
+                    ->orderBy($table.'.updated_at','desc')
+                    //->paginate(200)
+                    ->with('post')
+                    //->get()
+                    ;
+        //*/
+		/*                    
+        $rows=$this->hasMany($obj,'post_type','post_type')->join('blog_posts','blog_posts.post_id',$table.'.post_id')
                     ->where('lang',$lang)
                     ->where('blog_posts.post_type',$post_type)
                     ->orderBy($table.'.updated_at','desc')
@@ -119,16 +130,21 @@ class Post extends Model //NO BaseModel
                     ->with('post')
                     //->get()
                     ;
+        */
         return $rows;
 	}//end function
 
 	public function archiveRand($n){
-		$cache_key=$this->post_id.'_'.$n;
+		$obj=$this->getLinkedModel();
+		///* 19568
+		$cache_key=$this->post_type.'-'.$this->post_id.'-'.$n;
 	   // $obj=$this;
-		$rows = Cache::get($cache_key,  function () use($n){
-			return $this->archive()->inRandomOrder()->limit($n)->get();
+		$rows = Cache::get($cache_key,  function () use($obj,$n){
+			return $obj->inRandomOrder()->limit($n)->get();
+			//return $this->archive()->inRandomOrder()->limit($n)->get();
 		});
 		return $rows;
+		//*/
 	}
 
 	public function relatedPivot($obj)
