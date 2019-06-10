@@ -72,29 +72,22 @@ class Event extends BaseModel
         if(is_object($value)){
             return $value->formatted_address;
         }
-        /*
-        if(\Request::getMethod()=='POST'){
-            $data=\Request::all();
-            $place=Place::create($data);
-            $res=$this->address()->save($place);    
-            ddd($res);
-        }
-        */
         $params = \Route::current()->parameters();
         extract($params);
-        return $item0->formatted_address;
+        if(isset($item0)){
+            return $item0->formatted_address;
+        }
+        return $value;
     }
 
     public function setFormattedAddressAttribute($value){
-        //ddd($value);
-        //ddd($this->attributes);
-        
         $data=\Request::all();
-        $place=Place::create($data);
-        
-        //ddd($this->attributes);
+        $place=$this->address ?? new Place;
+        $place=$place->fill($data);
+        if(!isset($this->attributes['post_id']) ){
+            $this->attributes['post_id']=$this->max('post_id')+1;
+        }
         $res=$this->address()->save($place);
-        
         unset($this->attributes['formatted_address']);
     }
 
