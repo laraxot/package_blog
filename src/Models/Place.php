@@ -47,9 +47,19 @@ class Place extends BaseModel{
     }
     */
     public function setFormattedAddressAttribute($value){
-        $address=$this->attributes['formatted_address'];
-        $tmp=ImportService::getAddressFields(['address' => $address]);
-        $this->attributes=array_merge($this->attributes,$tmp);
+        //ddd($value);
+
+        if(isset($this->attributes['formatted_address'])){
+            $address=$this->attributes['formatted_address'];
+        }else{
+            $address=$value;
+            $this->attributes['formatted_address']=$value;
+        }
+        if($address!=''){
+            $tmp=ImportService::getAddressFields(['address' => $address]);
+            $this->attributes=array_merge($this->attributes,$tmp);
+            //ddd($this->attributes);
+        }
         
     }
 }
