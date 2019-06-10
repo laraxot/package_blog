@@ -39,11 +39,17 @@ class Place extends BaseModel{
         ];
 
     //----- mutators -----
+        /*
     public function setLocalityAttribute($value){
         $address=$this->attributes['formatted_address'];
         $tmp=ImportService::getAddressFields(['address' => $address]);
         $this->attributes=array_merge($this->attributes,$tmp);
-        //ddd($this->attributes);
-        //$this->save();
+    }
+    */
+    public function setFormattedAddressAttribute($value){
+        $address=$this->attributes['formatted_address'];
+        $tmp=ImportService::getAddressFields(['address' => $address]);
+        $this->attributes=array_merge($this->attributes,$tmp);
+        
     }
 }

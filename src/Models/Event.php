@@ -25,13 +25,14 @@ class Event extends BaseModel
     //use Searchable; //se non si crea prima indice da un sacco di errori
     //use Updater;
     //use LinkedTrait;
-    protected $table = 'blog_post_events';
-    protected $fillable = ['post_id','date_start','date_end','formatted_address'];
-    protected $appends = ['formatted_address'];
-    //protected $casts = [ 'category_id' => 'integer', ];
-    protected $dates = ['date_start','date_end','created_at', 'updated_at'];
-    protected $primaryKey = 'post_id';
-    public $incrementing = true;
+    protected   $table                = 'blog_post_events';
+    protected   $fillable             = ['post_id','date_start','date_end'/*,'formatted_address'*/];
+    public      $fillableRelationship = ['address'];
+    protected   $appends              = [/*'formatted_address'*/]; 
+    //protected $casts                = [ 'category_id' => 'integer', ];
+    protected   $dates                = ['date_start','date_end','created_at', 'updated_at'];
+    protected   $primaryKey           = 'post_id';
+    public      $incrementing         = true;
     //----- relationship -----
     //* --https://josephsilber.com/posts/2018/07/02/eloquent-polymorphic-relations-morph-map
     public function address(){
@@ -66,7 +67,7 @@ class Event extends BaseModel
         $date_format='d/m/Y';//config('app.date_format')
         $this->attributes['date_end']=Carbon::createFromFormat($date_format, $value);
     }
-
+    /*
     public function getFormattedAddressAttribute($value){
         $value=$this->address;
         if(is_object($value)){
@@ -90,8 +91,12 @@ class Event extends BaseModel
         $res=$this->address()->save($place);
         unset($this->attributes['formatted_address']);
     }
-
-
+    */
+    /*
+    public function setAddressAttribute($value){
+        ddd($value);
+    }
+    */
 
 
     
