@@ -10,6 +10,10 @@ use Carbon\Carbon;
 //use XRA\Blog\Models\Traits\LinkedTrait;
 //use XRA\Extend\Traits\Updater;
 
+//----- models -----
+use XRA\Blog\Models\Place;
+
+
 /**
  * { item_description }
  * da fare php artisan scout:import XRA\Blog\Models\Post.
@@ -22,17 +26,19 @@ class Event extends BaseModel
     //use Updater;
     //use LinkedTrait;
     protected $table = 'blog_post_events';
-    protected $fillable = ['post_id','date_start','date_end'];
-    protected $appends = [];
+    protected $fillable = ['post_id','date_start','date_end','formatted_address'];
+    protected $appends = ['formatted_address'];
+    //protected $casts = [ 'category_id' => 'integer', ];
     protected $dates = ['date_start','date_end','created_at', 'updated_at'];
     protected $primaryKey = 'post_id';
     public $incrementing = true;
     //----- relationship -----
-    /* --https://josephsilber.com/posts/2018/07/02/eloquent-polymorphic-relations-morph-map
+    //* --https://josephsilber.com/posts/2018/07/02/eloquent-polymorphic-relations-morph-map
     public function address(){
-        return $this->morphOne(Address::class, 'addressable');
+        $row=$this->morphOne(Place::class,'post'); //->withDefault('aaaa')
+        return $row;
     }
-    */
+    //*/
     //----- mutators -----
     public function getDateStartAttribute($value){    
         $date_format='d/m/Y';//config('app.date_format')
@@ -60,5 +66,40 @@ class Event extends BaseModel
         $date_format='d/m/Y';//config('app.date_format')
         $this->attributes['date_end']=Carbon::createFromFormat($date_format, $value);
     }
+
+    public function getFormattedAddressAttribute($value){
+        $value=$this->address;
+        if(is_object($value)){
+            return $value->formatted_address;
+        }
+        /*
+        if(\Request::getMethod()=='POST'){
+            $data=\Request::all();
+            $place=Place::create($data);
+            $res=$this->address()->save($place);    
+            ddd($res);
+        }
+        */
+        $params = \Route::current()->parameters();
+        extract($params);
+        return $item0->formatted_address;
+    }
+
+    public function setFormattedAddressAttribute($value){
+        //ddd($value);
+        //ddd($this->attributes);
+        
+        $data=\Request::all();
+        $place=Place::create($data);
+        
+        //ddd($this->attributes);
+        $res=$this->address()->save($place);
+        
+        unset($this->attributes['formatted_address']);
+    }
+
+
+
+
     
 }//end model

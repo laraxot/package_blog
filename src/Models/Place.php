@@ -9,13 +9,15 @@ namespace XRA\Blog\Models;
 
 //------services---------
 use XRA\Extend\Services\ThemeService;
+use XRA\Extend\Services\ImportService;
+
 //------ models --------
 use XRA\Blog\Models\Article;
 
 class Place extends BaseModel{
-	protected $primaryKey = 'post_id';
+	protected $primaryKey = 'id';
     public $incrementing = true;
-    protected $fillable = ['post_id',
+    protected $fillable = ['id','post_id','post_type',
     		//---- address_components----
     		'premise', 'locality', 'postal_town',  
             'administrative_area_level_3','administrative_area_level_2',  'administrative_area_level_1', 
@@ -23,6 +25,8 @@ class Place extends BaseModel{
              'street_number', 'route', 'postal_code', 
              'googleplace_url',
             'point_of_interest', 'political', 'campground',
+            //----- 
+            'latitude','longitude','formatted_address','nearest_street',
         ];
 
     public static $address_components = [
@@ -33,4 +37,13 @@ class Place extends BaseModel{
              'googleplace_url',
             'point_of_interest', 'political', 'campground',
         ];
+
+    //----- mutators -----
+    public function setLocalityAttribute($value){
+        $address=$this->attributes['formatted_address'];
+        $tmp=ImportService::getAddressFields(['address' => $address]);
+        $this->attributes=array_merge($this->attributes,$tmp);
+        //ddd($this->attributes);
+        //$this->save();
+    }
 }
