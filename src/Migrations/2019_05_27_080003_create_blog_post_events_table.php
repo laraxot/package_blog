@@ -37,9 +37,6 @@ class CreateBlogPostEventsTable extends Migration
             };
         });
 
-        Schema::table($this->getTable(), function (Blueprint $table) {
-            $table->increments('post_id')->nullable()->change();
-        });
     }
 
     public function down()

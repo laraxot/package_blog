@@ -37,7 +37,7 @@ class CreatePlacesTable extends Migration
                         $table->string($el.'_short')->nullable();
                     }
                 }
-                
+
                 $table->string('nearest_street')->nullable();
 
 
@@ -76,6 +76,6 @@ class CreatePlacesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists($this->getTable());
+        // Schema::dropIfExists($this->getTable());
     }
 }
