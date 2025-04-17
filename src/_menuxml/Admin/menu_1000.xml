@@ -1,0 +1,15 @@
+<root>
+    <row>
+        <id>1000</id>
+        <id_padre>0</id_padre>
+        <tipo_act>table</tipo_act>
+        <icons>fa fa-tachometer</icons>
+        <visibility>0</visibility>
+        <nome>Posts</nome>
+        <obj>blog.post</obj>
+        <act>index</act>
+        <load_tables></load_tables>
+        <funzione></funzione>
+        <fieldstorender></fieldstorender>
+    </row>
+</root>

@@ -1,0 +1,1 @@
+@include('blog::admin.container0.edit')

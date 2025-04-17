@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Cache" table="cache">
+    <unique-constraints>
+      <unique-constraint name="cache_key_unique" columns="key"/>
+    </unique-constraints>
+    <id name="key" type="string" column="key" length="64">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="value" type="text" column="value" length="65535" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="expiration" type="integer" column="expiration" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>
